@@ -9,7 +9,7 @@ FROM ghcr.io/daemonless/base:${BASE_VERSION} AS builder
 ARG IMMICH_VERSION
 
 # Build dependencies - use FreeBSD-packaged python libraries where possible
-# libomp provides omp.h for OpenMP (needed if any package builds from source)
+# FreeBSD-utilities-dev provides omp.h for OpenMP (needed if any package builds from source)
 RUN pkg update && pkg install -y \
     python311 py311-pip py311-setuptools py311-wheel \
     py311-numpy py311-pillow py311-orjson py311-scipy py311-scikit-learn \
@@ -18,8 +18,8 @@ RUN pkg update && pkg install -y \
     py311-huggingface-hub py311-tokenizers \
     onnxruntime \
     git-lite gmake pkgconf \
-    FreeBSD-clang FreeBSD-clibs-dev FreeBSD-clang-dev \
-    opencv cmake ninja libomp \
+    FreeBSD-clang FreeBSD-clibs-dev FreeBSD-clang-dev FreeBSD-utilities-dev \
+    opencv cmake ninja \
     openblas gcc \
     && pkg clean -ay
 
