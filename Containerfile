@@ -10,13 +10,14 @@ ARG IMMICH_VERSION
 
 # Build dependencies - use FreeBSD-packaged python libraries where possible
 # FreeBSD-utilities-dev provides omp.h for OpenMP (needed if any package builds from source)
+# py311-onnx from ports avoids build issues with pip onnx (nanobind needs Python 3.13+)
 RUN pkg update && pkg install -y \
     python311 py311-pip py311-setuptools py311-wheel \
     py311-numpy py311-pillow py311-orjson py311-scipy py311-scikit-learn \
     py311-pydantic2 py311-pydantic-settings \
     py311-fastapi py311-uvicorn py311-gunicorn \
     py311-huggingface-hub py311-tokenizers \
-    onnxruntime \
+    py311-onnx onnxruntime \
     git-lite gmake pkgconf \
     FreeBSD-clang FreeBSD-clibs-dev FreeBSD-clang-dev FreeBSD-utilities-dev \
     opencv cmake ninja \
@@ -51,14 +52,9 @@ RUN pip install --no-cache-dir \
 # (it works fine with numpy 1.x at runtime)
 RUN pip install --no-cache-dir --no-deps opencv-python-headless || true
 
-# Install insightface dependencies that are compatible with FreeBSD
-# Skip insightface for now - face recognition will be disabled
-# insightface requires building Cython extensions and pulls in problematic deps
-RUN pip install --no-cache-dir \
-    easydict \
-    prettytable \
-    onnx \
-    || true
+# Install insightface for face recognition
+# onnx is already installed from ports, so insightface should build cleanly
+RUN pip install --no-cache-dir insightface || true
 
 # Patch pyproject.toml for FreeBSD compatibility:
 # 1. uvicorn[standard] -> uvicorn (avoid watchfiles/maturin which need Rust)
@@ -81,7 +77,7 @@ FROM ghcr.io/daemonless/base:${BASE_VERSION}
 
 ARG FREEBSD_ARCH=amd64
 ARG IMMICH_VERSION
-ARG PACKAGES="python311 py311-numpy py311-pillow py311-orjson py311-scipy py311-scikit-learn py311-pydantic2 py311-pydantic-settings py311-fastapi py311-uvicorn py311-gunicorn py311-huggingface-hub py311-tokenizers onnxruntime openblas"
+ARG PACKAGES="python311 py311-numpy py311-pillow py311-orjson py311-scipy py311-scikit-learn py311-pydantic2 py311-pydantic-settings py311-fastapi py311-uvicorn py311-gunicorn py311-huggingface-hub py311-tokenizers py311-onnx onnxruntime openblas"
 
 LABEL org.opencontainers.image.title="Immich Machine Learning" \
     org.opencontainers.image.description="Immich ML service for FreeBSD" \
@@ -119,8 +115,6 @@ ENV VIRTUAL_ENV="/opt/venv"
 ENV MACHINE_LEARNING_HOST=0.0.0.0
 ENV MACHINE_LEARNING_PORT=3003
 ENV MACHINE_LEARNING_CACHE_FOLDER=/cache
-# Face recognition disabled on FreeBSD (insightface not available)
-ENV MACHINE_LEARNING_FACIAL_RECOGNITION_ENABLED=false
 
 EXPOSE 3003
 VOLUME /config /cache
