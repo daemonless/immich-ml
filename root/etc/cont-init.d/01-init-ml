@@ -1,0 +1,7 @@
+#!/bin/sh
+# Initialize Immich ML
+
+mkdir -p /cache
+chown -R bsd:bsd /cache /config
+
+echo "Immich ML initialized."
