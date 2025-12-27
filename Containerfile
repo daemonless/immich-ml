@@ -11,7 +11,7 @@ ARG IMMICH_VERSION
 # Build dependencies - use FreeBSD-packaged python libraries where possible
 RUN pkg update && pkg install -y \
     python311 py311-pip py311-setuptools py311-wheel \
-    py311-numpy py311-pillow py311-orjson py311-scipy \
+    py311-numpy py311-pillow py311-orjson py311-scipy py311-scikit-learn \
     py311-pydantic2 py311-pydantic-settings \
     py311-fastapi py311-uvicorn py311-gunicorn \
     py311-huggingface-hub py311-tokenizers \
@@ -59,7 +59,7 @@ FROM ghcr.io/daemonless/base:${BASE_VERSION}
 
 ARG FREEBSD_ARCH=amd64
 ARG IMMICH_VERSION
-ARG PACKAGES="python311 py311-numpy py311-pillow py311-orjson py311-scipy py311-pydantic2 py311-pydantic-settings py311-fastapi py311-uvicorn py311-gunicorn py311-huggingface-hub py311-tokenizers onnxruntime openblas"
+ARG PACKAGES="python311 py311-numpy py311-pillow py311-orjson py311-scipy py311-scikit-learn py311-pydantic2 py311-pydantic-settings py311-fastapi py311-uvicorn py311-gunicorn py311-huggingface-hub py311-tokenizers onnxruntime openblas"
 
 LABEL org.opencontainers.image.title="Immich Machine Learning" \
     org.opencontainers.image.description="Immich ML service for FreeBSD" \
