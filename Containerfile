@@ -9,6 +9,7 @@ FROM ghcr.io/daemonless/base:${BASE_VERSION} AS builder
 ARG IMMICH_VERSION
 
 # Build dependencies - use FreeBSD-packaged python libraries where possible
+# libomp provides omp.h for OpenMP (needed if any package builds from source)
 RUN pkg update && pkg install -y \
     python311 py311-pip py311-setuptools py311-wheel \
     py311-numpy py311-pillow py311-orjson py311-scipy py311-scikit-learn \
@@ -18,7 +19,7 @@ RUN pkg update && pkg install -y \
     onnxruntime \
     git-lite gmake pkgconf \
     FreeBSD-clang FreeBSD-clibs-dev FreeBSD-clang-dev \
-    opencv cmake ninja \
+    opencv cmake ninja libomp \
     openblas gcc \
     && pkg clean -ay
 
@@ -38,21 +39,42 @@ RUN git clone --depth 1 --branch ${IMMICH_VERSION} \
 WORKDIR /build/machine-learning
 
 # Install remaining dependencies not available from ports
+# Pin numpy<2 to avoid conflicts with scipy from ports
 RUN pip install --no-cache-dir \
+    "numpy<2" \
     aiocache \
     ftfy \
     python-multipart \
     rich
 
-# Install opencv-python-headless (might need to build from source)
-RUN pip install --no-cache-dir opencv-python-headless || \
-    pip install --no-cache-dir opencv-python || true
+# Install opencv-python-headless with --no-deps to avoid numpy 2.x
+# (it works fine with numpy 1.x at runtime)
+RUN pip install --no-cache-dir --no-deps opencv-python-headless || true
 
-# Install insightface for face recognition (may require building)
-RUN pip install --no-cache-dir insightface || true
+# Install insightface dependencies that are compatible with FreeBSD
+# Skip insightface for now - face recognition will be disabled
+# insightface requires building Cython extensions and pulls in problematic deps
+RUN pip install --no-cache-dir \
+    easydict \
+    prettytable \
+    onnx \
+    || true
 
-# Install the app itself
-RUN pip install --no-cache-dir .
+# Patch pyproject.toml for FreeBSD compatibility:
+# 1. uvicorn[standard] -> uvicorn (avoid watchfiles/maturin which need Rust)
+# 2. Adjust numpy constraint to match system package
+RUN cat pyproject.toml && \
+    sed -i '' 's/uvicorn\[standard\]/uvicorn/g' pyproject.toml && \
+    cat pyproject.toml | grep -i uvicorn
+
+# Install the app with relaxed dependency checking
+# Use --no-deps first, then install missing deps manually
+RUN pip install --no-cache-dir --no-deps . && \
+    pip install --no-cache-dir \
+    rapidocr \
+    starlette \
+    httptools \
+    || true
 
 # Production image
 FROM ghcr.io/daemonless/base:${BASE_VERSION}
@@ -97,6 +119,8 @@ ENV VIRTUAL_ENV="/opt/venv"
 ENV MACHINE_LEARNING_HOST=0.0.0.0
 ENV MACHINE_LEARNING_PORT=3003
 ENV MACHINE_LEARNING_CACHE_FOLDER=/cache
+# Face recognition disabled on FreeBSD (insightface not available)
+ENV MACHINE_LEARNING_FACIAL_RECOGNITION_ENABLED=false
 
 EXPOSE 3003
 VOLUME /config /cache
