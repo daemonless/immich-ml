@@ -88,6 +88,9 @@ services:
 - **User:** `bsd` (UID/GID set via PUID/PGID, default 1000)
 - **Base:** Built on `ghcr.io/daemonless/base-image` (FreeBSD)
 
+!!! note "CPU Only"
+    This image currently supports **CPU-based inference only**. Hardware acceleration (GPU/NPU) is not available on FreeBSD yet.
+
 ## Links
 
 - [Website](https://immich.app/)
