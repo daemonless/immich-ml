@@ -24,8 +24,10 @@ RUN pkg update && pkg install -y \
     openblas gcc \
     && pkg clean -ay
 
-# Copy pre-built onnxruntime wheel (built on FreeBSD with Python bindings)
-COPY onnxruntime-*.whl /tmp/
+# Download pre-built onnxruntime wheel (built on FreeBSD with Python bindings)
+ARG ONNXRUNTIME_WHEEL=onnxruntime-1.24.0-cp311-cp311-freebsd_15_0_release_p1_amd64.whl
+ARG ONNXRUNTIME_URL=https://github.com/daemonless/immich-ml/releases/download/onnxruntime-1.24.0/${ONNXRUNTIME_WHEEL}
+RUN fetch -o /tmp/${ONNXRUNTIME_WHEEL} ${ONNXRUNTIME_URL}
 
 # Create virtual environment with system packages
 RUN python3.11 -m venv --system-site-packages /opt/venv
@@ -108,9 +110,11 @@ RUN pkg update && \
 COPY --from=builder /opt/venv /opt/venv
 
 # Install onnxruntime wheel into venv (builder already did this, but ensure it's there)
-COPY onnxruntime-*.whl /tmp/
-RUN /opt/venv/bin/pip install --no-cache-dir /tmp/onnxruntime-*.whl && \
-    rm -f /tmp/onnxruntime-*.whl
+ARG ONNXRUNTIME_WHEEL
+ARG ONNXRUNTIME_URL
+RUN fetch -o /tmp/${ONNXRUNTIME_WHEEL} ${ONNXRUNTIME_URL} && \
+    /opt/venv/bin/pip install --no-cache-dir /tmp/${ONNXRUNTIME_WHEEL} && \
+    rm -f /tmp/${ONNXRUNTIME_WHEEL}
 
 # Create directories and fix permissions
 RUN mkdir -p /config /cache && \
