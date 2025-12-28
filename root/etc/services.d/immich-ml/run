@@ -3,8 +3,9 @@ exec 2>&1
 
 echo "Starting Immich ML..."
 
-# Set matplotlib cache dir to avoid permission issues
+# Set cache directories to avoid permission issues
 export MPLCONFIGDIR=/tmp
+export HF_HOME=/cache/huggingface
 
 cd /opt/venv
 exec s6-setuidgid bsd /opt/venv/bin/python -m gunicorn \
