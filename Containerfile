@@ -3,10 +3,14 @@
 
 ARG BASE_VERSION=15
 ARG IMMICH_VERSION=v2.4.1
+ARG ONNXRUNTIME_WHEEL=onnxruntime-1.24.0-cp311-cp311-freebsd_15_0_release_p1_amd64.whl
+ARG ONNXRUNTIME_URL=https://github.com/daemonless/immich-ml/releases/download/onnxruntime-1.24.0/${ONNXRUNTIME_WHEEL}
 
 FROM ghcr.io/daemonless/base:${BASE_VERSION} AS builder
 
 ARG IMMICH_VERSION
+ARG ONNXRUNTIME_WHEEL
+ARG ONNXRUNTIME_URL
 
 # Build dependencies - use FreeBSD-packaged python libraries where possible
 # FreeBSD-utilities-dev provides omp.h for OpenMP (needed if any package builds from source)
@@ -25,8 +29,6 @@ RUN pkg update && pkg install -y \
     && pkg clean -ay
 
 # Download pre-built onnxruntime wheel (built on FreeBSD with Python bindings)
-ARG ONNXRUNTIME_WHEEL=onnxruntime-1.24.0-cp311-cp311-freebsd_15_0_release_p1_amd64.whl
-ARG ONNXRUNTIME_URL=https://github.com/daemonless/immich-ml/releases/download/onnxruntime-1.24.0/${ONNXRUNTIME_WHEEL}
 RUN fetch -o /tmp/${ONNXRUNTIME_WHEEL} ${ONNXRUNTIME_URL}
 
 # Create virtual environment with system packages
@@ -84,6 +86,8 @@ FROM ghcr.io/daemonless/base:${BASE_VERSION}
 
 ARG FREEBSD_ARCH=amd64
 ARG IMMICH_VERSION
+ARG ONNXRUNTIME_WHEEL
+ARG ONNXRUNTIME_URL
 ARG PACKAGES="python311 py311-numpy py311-pillow py311-orjson py311-scipy py311-scikit-learn py311-pydantic2 py311-pydantic-settings py311-fastapi py311-uvicorn py311-gunicorn py311-huggingface-hub py311-tokenizers py311-onnx onnxruntime openblas geos"
 
 LABEL org.opencontainers.image.title="Immich Machine Learning" \
@@ -110,8 +114,6 @@ RUN pkg update && \
 COPY --from=builder /opt/venv /opt/venv
 
 # Install onnxruntime wheel into venv (builder already did this, but ensure it's there)
-ARG ONNXRUNTIME_WHEEL
-ARG ONNXRUNTIME_URL
 RUN fetch -o /tmp/${ONNXRUNTIME_WHEEL} ${ONNXRUNTIME_URL} && \
     /opt/venv/bin/pip install --no-cache-dir /tmp/${ONNXRUNTIME_WHEEL} && \
     rm -f /tmp/${ONNXRUNTIME_WHEEL}
