@@ -34,11 +34,13 @@ RUN pkg update && pkg install -y \
 # These env vars are used when buildah mounts /data/ccache from host
 ENV CCACHE_DIR=/data/ccache
 ENV CCACHE_PREFIX=distcc
-ENV DISTCC_HOSTS="pluto jupiter localhost"
+ENV DISTCC_HOSTS="192.168.86.117 192.168.86.4 127.0.0.1"
 ENV PATH="/usr/local/libexec/ccache:$PATH"
 ENV CCACHE_PATH="/usr/bin:/usr/local/bin"
-ENV CC="ccache clang"
-ENV CXX="ccache clang++"
+ENV CC="/usr/local/libexec/ccache/clang"
+ENV CXX="/usr/local/libexec/ccache/clang++"
+ENV CMAKE_C_COMPILER="/usr/local/libexec/ccache/clang"
+ENV CMAKE_CXX_COMPILER="/usr/local/libexec/ccache/clang++"
 
 # Download pre-built onnxruntime wheel (built on FreeBSD with Python bindings)
 RUN fetch -o /tmp/${ONNXRUNTIME_WHEEL} ${ONNXRUNTIME_URL}
