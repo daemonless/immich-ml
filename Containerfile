@@ -15,6 +15,7 @@ ARG ONNXRUNTIME_URL
 # Build dependencies - use FreeBSD-packaged python libraries where possible
 # FreeBSD-utilities-dev provides omp.h for OpenMP (needed if any package builds from source)
 # py311-onnx from ports avoids build issues with pip onnx (nanobind needs Python 3.13+)
+# distcc + ccache for distributed cached compilation (requires --network=host and volume mounts)
 RUN pkg update && pkg install -y \
     python311 py311-pip py311-setuptools py311-wheel \
     py311-numpy py311-pillow py311-orjson py311-scipy py311-scikit-learn \
@@ -26,7 +27,18 @@ RUN pkg update && pkg install -y \
     FreeBSD-clang FreeBSD-clibs-dev FreeBSD-clang-dev FreeBSD-utilities-dev \
     opencv cmake ninja \
     openblas gcc \
+    distcc ccache \
     && pkg clean -ay
+
+# Configure ccache + distcc for distributed compilation
+# These env vars are used when buildah mounts /data/ccache from host
+ENV CCACHE_DIR=/data/ccache
+ENV CCACHE_PREFIX=distcc
+ENV DISTCC_HOSTS="pluto jupiter localhost"
+ENV PATH="/usr/local/libexec/ccache:$PATH"
+ENV CCACHE_PATH="/usr/bin:/usr/local/bin"
+ENV CC="ccache clang"
+ENV CXX="ccache clang++"
 
 # Download pre-built onnxruntime wheel (built on FreeBSD with Python bindings)
 RUN fetch -o /tmp/${ONNXRUNTIME_WHEEL} ${ONNXRUNTIME_URL}
