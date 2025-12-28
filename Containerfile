@@ -24,13 +24,18 @@ RUN pkg update && pkg install -y \
     openblas gcc \
     && pkg clean -ay
 
+# Copy pre-built onnxruntime wheel (built on FreeBSD with Python bindings)
+COPY onnxruntime-*.whl /tmp/
+
 # Create virtual environment with system packages
 RUN python3.11 -m venv --system-site-packages /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 ENV VIRTUAL_ENV="/opt/venv"
 
-# Upgrade pip
-RUN pip install --no-cache-dir --upgrade pip setuptools wheel
+# Upgrade pip and install onnxruntime wheel
+RUN pip install --no-cache-dir --upgrade pip setuptools wheel && \
+    pip install --no-cache-dir /tmp/onnxruntime-*.whl && \
+    rm -f /tmp/onnxruntime-*.whl
 
 # Clone immich source
 WORKDIR /build
@@ -77,7 +82,7 @@ FROM ghcr.io/daemonless/base:${BASE_VERSION}
 
 ARG FREEBSD_ARCH=amd64
 ARG IMMICH_VERSION
-ARG PACKAGES="python311 py311-numpy py311-pillow py311-orjson py311-scipy py311-scikit-learn py311-pydantic2 py311-pydantic-settings py311-fastapi py311-uvicorn py311-gunicorn py311-huggingface-hub py311-tokenizers py311-onnx onnxruntime openblas"
+ARG PACKAGES="python311 py311-numpy py311-pillow py311-orjson py311-scipy py311-scikit-learn py311-pydantic2 py311-pydantic-settings py311-fastapi py311-uvicorn py311-gunicorn py311-huggingface-hub py311-tokenizers py311-onnx onnxruntime openblas geos"
 
 LABEL org.opencontainers.image.title="Immich Machine Learning" \
     org.opencontainers.image.description="Immich ML service for FreeBSD" \
@@ -99,12 +104,18 @@ RUN pkg update && \
     pkg clean -ay && \
     rm -rf /var/cache/pkg/* /var/db/pkg/repos/*
 
-# Copy virtual environment from builder
+# Copy virtual environment from builder (includes onnxruntime wheel)
 COPY --from=builder /opt/venv /opt/venv
 
-# Create directories
+# Install onnxruntime wheel into venv (builder already did this, but ensure it's there)
+COPY onnxruntime-*.whl /tmp/
+RUN /opt/venv/bin/pip install --no-cache-dir /tmp/onnxruntime-*.whl && \
+    rm -f /tmp/onnxruntime-*.whl
+
+# Create directories and fix permissions
 RUN mkdir -p /config /cache && \
-    chown -R bsd:bsd /config /cache /opt/venv
+    chown -R bsd:bsd /config /cache /opt/venv && \
+    chmod -R a+rX /opt/venv/lib/python3.11/site-packages/onnxruntime*
 
 # Copy service files
 COPY root/ /

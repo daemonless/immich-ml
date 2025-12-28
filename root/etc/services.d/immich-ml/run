@@ -2,5 +2,14 @@
 exec 2>&1
 
 echo "Starting Immich ML..."
+
+# Set matplotlib cache dir to avoid permission issues
+export MPLCONFIGDIR=/tmp
+
 cd /opt/venv
-exec s6-setuidgid bsd /opt/venv/bin/python -m app.main
+exec s6-setuidgid bsd /opt/venv/bin/python -m gunicorn \
+    immich_ml.main:app \
+    -k uvicorn.workers.UvicornWorker \
+    -b ${MACHINE_LEARNING_HOST:-0.0.0.0}:${MACHINE_LEARNING_PORT:-3003} \
+    -w 1 \
+    --timeout 120
