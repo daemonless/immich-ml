@@ -7,6 +7,9 @@ Copy this to repos/<app>/README.md and fill in the placeholders.
 
 Machine learning service for [Immich](https://immich.app/) photo management providing face recognition, image classification, and smart search.
 
+!!! note "Part of the Immich Stack"
+    This is just one component of Immich. For the complete setup (docker-compose, configuration, etc.), please see the [Daemonless Immich Stack](https://github.com/daemonless/immich).
+
 ## Environment Variables
 
 | Variable | Description | Default |
