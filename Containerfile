@@ -34,7 +34,8 @@ RUN pkg update && pkg install -y \
 # These env vars are used when buildah mounts /data/ccache from host
 ENV CCACHE_DIR=/data/ccache
 ENV CCACHE_PREFIX=distcc
-ENV DISTCC_HOSTS="192.168.86.117 192.168.86.4 127.0.0.1"
+ARG DISTCC_HOSTS="localhost"
+ENV DISTCC_HOSTS=${DISTCC_HOSTS}
 ENV PATH="/usr/local/libexec/ccache:$PATH"
 ENV CCACHE_PATH="/usr/bin:/usr/local/bin"
 ENV CC="/usr/local/libexec/ccache/clang"
