@@ -125,8 +125,8 @@ RUN pkg update && \
     pkg clean -ay && \
     rm -rf /var/cache/pkg/* /var/db/pkg/repos/*
 
-# Copy virtual environment from builder (includes onnxruntime wheel)
-COPY --from=builder /opt/venv /opt/venv
+# Copy virtual environment from builder (with correct ownership)
+COPY --from=builder --chown=bsd:bsd /opt/venv /opt/venv
 
 # Install onnxruntime wheel into venv (builder already did this, but ensure it's there)
 RUN fetch -o /tmp/${ONNXRUNTIME_WHEEL} ${ONNXRUNTIME_URL} && \
@@ -135,7 +135,8 @@ RUN fetch -o /tmp/${ONNXRUNTIME_WHEEL} ${ONNXRUNTIME_URL} && \
 
 # Create directories and fix permissions
 RUN mkdir -p /config /cache && \
-    chown -R bsd:bsd /config /cache /opt/venv && \
+    chown bsd:bsd /config /cache && \
+    chown -R bsd:bsd /opt/venv/lib/python3.11/site-packages/onnxruntime* && \
     chmod -R a+rX /opt/venv/lib/python3.11/site-packages/onnxruntime*
 
 # Copy service files
