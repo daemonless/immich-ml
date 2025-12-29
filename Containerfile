@@ -44,7 +44,9 @@ ENV CMAKE_C_COMPILER="/usr/local/libexec/ccache/clang"
 ENV CMAKE_CXX_COMPILER="/usr/local/libexec/ccache/clang++"
 
 # Download pre-built onnxruntime wheel (built on FreeBSD with Python bindings)
-RUN fetch -o /tmp/${ONNXRUNTIME_WHEEL} ${ONNXRUNTIME_URL}
+# Rename to generic platform tag to work across FreeBSD patch levels
+RUN fetch -o /tmp/${ONNXRUNTIME_WHEEL} ${ONNXRUNTIME_URL} && \
+    mv /tmp/${ONNXRUNTIME_WHEEL} /tmp/onnxruntime-1.24.0-cp311-cp311-freebsd_15_0_amd64.whl
 
 # Create virtual environment with system packages
 RUN python3.11 -m venv --system-site-packages /opt/venv
@@ -129,9 +131,11 @@ RUN pkg update && \
 COPY --from=builder --chown=bsd:bsd /opt/venv /opt/venv
 
 # Install onnxruntime wheel into venv (builder already did this, but ensure it's there)
+# Rename to generic platform tag to work across FreeBSD patch levels
 RUN fetch -o /tmp/${ONNXRUNTIME_WHEEL} ${ONNXRUNTIME_URL} && \
-    /opt/venv/bin/pip install --no-cache-dir /tmp/${ONNXRUNTIME_WHEEL} && \
-    rm -f /tmp/${ONNXRUNTIME_WHEEL}
+    mv /tmp/${ONNXRUNTIME_WHEEL} /tmp/onnxruntime-1.24.0-cp311-cp311-freebsd_15_0_amd64.whl && \
+    /opt/venv/bin/pip install --no-cache-dir /tmp/onnxruntime-*.whl && \
+    rm -f /tmp/onnxruntime-*.whl
 
 # Create directories and fix permissions
 RUN mkdir -p /config /cache && \
