@@ -79,16 +79,16 @@ RUN pip install --no-cache-dir insightface || true
 
 # Patch pyproject.toml for FreeBSD compatibility:
 # 1. uvicorn[standard] -> uvicorn (avoid watchfiles/maturin which need Rust)
-# 2. Adjust numpy constraint to match system package
-RUN cat pyproject.toml && \
-    sed -i '' 's/uvicorn\[standard\]/uvicorn/g' pyproject.toml && \
-    cat pyproject.toml | grep -i uvicorn
+# 2. Remove opencv-python-headless (use FreeBSD pkg opencv instead)
+RUN sed -i '' 's/uvicorn\[standard\]/uvicorn/g' pyproject.toml && \
+    sed -i '' '/opencv-python-headless/d' pyproject.toml
 
 # Install the app with relaxed dependency checking
 # Use --no-deps first, then install missing deps manually
+# rapidocr needs --no-deps to avoid pulling opencv-python-headless
 RUN pip install --no-cache-dir --no-deps . && \
+    pip install --no-cache-dir --no-deps rapidocr && \
     pip install --no-cache-dir \
-    rapidocr \
     starlette \
     httptools \
     || true
