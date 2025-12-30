@@ -75,7 +75,7 @@ RUN pip install --no-cache-dir \
 
 # Install insightface for face recognition
 # onnx is already installed from ports, so insightface should build cleanly
-RUN pip install --no-cache-dir insightface || true
+RUN pip install --no-cache-dir insightface
 
 # Patch pyproject.toml for FreeBSD compatibility:
 # 1. uvicorn[standard] -> uvicorn (avoid watchfiles/maturin which need Rust)
@@ -90,8 +90,7 @@ RUN pip install --no-cache-dir --no-deps . && \
     pip install --no-cache-dir --no-deps rapidocr && \
     pip install --no-cache-dir \
     starlette \
-    httptools \
-    || true
+    httptools
 
 # Production image
 FROM ghcr.io/daemonless/base:${BASE_VERSION}
