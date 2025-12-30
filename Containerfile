@@ -18,7 +18,7 @@ ARG ONNXRUNTIME_URL
 # distcc + ccache for distributed cached compilation (requires --network=host and volume mounts)
 RUN pkg update && pkg install -y \
     python311 py311-pip py311-setuptools py311-wheel \
-    py311-numpy py311-pillow py311-orjson py311-scipy py311-scikit-learn \
+    py311-numpy py311-pillow py311-orjson py311-scipy py311-scikit-learn py311-scikit-image \
     py311-pydantic2 py311-pydantic-settings \
     py311-fastapi py311-uvicorn py311-gunicorn \
     py311-huggingface-hub py311-tokenizers \
@@ -104,7 +104,7 @@ ARG FREEBSD_ARCH=amd64
 ARG IMMICH_VERSION
 ARG ONNXRUNTIME_WHEEL
 ARG ONNXRUNTIME_URL
-ARG PACKAGES="python311 py311-numpy py311-pillow py311-orjson py311-scipy py311-scikit-learn py311-pydantic2 py311-pydantic-settings py311-fastapi py311-uvicorn py311-gunicorn py311-huggingface-hub py311-tokenizers py311-onnx onnxruntime openblas geos"
+ARG PACKAGES="python311 py311-numpy py311-pillow py311-orjson py311-scipy py311-scikit-learn py311-scikit-image py311-pydantic2 py311-pydantic-settings py311-fastapi py311-uvicorn py311-gunicorn py311-huggingface-hub py311-tokenizers py311-onnx onnxruntime openblas geos"
 
 LABEL org.opencontainers.image.title="Immich Machine Learning" \
     org.opencontainers.image.description="Immich ML service for FreeBSD" \
@@ -137,8 +137,9 @@ RUN fetch -o /tmp/${ONNXRUNTIME_WHEEL} ${ONNXRUNTIME_URL} && \
     unzip -o /tmp/${ONNXRUNTIME_WHEEL} -d /opt/venv/lib/python3.11/site-packages/ && \
     rm -f /tmp/${ONNXRUNTIME_WHEEL}
 
-# Create directories and fix permissions
-RUN mkdir -p /config /cache && \
+# Create directories, write version, and fix permissions
+RUN mkdir -p /config /cache /app && \
+    echo "${IMMICH_VERSION}" > /app/version && \
     chown bsd:bsd /config /cache && \
     chown -R bsd:bsd /opt/venv/lib/python3.11/site-packages/onnxruntime* && \
     chmod -R a+rX /opt/venv/lib/python3.11/site-packages/onnxruntime*
