@@ -118,6 +118,8 @@ LABEL org.opencontainers.image.title="Immich Machine Learning" \
     io.daemonless.arch="${FREEBSD_ARCH}" \
     io.daemonless.config-mount="/config" \
     io.daemonless.category="Media" \
+    io.daemonless.upstream-mode="github" \
+    io.daemonless.upstream-repo="immich-app/immich" \
     io.daemonless.packages="${PACKAGES}"
 
 # Install runtime dependencies
