@@ -73,10 +73,6 @@ RUN pip install --no-cache-dir \
     python-multipart \
     rich
 
-# Install opencv-python-headless with --no-deps to avoid numpy 2.x
-# (it works fine with numpy 1.x at runtime)
-RUN pip install --no-cache-dir --no-deps opencv-python-headless || true
-
 # Install insightface for face recognition
 # onnx is already installed from ports, so insightface should build cleanly
 RUN pip install --no-cache-dir insightface || true
@@ -104,7 +100,7 @@ ARG FREEBSD_ARCH=amd64
 ARG IMMICH_VERSION
 ARG ONNXRUNTIME_WHEEL
 ARG ONNXRUNTIME_URL
-ARG PACKAGES="python311 py311-numpy py311-pillow py311-orjson py311-scipy py311-scikit-learn py311-scikit-image py311-pydantic2 py311-pydantic-settings py311-fastapi py311-uvicorn py311-gunicorn py311-huggingface-hub py311-tokenizers py311-onnx onnxruntime openblas geos"
+ARG PACKAGES="python311 py311-numpy py311-pillow py311-orjson py311-scipy py311-scikit-learn py311-scikit-image py311-pydantic2 py311-pydantic-settings py311-fastapi py311-uvicorn py311-gunicorn py311-huggingface-hub py311-tokenizers py311-onnx onnxruntime openblas geos opencv"
 
 LABEL org.opencontainers.image.title="Immich Machine Learning" \
     org.opencontainers.image.description="Immich ML service for FreeBSD" \
