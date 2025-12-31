@@ -93,7 +93,8 @@ RUN pip install --no-cache-dir --no-deps . && \
     pip install --no-cache-dir --no-deps rapidocr && \
     pip install --no-cache-dir \
     starlette \
-    httptools
+    httptools \
+    omegaconf
 
 # Production image
 FROM ghcr.io/daemonless/base:${BASE_VERSION}
