@@ -74,8 +74,10 @@ RUN pip install --no-cache-dir \
     rich
 
 # Install insightface for face recognition
-# onnx is already installed from ports, so insightface should build cleanly
-RUN pip install --no-cache-dir insightface
+# Use --no-deps to avoid pulling opencv-python-headless (use FreeBSD pkg opencv instead)
+# Then install remaining deps manually (onnx is from ports)
+RUN pip install --no-cache-dir --no-deps insightface && \
+    pip install --no-cache-dir prettytable albumentations easydict
 
 # Patch pyproject.toml for FreeBSD compatibility:
 # 1. uvicorn[standard] -> uvicorn (avoid watchfiles/maturin which need Rust)
