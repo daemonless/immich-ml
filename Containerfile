@@ -100,6 +100,8 @@ ARG IMMICH_VERSION
 ARG ONNXRUNTIME_WHEEL
 ARG ONNXRUNTIME_URL
 ARG PACKAGES="python311 py311-numpy py311-pillow py311-orjson py311-scipy py311-scikit-learn py311-scikit-image py311-pydantic2 py311-pydantic-settings py311-fastapi py311-uvicorn py311-gunicorn py311-huggingface-hub py311-tokenizers py311-onnx onnxruntime openblas geos opencv"
+ARG UPSTREAM_URL="https://api.github.com/repos/immich-app/immich/releases/latest"
+ARG UPSTREAM_SED="s/.*\"tag_name\":\"\\([^\"]*\\)\".*/\\1/p"
 
 LABEL org.opencontainers.image.title="Immich Machine Learning" \
     org.opencontainers.image.description="Immich ML service for FreeBSD" \
@@ -113,8 +115,8 @@ LABEL org.opencontainers.image.title="Immich Machine Learning" \
     io.daemonless.arch="${FREEBSD_ARCH}" \
     io.daemonless.config-mount="/config" \
     io.daemonless.category="Photos & Media" \
-    io.daemonless.upstream-mode="github" \
-    io.daemonless.upstream-repo="immich-app/immich" \
+    io.daemonless.upstream-url="${UPSTREAM_URL}" \
+    io.daemonless.upstream-sed="${UPSTREAM_SED}" \
     io.daemonless.packages="${PACKAGES}"
 
 # Install runtime dependencies
