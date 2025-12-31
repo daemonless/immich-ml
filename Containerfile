@@ -23,6 +23,7 @@ RUN pkg update && pkg install -y \
     py311-fastapi py311-uvicorn py311-gunicorn \
     py311-huggingface-hub py311-tokenizers \
     py311-onnx onnxruntime \
+    py311-albumentations py311-albucore \
     git-lite gmake pkgconf \
     FreeBSD-clang FreeBSD-clibs-dev FreeBSD-clang-dev FreeBSD-utilities-dev \
     opencv cmake ninja \
@@ -75,10 +76,9 @@ RUN pip install --no-cache-dir \
 
 # Install insightface for face recognition
 # Use --no-deps to avoid pulling opencv-python-headless (use FreeBSD pkg opencv instead)
-# Then install remaining deps manually (onnx is from ports)
+# albumentations and albucore come from FreeBSD ports (line 26)
 RUN pip install --no-cache-dir --no-deps insightface && \
-    pip install --no-cache-dir --no-deps albumentations && \
-    pip install --no-cache-dir prettytable easydict
+    pip install --no-cache-dir prettytable easydict cython
 
 # Patch pyproject.toml for FreeBSD compatibility:
 # 1. uvicorn[standard] -> uvicorn (avoid watchfiles/maturin which need Rust)
@@ -89,12 +89,20 @@ RUN sed -i '' 's/uvicorn\[standard\]/uvicorn/g' pyproject.toml && \
 # Install the app with relaxed dependency checking
 # Use --no-deps first, then install missing deps manually
 # rapidocr needs --no-deps to avoid pulling opencv-python-headless
+# Missing deps from --no-deps packages (insightface, rapidocr):
+#   - requests, pyclipper, shapely, pyyaml, omegaconf, colorlog: rapidocr deps
+# albumentations/albucore come from FreeBSD ports with proper deps
 RUN pip install --no-cache-dir --no-deps . && \
     pip install --no-cache-dir --no-deps rapidocr && \
     pip install --no-cache-dir \
     starlette \
     httptools \
-    omegaconf
+    omegaconf \
+    colorlog \
+    requests \
+    pyclipper \
+    shapely \
+    pyyaml
 
 # Production image
 FROM ghcr.io/daemonless/base:${BASE_VERSION}
@@ -103,7 +111,7 @@ ARG FREEBSD_ARCH=amd64
 ARG IMMICH_VERSION
 ARG ONNXRUNTIME_WHEEL
 ARG ONNXRUNTIME_URL
-ARG PACKAGES="python311 py311-numpy py311-pillow py311-orjson py311-scipy py311-scikit-learn py311-scikit-image py311-pydantic2 py311-pydantic-settings py311-fastapi py311-uvicorn py311-gunicorn py311-huggingface-hub py311-tokenizers py311-onnx onnxruntime openblas geos opencv"
+ARG PACKAGES="python311 py311-numpy py311-pillow py311-orjson py311-scipy py311-scikit-learn py311-scikit-image py311-pydantic2 py311-pydantic-settings py311-fastapi py311-uvicorn py311-gunicorn py311-huggingface-hub py311-tokenizers py311-onnx py311-albumentations py311-albucore onnxruntime openblas geos opencv"
 ARG UPSTREAM_URL="https://api.github.com/repos/immich-app/immich/releases/latest"
 ARG UPSTREAM_SED="s/.*\"tag_name\":\"\\([^\"]*\\)\".*/\\1/p"
 
