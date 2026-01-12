@@ -1,49 +1,17 @@
-<!--
-Standard README template for daemonless application repositories.
-Copy this to repos/<app>/README.md and fill in the placeholders.
--->
+# Immich Machine Learning
 
-# immich-ml
+Immich Machine Learning service (Python/ONNX) on FreeBSD.
 
-Machine learning service for [Immich](https://immich.app/) photo management providing face recognition, image classification, and smart search.
+| | |
+|---|---|
+| **Port** | 3003 |
+| **Registry** | `ghcr.io/daemonless/immich-ml` |
+| **Source** | [https://github.com/immich-app/immich](https://github.com/immich-app/immich) |
+| **Website** | [https://immich.app/](https://immich.app/) |
 
-> **Note:** This is just one component of Immich. For the complete setup (compose, configuration, etc.), see the [Daemonless Immich Stack](https://github.com/daemonless/immich).
+## Deployment
 
-## Environment Variables
-
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `PUID` | User ID for the application process | `1000` |
-| `PGID` | Group ID for the application process | `1000` |
-| `TZ` | Timezone for the container | `UTC` |
-| `S6_LOG_ENABLE` | Enable/Disable file logging | `1` |
-| `S6_LOG_MAX_SIZE` | Max size per log file (bytes) | `1048576` |
-| `S6_LOG_MAX_FILES` | Number of rotated log files to keep | `10` |
-| `MACHINE_LEARNING_HOST` | Listen address | `0.0.0.0` |
-| `MACHINE_LEARNING_PORT` | Service port | `3003` |
-| `MACHINE_LEARNING_CACHE_FOLDER` | Model cache directory | `/cache` |
-
-## Logging
-
-This image uses `s6-log` for internal log rotation.
-- **System Logs**: Captured from console and stored at `/config/logs/daemonless/immich-ml/`.
-- **Application Logs**: Managed by the app and typically found in `/config/logs/`.
-- **Podman Logs**: Output is mirrored to the console, so `podman logs` still works.
-
-## Quick Start
-
-```bash
-podman run -d --name immich-ml \
-  -p 3003:3003 \
-  -e PUID=1000 -e PGID=1000 \
-  -v /path/to/config:/config \
-  -v /path/to/cache:/cache \
-  ghcr.io/daemonless/immich-ml:latest
-```
-
-Access at: http://localhost:3003
-
-## podman-compose
+### Podman Compose
 
 ```yaml
 services:
@@ -51,44 +19,87 @@ services:
     image: ghcr.io/daemonless/immich-ml:latest
     container_name: immich-ml
     environment:
+      - MACHINE_LEARNING_HOST=0.0.0.0
+      - MACHINE_LEARNING_PORT=3003
+      - MACHINE_LEARNING_CACHE_FOLDER=/cache
       - PUID=1000
       - PGID=1000
-      - TZ=America/New_York
-      - MACHINE_LEARNING_CACHE_FOLDER=/cache
+      - TZ=UTC
     volumes:
-      - /data/config/immich-ml:/config
-      - /data/cache/immich-ml:/cache
+      - /path/to/containers/immich-ml/cache:/cache
+      - /path/to/containers/immich-ml:/config
     ports:
       - 3003:3003
     restart: unless-stopped
 ```
 
-## Tags
+### Podman CLI
 
-| Tag | Source | Description |
-|-----|--------|-------------|
-| `:latest` | [Upstream Releases](https://github.com/immich-app/immich) | Latest upstream release |
+```bash
+podman run -d --name immich-ml \
+  -p 3003:3003 \
+  -e MACHINE_LEARNING_HOST=0.0.0.0 \
+  -e MACHINE_LEARNING_PORT=3003 \
+  -e MACHINE_LEARNING_CACHE_FOLDER=/cache \
+  -e PUID=@PUID@ \
+  -e PGID=@PGID@ \
+  -e TZ=@TZ@ \
+  -v /path/to/containers/immich-ml/cache:/cache \ 
+  -v /path/to/containers/immich-ml:/config \ 
+  ghcr.io/daemonless/immich-ml:latest
+```
+Access at: `http://localhost:3003`
 
-## Volumes
+### Ansible
+
+```yaml
+- name: Deploy immich-ml
+  containers.podman.podman_container:
+    name: immich-ml
+    image: ghcr.io/daemonless/immich-ml:latest
+    state: started
+    restart_policy: always
+    env:
+      MACHINE_LEARNING_HOST: "0.0.0.0"
+      MACHINE_LEARNING_PORT: "3003"
+      MACHINE_LEARNING_CACHE_FOLDER: "/cache"
+      PUID: "1000"
+      PGID: "1000"
+      TZ: "UTC"
+    ports:
+      - "3003:3003"
+    volumes:
+      - "/path/to/containers/immich-ml/cache:/cache"
+      - "/path/to/containers/immich-ml:/config"
+```
+
+## Configuration
+
+### Environment Variables
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `MACHINE_LEARNING_HOST` | `0.0.0.0` | Host to bind to (0.0.0.0) |
+| `MACHINE_LEARNING_PORT` | `3003` | Port to bind to (3003) |
+| `MACHINE_LEARNING_CACHE_FOLDER` | `/cache` | Path to cache folder (/cache) |
+| `PUID` | `1000` | User ID for the application process |
+| `PGID` | `1000` | Group ID for the application process |
+| `TZ` | `UTC` | Timezone for the container |
+
+### Volumes
 
 | Path | Description |
 |------|-------------|
-| `/config` | Configuration directory |
-| `/cache` | Model cache (downloads ML models on first run) |
+| `/cache` | Model cache directory (HuggingFace) |
+| `/config` | Configuration directory (unused but mounted) |
 
-## Ports
+### Ports
 
-| Port | Description |
-|------|-------------|
-| 3003 | ML API |
+| Port | Protocol | Description |
+|------|----------|-------------|
+| `3003` | TCP | ML API |
 
 ## Notes
 
-- **User:** `bsd` (UID/GID set via PUID/PGID, default 1000)
+- **User:** `bsd` (UID/GID set via PUID/PGID)
 - **Base:** Built on `ghcr.io/daemonless/base` (FreeBSD)
-- **CPU Only:** Hardware acceleration (GPU/NPU) is not available on FreeBSD yet.
-
-## Links
-
-- [Website](https://immich.app/)
-- [Upstream Repo](https://github.com/immich-app/immich)
