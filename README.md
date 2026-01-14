@@ -14,22 +14,22 @@ Immich Machine Learning service (Python/ONNX) on FreeBSD.
 ### Podman Compose
 
 ```yaml
-    services:
-      immich-ml:
-        image: ghcr.io/daemonless/immich-ml:latest
-        container_name: immich-ml
-        environment:
-          - MACHINE_LEARNING_HOST=0.0.0.0
-          - MACHINE_LEARNING_PORT=3003
-          - MACHINE_LEARNING_CACHE_FOLDER=/cache
-          - PUID=1000
-          - PGID=1000
-          - TZ=UTC
-        volumes:
-          - /path/to/containers/immich/cache:/cache
-          - /path/to/containers/immich/config:/config
-        ports:
-          - 3003:3003
+services:
+  immich-ml:
+    image: ghcr.io/daemonless/immich-ml:latest
+    container_name: immich-ml
+    environment:
+      - MACHINE_LEARNING_HOST=0.0.0.0
+      - MACHINE_LEARNING_PORT=3003
+      - MACHINE_LEARNING_CACHE_FOLDER=/cache
+      - PUID=1000
+      - PGID=1000
+      - TZ=UTC
+    volumes:
+      - /path/to/containers/immich/cache:/cache
+      - /path/to/containers/immich-ml:/config
+    ports:
+      - 3003:3003
     restart: unless-stopped
 ```
 
@@ -45,7 +45,7 @@ podman run -d --name immich-ml \
   -e PGID=@PGID@ \
   -e TZ=@TZ@ \
   -v /path/to/containers/immich/cache:/cache \ 
-  -v /path/to/containers/immich/config:/config \ 
+  -v /path/to/containers/immich-ml:/config \ 
   ghcr.io/daemonless/immich-ml:latest
 ```
 Access at: `http://localhost:3003`
@@ -70,7 +70,7 @@ Access at: `http://localhost:3003`
       - "3003:3003"
     volumes:
       - "/path/to/containers/immich/cache:/cache"
-      - "/path/to/containers/immich/config:/config"
+      - "/path/to/containers/immich-ml:/config"
 ```
 
 ## Configuration
