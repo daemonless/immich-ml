@@ -14,22 +14,22 @@ Immich Machine Learning service (Python/ONNX) on FreeBSD.
 ### Podman Compose
 
 ```yaml
-services:
-  immich-ml:
-    image: ghcr.io/daemonless/immich-ml:latest
-    container_name: immich-ml
-    environment:
-      - MACHINE_LEARNING_HOST=0.0.0.0
-      - MACHINE_LEARNING_PORT=3003
-      - MACHINE_LEARNING_CACHE_FOLDER=/cache
-      - PUID=1000
-      - PGID=1000
-      - TZ=UTC
-    volumes:
-      - /path/to/containers/immich-ml/cache:/cache
-      - /path/to/containers/immich-ml:/config
-    ports:
-      - 3003:3003
+    services:
+      immich-ml:
+        image: ghcr.io/daemonless/immich-ml:latest
+        container_name: immich-ml
+        environment:
+          - MACHINE_LEARNING_HOST=0.0.0.0
+          - MACHINE_LEARNING_PORT=3003
+          - MACHINE_LEARNING_CACHE_FOLDER=/cache
+          - PUID=1000
+          - PGID=1000
+          - TZ=UTC
+        volumes:
+          - /path/to/containers/immich/cache:/cache
+          - /path/to/containers/immich/config:/config
+        ports:
+          - 3003:3003
     restart: unless-stopped
 ```
 
@@ -44,8 +44,8 @@ podman run -d --name immich-ml \
   -e PUID=@PUID@ \
   -e PGID=@PGID@ \
   -e TZ=@TZ@ \
-  -v /path/to/containers/immich-ml/cache:/cache \ 
-  -v /path/to/containers/immich-ml:/config \ 
+  -v /path/to/containers/immich/cache:/cache \ 
+  -v /path/to/containers/immich/config:/config \ 
   ghcr.io/daemonless/immich-ml:latest
 ```
 Access at: `http://localhost:3003`
@@ -63,18 +63,17 @@ Access at: `http://localhost:3003`
       MACHINE_LEARNING_HOST: "0.0.0.0"
       MACHINE_LEARNING_PORT: "3003"
       MACHINE_LEARNING_CACHE_FOLDER: "/cache"
-      PUID: "1000"
-      PGID: "1000"
-      TZ: "UTC"
+      PUID: "@PUID@"
+      PGID: "@PGID@"
+      TZ: "@TZ@"
     ports:
       - "3003:3003"
     volumes:
-      - "/path/to/containers/immich-ml/cache:/cache"
-      - "/path/to/containers/immich-ml:/config"
+      - "/path/to/containers/immich/cache:/cache"
+      - "/path/to/containers/immich/config:/config"
 ```
 
 ## Configuration
-
 ### Environment Variables
 
 | Variable | Default | Description |
@@ -85,14 +84,12 @@ Access at: `http://localhost:3003`
 | `PUID` | `1000` | User ID for the application process |
 | `PGID` | `1000` | Group ID for the application process |
 | `TZ` | `UTC` | Timezone for the container |
-
 ### Volumes
 
 | Path | Description |
 |------|-------------|
 | `/cache` | Model cache directory (HuggingFace) |
 | `/config` | Configuration directory (unused but mounted) |
-
 ### Ports
 
 | Port | Protocol | Description |
