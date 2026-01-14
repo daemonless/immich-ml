@@ -99,6 +99,8 @@ Access at: `http://localhost:3003`
 |------|----------|-------------|
 | `3003` | TCP | ML API |
 
+This image is part of the [Immich Stack](https://daemonless.io/images/immich).
+
 ## Notes
 
 - **User:** `bsd` (UID/GID set via PUID/PGID)
