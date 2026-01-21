@@ -11,6 +11,7 @@ Immich Machine Learning service (Python/ONNX) on FreeBSD.
 |---|---|
 | **Port** | 3003 |
 | **Registry** | `ghcr.io/daemonless/immich-ml` |
+| **Docs** | [daemonless.io/images/immich-ml](https://daemonless.io/images/immich-ml/) |
 | **Source** | [https://github.com/immich-app/immich](https://github.com/immich-app/immich) |
 | **Website** | [https://immich.app/](https://immich.app/) |
 
