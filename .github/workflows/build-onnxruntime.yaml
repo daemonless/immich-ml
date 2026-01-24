@@ -36,8 +36,10 @@ jobs:
               py${{ inputs.python_version == '3.11' && '311' || '312' }}-wheel \
               py${{ inputs.python_version == '3.11' && '311' || '312' }}-numpy \
               py${{ inputs.python_version == '3.11' && '311' || '312' }}-pybind11
-            ln -sf /usr/local/bin/gpatch /usr/local/bin/patch
-            which git
+            # Override BSD patch with GNU patch (onnxruntime uses --binary flag)
+            mv /usr/bin/patch /usr/bin/patch.bsd
+            ln -sf /usr/local/bin/gpatch /usr/bin/patch
+            which patch && patch --version | head -1
           run: |
             set -ex
             PYVER=${{ inputs.python_version == '3.11' && '311' || '312' }}
