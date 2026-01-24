@@ -88,10 +88,11 @@ jobs:
       - name: Create or Update Release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ONNX_VERSION: ${{ inputs.onnxruntime_version }}
+          PY_VERSION: ${{ inputs.python_version }}
         run: |
-          VERSION=${{ inputs.onnxruntime_version }}
           WHEEL=$(ls dist/*.whl | head -1)
-          TAG="onnxruntime-${VERSION}"
+          TAG="onnxruntime-${ONNX_VERSION}"
 
           # Create release if it doesn't exist, otherwise upload to existing
           if gh release view "${TAG}" >/dev/null 2>&1; then
@@ -99,18 +100,6 @@ jobs:
           else
             gh release create "${TAG}" \
               "${WHEEL}" \
-              --title "onnxruntime ${VERSION} FreeBSD wheel" \
-              --notes "Pre-built onnxruntime ${VERSION} with Python bindings for FreeBSD 15.0
-
-Python ${{ inputs.python_version }} wheel for amd64.
-
-## Usage
-\`\`\`bash
-pip install <wheel-url>
-\`\`\`
-
-## Build info
-- FreeBSD 15.0
-- Python ${{ inputs.python_version }}
-- CPU execution provider only"
+              --title "onnxruntime ${ONNX_VERSION} FreeBSD wheel" \
+              --notes "Pre-built onnxruntime ${ONNX_VERSION} wheel for FreeBSD 15.0 / Python ${PY_VERSION} (amd64, CPU only)"
           fi
