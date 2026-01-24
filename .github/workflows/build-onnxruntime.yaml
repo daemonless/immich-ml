@@ -55,6 +55,8 @@ jobs:
             patch -p1 < ../patches/onnxruntime-freebsd.patch
 
             # Build wheel
+            # Extra include path needed for logging.h on FreeBSD
+            export CXXFLAGS="-I$(pwd)/include/onnxruntime/core/common/logging"
             CC=clang CXX=clang++ ${PYTHON} ./tools/ci_build/build.py \
               --build_dir ./build/FreeBSD \
               --config Release \
