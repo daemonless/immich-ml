@@ -54,35 +54,22 @@ jobs:
             # Apply FreeBSD patch (from checked-out repo)
             patch -p1 < ../patches/onnxruntime-freebsd.patch
 
-            # Build (compile only, no wheel yet)
+            # Build with wheel generation
             # Extra include path needed for logging.h on FreeBSD
             export CXXFLAGS="-I$(pwd)/include/onnxruntime/core/common/logging"
             CC=clang CXX=clang++ ${PYTHON} ./tools/ci_build/build.py \
               --build_dir ./build/FreeBSD \
               --config Release \
               --enable_pybind \
+              --build_wheel \
               --skip_tests \
               --parallel \
               --compile_no_warning_as_error \
               --allow_running_as_root
 
-            # FreeBSD isn't detected by build.py, so manually copy native libs
-            # before building wheel (mimics what build.py does for Linux)
-            mkdir -p onnxruntime/capi
-            cp build/FreeBSD/Release/onnxruntime_pybind11_state.so onnxruntime/capi/
-            cp build/FreeBSD/Release/libonnxruntime.so.${VERSION} onnxruntime/capi/
-            ln -sf libonnxruntime.so.${VERSION} onnxruntime/capi/libonnxruntime.so
-            cp build/FreeBSD/Release/libonnxruntime_providers_shared.so onnxruntime/capi/
-
-            # Verify libs were copied
-            ls -la onnxruntime/capi/*.so*
-
-            # Now build the wheel from source dir
-            ${PYTHON} setup.py bdist_wheel
-
             # Copy wheel to workspace for upload
             mkdir -p ../dist
-            cp dist/onnxruntime-*.whl ../dist/
+            cp build/FreeBSD/Release/dist/onnxruntime-*.whl ../dist/
 
       - name: Upload wheel artifact
         uses: actions/upload-artifact@v4
