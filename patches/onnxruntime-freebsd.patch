@@ -1,7 +1,8 @@
+diff --git a/onnxruntime/core/platform/posix/env.cc b/onnxruntime/core/platform/posix/env.cc
+index fed697e..5614089 100644
 --- a/onnxruntime/core/platform/posix/env.cc
 +++ b/onnxruntime/core/platform/posix/env.cc
-@@ -201,7 +201,7 @@ class PosixThread : public EnvThread {
-  private:
+@@ -202,7 +202,7 @@ class PosixThread : public EnvThread {
    static void* ThreadMain(void* param) {
      std::unique_ptr<Param> p(static_cast<Param*>(param));
      ORT_TRY {
@@ -10,10 +11,42 @@
        if (p->affinity.has_value() && !p->affinity->empty()) {
          cpu_set_t cpuset;
          CPU_ZERO(&cpuset);
+diff --git a/onnxruntime/python/onnxruntime_validation.py b/onnxruntime/python/onnxruntime_validation.py
+index 4a72916..b4ca7ca 100644
+--- a/onnxruntime/python/onnxruntime_validation.py
++++ b/onnxruntime/python/onnxruntime_validation.py
+@@ -62,9 +62,12 @@ def check_distro_info():
+         returned_output = subprocess.check_output("oslevel")
+         __my_distro_ver__str = returned_output.decode("utf-8")
+         __my_distro_ver = __my_distro_ver__str[:3]
++    elif __my_system__ == "freebsd":
++        __my_distro__ = __my_system__
++        __my_distro_ver__ = platform.release().lower()
+     else:
+         warnings.warn(
+-            f"Unsupported platform ({__my_system__}). ONNX Runtime supports Linux, macOS, AIX and Windows platforms, only."
++            f"Unsupported platform ({__my_system__}). ONNX Runtime supports Linux, macOS, AIX, FreeBSD and Windows platforms, only."
+         )
 
+
+diff --git a/setup.py b/setup.py
+index 6bfb533..b27760e 100644
+--- a/setup.py
++++ b/setup.py
+@@ -339,7 +339,7 @@ elif platform.system() == "Windows":
+ dl_libs = []
+ libs = []
+
+-if platform.system() == "Linux" or platform.system() == "AIX":
++if platform.system() == "Linux" or platform.system() == "AIX" or platform.system() == "FreeBSD":
+     libs = [
+         "onnxruntime_pybind11_state.so",
+         "libdnnl.so.2",
+diff --git a/tools/python/util/platform_helpers.py b/tools/python/util/platform_helpers.py
+index bd5006c..94badb9 100644
 --- a/tools/python/util/platform_helpers.py
 +++ b/tools/python/util/platform_helpers.py
-@@ -12,4 +12,4 @@ def is_macOS():  # noqa: N802
+@@ -13,4 +13,4 @@ def is_macOS():  # noqa: N802
 
 
  def is_linux():
