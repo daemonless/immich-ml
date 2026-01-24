@@ -10,3 +10,12 @@
        if (p->affinity.has_value() && !p->affinity->empty()) {
          cpu_set_t cpuset;
          CPU_ZERO(&cpuset);
+
+--- a/tools/python/util/platform_helpers.py
++++ b/tools/python/util/platform_helpers.py
+@@ -12,4 +12,4 @@ def is_macOS():  # noqa: N802
+
+
+ def is_linux():
+-    return sys.platform.startswith("linux")
++    return sys.platform.startswith("linux") or sys.platform.startswith("freebsd")
