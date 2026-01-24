@@ -50,7 +50,7 @@ jobs:
             cd onnxruntime
 
             # Apply FreeBSD patch (from checked-out repo)
-            gpatch -p1 < ../patches/onnxruntime-freebsd.patch
+            patch -p1 < ../patches/onnxruntime-freebsd.patch
 
             # Build wheel
             CC=clang CXX=clang++ ${PYTHON} ./tools/ci_build/build.py \
