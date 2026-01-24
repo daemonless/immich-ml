@@ -1,0 +1,21 @@
+--- a/onnxruntime/core/platform/posix/env.cc
++++ b/onnxruntime/core/platform/posix/env.cc
+@@ -16,6 +16,9 @@
+ #include <unistd.h>
+ #include <sys/syscall.h>
+ #include <pthread.h>
++#ifdef __FreeBSD__
++#include <pthread_np.h>
++#endif
+
+ #if defined(__APPLE__)
+ #include <mach/mach.h>
+@@ -45,6 +48,8 @@ pid_t GetCurrentThreadId() {
+   return static_cast<pid_t>(tid);
+ #elif defined(__linux__)
+   return static_cast<pid_t>(syscall(SYS_gettid));
++#elif defined(__FreeBSD__)
++  return static_cast<pid_t>(pthread_getthreadid_np());
+ #else
+   // Fallback for other POSIX systems
+   return static_cast<pid_t>(pthread_self());
