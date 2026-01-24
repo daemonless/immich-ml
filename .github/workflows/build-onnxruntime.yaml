@@ -68,6 +68,7 @@ jobs:
 
             # FreeBSD isn't detected by build.py, so manually copy native libs
             # before building wheel (mimics what build.py does for Linux)
+            mkdir -p onnxruntime/capi
             cp build/FreeBSD/Release/onnxruntime_pybind11_state.so onnxruntime/capi/
             cp build/FreeBSD/Release/libonnxruntime.so.${VERSION} onnxruntime/capi/
             ln -sf libonnxruntime.so.${VERSION} onnxruntime/capi/libonnxruntime.so
