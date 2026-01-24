@@ -29,7 +29,7 @@ jobs:
           usesh: true
           copyback: true
           prepare: |
-            pkg install -y cmake ninja gmake git gpatch \
+            pkg install -y cmake ninja gmake git patch \
               python${{ inputs.python_version == '3.11' && '311' || '312' }} \
               py${{ inputs.python_version == '3.11' && '311' || '312' }}-pip \
               py${{ inputs.python_version == '3.11' && '311' || '312' }}-setuptools \
