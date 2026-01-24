@@ -1,0 +1,116 @@
+name: Build onnxruntime FreeBSD Wheel
+
+on:
+  workflow_dispatch:
+    inputs:
+      onnxruntime_version:
+        description: 'onnxruntime version to build'
+        required: true
+        default: '1.23.2'
+      python_version:
+        description: 'Python version'
+        required: true
+        default: '3.11'
+        type: choice
+        options:
+          - '3.11'
+          - '3.12'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build onnxruntime wheel on FreeBSD
+        uses: vmactions/freebsd-vm@v1
+        with:
+          release: '15.0'
+          usesh: true
+          copyback: true
+          prepare: |
+            pkg install -y cmake ninja gmake git-lite gpatch \
+              python${{ inputs.python_version == '3.11' && '311' || '312' }} \
+              py${{ inputs.python_version == '3.11' && '311' || '312' }}-pip \
+              py${{ inputs.python_version == '3.11' && '311' || '312' }}-setuptools \
+              py${{ inputs.python_version == '3.11' && '311' || '312' }}-wheel \
+              py${{ inputs.python_version == '3.11' && '311' || '312' }}-numpy \
+              py${{ inputs.python_version == '3.11' && '311' || '312' }}-pybind11
+            ln -sf /usr/local/bin/gpatch /usr/local/bin/patch
+          run: |
+            set -ex
+            PYVER=${{ inputs.python_version == '3.11' && '311' || '312' }}
+            PYTHON=python${PYVER%??}.${PYVER#?}
+            VERSION=${{ inputs.onnxruntime_version }}
+
+            # Clone onnxruntime
+            git clone --depth 1 --branch v${VERSION} --recursive \
+              https://github.com/microsoft/onnxruntime.git
+            cd onnxruntime
+
+            # Apply FreeBSD patch (from checked-out repo)
+            gpatch -p1 < ../patches/onnxruntime-freebsd.patch
+
+            # Build wheel
+            CC=clang CXX=clang++ ${PYTHON} ./tools/ci_build/build.py \
+              --build_dir ./build/FreeBSD \
+              --config Release \
+              --enable_pybind \
+              --build_wheel \
+              --skip_tests \
+              --parallel \
+              --compile_no_warning_as_error
+
+            # Copy wheel to workspace for upload
+            mkdir -p ../dist
+            cp build/FreeBSD/Release/dist/onnxruntime-*.whl ../dist/
+
+      - name: Upload wheel artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: onnxruntime-freebsd-py${{ inputs.python_version }}
+          path: dist/*.whl
+          if-no-files-found: error
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download wheel
+        uses: actions/download-artifact@v4
+        with:
+          name: onnxruntime-freebsd-py${{ inputs.python_version }}
+          path: dist
+
+      - name: Create or Update Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION=${{ inputs.onnxruntime_version }}
+          WHEEL=$(ls dist/*.whl | head -1)
+          TAG="onnxruntime-${VERSION}"
+
+          # Create release if it doesn't exist, otherwise upload to existing
+          if gh release view "${TAG}" >/dev/null 2>&1; then
+            gh release upload "${TAG}" "${WHEEL}" --clobber
+          else
+            gh release create "${TAG}" \
+              "${WHEEL}" \
+              --title "onnxruntime ${VERSION} FreeBSD wheel" \
+              --notes "Pre-built onnxruntime ${VERSION} with Python bindings for FreeBSD 15.0
+
+Python ${{ inputs.python_version }} wheel for amd64.
+
+## Usage
+\`\`\`bash
+pip install <wheel-url>
+\`\`\`
+
+## Build info
+- FreeBSD 15.0
+- Python ${{ inputs.python_version }}
+- CPU execution provider only"
+          fi
