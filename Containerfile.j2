@@ -1,4 +1,4 @@
-ARG BASE_VERSION=15
+ARG BASE_VERSION=15-quarterly
 ARG IMMICH_VERSION=v2.4.1
 ARG ONNXRUNTIME_WHEEL=onnxruntime-1.23.2-cp311-cp311-freebsd_15_0_release_amd64.whl
 ARG ONNXRUNTIME_URL=https://github.com/daemonless/immich-ml/releases/download/onnxruntime-1.23.2/${ONNXRUNTIME_WHEEL}
@@ -58,8 +58,8 @@ RUN git clone --depth 1 --branch ${IMMICH_VERSION} \
 WORKDIR /build/machine-learning
 
 # Install remaining dependencies not available from ports
+# Note: numpy<2 requirement satisfied by py311-numpy pkg (1.26.4)
 RUN pip install --no-cache-dir \
-    "numpy<2" \
     aiocache \
     ftfy \
     python-multipart \
