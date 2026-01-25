@@ -41,11 +41,6 @@ The patch file fixes:
 - `platform_helpers.py` - Treat FreeBSD as Linux-like for build system
 
 ```bash
-# Override BSD patch with GNU patch (build scripts use --binary flag)
-doas mv /usr/bin/patch /usr/bin/patch.bsd
-doas ln -sf /usr/local/bin/gpatch /usr/bin/patch
-
-# Apply the patch
 patch -p1 < /path/to/patches/onnxruntime-freebsd.patch
 ```
 
