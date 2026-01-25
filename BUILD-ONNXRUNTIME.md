@@ -2,72 +2,59 @@
 
 This documents how to build onnxruntime with Python bindings on FreeBSD.
 
-## Requirements
+## Pre-built Wheels
+
+Pre-built wheels are available from [GitHub Releases](https://github.com/daemonless/immich-ml/releases).
+
+To build a new wheel, trigger the [Build onnxruntime FreeBSD Wheel](../../actions/workflows/build-onnxruntime.yaml) workflow.
+
+## Manual Build
+
+### Requirements
 
 - FreeBSD 15.0+
 - ~20GB disk space
 - 1-2+ hours build time
 
-## Install Build Dependencies
+### Install Build Dependencies
 
 ```bash
-doas pkg install cmake ninja gmake git-lite gpatch \
-    python311 py311-pip py311-setuptools py311-wheel py311-numpy \
-    FreeBSD-clang FreeBSD-clibs-dev FreeBSD-clang-dev
+doas pkg install cmake ninja gmake git gpatch \
+    python311 py311-pip py311-setuptools py311-wheel py311-numpy py311-pybind11
 ```
 
-## Clone Source
+### Clone Source
 
 ```bash
-git clone --recursive https://github.com/microsoft/onnxruntime.git
+VERSION=1.23.2
+git clone --depth 1 --branch v${VERSION} --recursive \
+    https://github.com/microsoft/onnxruntime.git
 cd onnxruntime
 ```
 
-## Apply FreeBSD Patches
+### Apply FreeBSD Patch
 
-### 1. Override BSD patch with gpatch
-
-The build scripts require GNU patch features:
-
-```bash
-doas ln -sf /usr/local/bin/gpatch /usr/local/bin/patch
-```
-
-### 2. Fix thread ID in env.cc
-
-Edit `onnxruntime/core/platform/posix/env.cc`:
-
-```cpp
-// Add at top with other includes:
-#ifdef __FreeBSD__
-#include <pthread_np.h>
-#endif
-
-// Find the GetCurrentThreadId() function and change:
-// FROM:
-#if defined(__linux__)
-  return static_cast<pid_t>(syscall(SYS_gettid));
-#endif
-
-// TO:
-#if defined(__linux__)
-  return static_cast<pid_t>(syscall(SYS_gettid));
-#elif defined(__FreeBSD__)
-  return static_cast<pid_t>(pthread_getthreadid_np());
-#endif
-```
-
-### 3. Fix unused variable warning in spin_pause.cc
-
-Edit `onnxruntime/core/common/spin_pause.cc`:
-
-The file has an unused variable that triggers `-Werror`. Either:
-- Comment out the unused variable, or
-- Use `--compile_no_warning_as_error` flag (recommended)
-
-## Build
+The patch file fixes:
+- `env.cc` - Exclude FreeBSD from Linux-specific cpu_set_t affinity code
+- `onnxruntime_validation.py` - Add FreeBSD platform recognition
+- `setup.py` - Include .so files in wheel for FreeBSD
+- `platform_helpers.py` - Treat FreeBSD as Linux-like for build system
 
 ```bash
+# Override BSD patch with GNU patch (build scripts use --binary flag)
+doas mv /usr/bin/patch /usr/bin/patch.bsd
+doas ln -sf /usr/local/bin/gpatch /usr/bin/patch
+
+# Apply the patch
+patch -p1 < /path/to/patches/onnxruntime-freebsd.patch
+```
+
+### Build
+
+```bash
+# Extra include path needed for logging.h on FreeBSD
+export CXXFLAGS="-I$(pwd)/include/onnxruntime/core/common/logging"
+
 CC=clang CXX=clang++ python3.11 ./tools/ci_build/build.py \
     --build_dir ./build/FreeBSD \
     --config Release \
@@ -78,27 +65,28 @@ CC=clang CXX=clang++ python3.11 ./tools/ci_build/build.py \
     --compile_no_warning_as_error
 ```
 
-## Output
+### Output
 
 The wheel will be at:
 ```
-build/FreeBSD/Release/dist/onnxruntime-X.Y.Z-cp311-cp311-freebsd_15_0_release_p1_amd64.whl
+build/FreeBSD/Release/dist/onnxruntime-1.23.2-cp311-cp311-freebsd_15_0_release_p1_amd64.whl
 ```
 
-## Upload to GitHub Releases
+### Install and Test
 
 ```bash
-gh release create onnxruntime-X.Y.Z \
-    build/FreeBSD/Release/dist/onnxruntime-*.whl \
-    --repo daemonless/immich-ml \
-    --title "onnxruntime X.Y.Z FreeBSD wheel" \
-    --notes "Pre-built onnxruntime X.Y.Z with Python bindings for FreeBSD 15.0 / Python 3.11"
-```
+pip install build/FreeBSD/Release/dist/onnxruntime-*.whl
 
-Then update `ONNXRUNTIME_WHEEL` and `ONNXRUNTIME_URL` in `immich-ml/Containerfile`.
+python3 -c "
+import onnxruntime as ort
+import numpy as np
+print('Version:', ort.__version__)
+print('Providers:', ort.get_available_providers())
+"
+```
 
 ## Notes
 
-- onnxruntime warns "Unsupported platform (freebsd)" at runtime but works fine
 - Only CPUExecutionProvider is available (no GPU support)
-- The wheel is ~25MB
+- The wheel is ~17MB
+- C++ level warnings about "Unknown CPU vendor" are cosmetic (cpuinfo library limitation)
