@@ -1,7 +1,7 @@
 ARG BASE_VERSION=15
 ARG IMMICH_VERSION=v2.4.1
-ARG ONNXRUNTIME_WHEEL=onnxruntime-1.24.0-cp311-cp311-freebsd_15_0_release_p1_amd64.whl
-ARG ONNXRUNTIME_URL=https://github.com/daemonless/immich-ml/releases/download/onnxruntime-1.24.0/${ONNXRUNTIME_WHEEL}
+ARG ONNXRUNTIME_WHEEL=onnxruntime-1.23.2-cp311-cp311-freebsd_15_0_release_amd64.whl
+ARG ONNXRUNTIME_URL=https://github.com/daemonless/immich-ml/releases/download/onnxruntime-1.23.2/${ONNXRUNTIME_WHEEL}
 
 FROM ghcr.io/daemonless/base:${BASE_VERSION} AS builder
 
