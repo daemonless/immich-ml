@@ -5,7 +5,7 @@
 # --------------------------------------------------------------------------
 
 ARG BASE_VERSION=15-quarterly
-ARG IMMICH_VERSION=v2.4.1
+ARG IMMICH_VERSION=v2.5.0
 ARG ONNXRUNTIME_WHEEL=onnxruntime-1.23.2-cp311-cp311-freebsd_15_0_release_amd64.whl
 ARG ONNXRUNTIME_URL=https://github.com/daemonless/immich-ml/releases/download/onnxruntime-1.23.2/${ONNXRUNTIME_WHEEL}
 
