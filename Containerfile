@@ -5,18 +5,19 @@
 # --------------------------------------------------------------------------
 
 ARG BASE_VERSION=15-quarterly
-ARG IMMICH_VERSION=v2.5.2
+ARG UPSTREAM_URL="https://api.github.com/repos/immich-app/immich/releases/latest"
 ARG ONNXRUNTIME_WHEEL=onnxruntime-1.23.2-cp311-cp311-freebsd_15_0_release_amd64.whl
 ARG ONNXRUNTIME_URL=https://github.com/daemonless/immich-ml/releases/download/onnxruntime-1.23.2/${ONNXRUNTIME_WHEEL}
 
 FROM ghcr.io/daemonless/base:${BASE_VERSION} AS builder
 
-ARG IMMICH_VERSION
+ARG UPSTREAM_URL
 ARG ONNXRUNTIME_WHEEL
 ARG ONNXRUNTIME_URL
 
 # Build dependencies
 RUN pkg update && pkg install -y \
+    jq \
     python311 py311-pip py311-setuptools py311-wheel \
     py311-numpy py311-pillow py311-orjson py311-scipy py311-scikit-learn py311-scikit-image \
     py311-pydantic2 py311-pydantic-settings \
@@ -56,10 +57,13 @@ RUN pip install --no-cache-dir --upgrade pip setuptools wheel && \
     unzip -o /tmp/${ONNXRUNTIME_WHEEL} -d /opt/venv/lib/python3.11/site-packages/ && \
     rm -f /tmp/${ONNXRUNTIME_WHEEL}
 
-# Clone immich source
+# Clone immich source (resolve latest version from upstream)
 WORKDIR /build
-RUN git clone --depth 1 --branch ${IMMICH_VERSION} \
-    https://github.com/immich-app/immich.git .
+RUN IMMICH_VERSION=$(fetch -qo - "${UPSTREAM_URL}" | jq -r '.tag_name') && \
+    echo "Resolved IMMICH_VERSION=$IMMICH_VERSION" && \
+    git clone --depth 1 --branch ${IMMICH_VERSION} \
+      https://github.com/immich-app/immich.git . && \
+    echo "${IMMICH_VERSION}" > /tmp/immich_version
 
 WORKDIR /build/machine-learning
 
@@ -96,7 +100,6 @@ RUN pip install --no-cache-dir --no-deps . && \
 FROM ghcr.io/daemonless/base:${BASE_VERSION}
 
 ARG FREEBSD_ARCH=amd64
-ARG IMMICH_VERSION
 ARG ONNXRUNTIME_WHEEL
 ARG ONNXRUNTIME_URL
 ARG PACKAGES="python311 py311-numpy py311-pillow py311-orjson py311-scipy py311-scikit-learn py311-scikit-image py311-pydantic2 py311-pydantic-settings py311-fastapi py311-uvicorn py311-gunicorn py311-huggingface-hub py311-tokenizers py311-onnx py311-albumentations py311-albucore onnxruntime openblas geos opencv"
@@ -111,7 +114,7 @@ LABEL org.opencontainers.image.title="Immich Machine Learning" \
       org.opencontainers.image.description="Immich Machine Learning service (Python/ONNX) on FreeBSD." \
       org.opencontainers.image.source="https://github.com/daemonless/immich-ml" \
       org.opencontainers.image.url="https://immich.app/" \
-      org.opencontainers.image.version="${IMMICH_VERSION}" \
+      org.opencontainers.image.version="latest" \
       org.opencontainers.image.licenses="AGPL-3.0" \
       org.opencontainers.image.vendor="daemonless" \
       org.opencontainers.image.authors="daemonless" \
@@ -138,9 +141,12 @@ RUN fetch -o /tmp/${ONNXRUNTIME_WHEEL} ${ONNXRUNTIME_URL} && \
     unzip -o /tmp/${ONNXRUNTIME_WHEEL} -d /opt/venv/lib/python3.11/site-packages/ && \
     rm -f /tmp/${ONNXRUNTIME_WHEEL}
 
+# Copy version from builder
+COPY --from=builder /tmp/immich_version /tmp/immich_version
+
 # Create directories, write version, and fix permissions
 RUN mkdir -p /config /cache /app && \
-    echo "${IMMICH_VERSION}" > /app/version && \
+    cp /tmp/immich_version /app/version && \
     chown bsd:bsd /config /cache && \
     chown -R bsd:bsd /opt/venv/lib/python3.11/site-packages/onnxruntime* && \
     chmod -R a+rX /opt/venv/lib/python3.11/site-packages/onnxruntime*
