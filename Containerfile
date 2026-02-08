@@ -59,7 +59,13 @@ RUN pip install --no-cache-dir --upgrade pip setuptools wheel && \
 
 # Clone immich source (resolve latest version from upstream)
 WORKDIR /build
-RUN IMMICH_VERSION=$(fetch -qo - "${UPSTREAM_URL}" | jq -r '.tag_name') && \
+RUN --mount=type=secret,id=github_token \
+    FETCH_URL="${UPSTREAM_URL}"; \
+    GITHUB_TOKEN=$(cat /run/secrets/github_token 2>/dev/null || echo ""); \
+    if [ -n "${GITHUB_TOKEN}" ]; then \
+      FETCH_URL=$(echo "${UPSTREAM_URL}" | sed "s|https://|https://x-access-token:${GITHUB_TOKEN}@|"); \
+    fi && \
+    IMMICH_VERSION=$(fetch -qo - "${FETCH_URL}" | jq -r '.tag_name') && \
     echo "Resolved IMMICH_VERSION=$IMMICH_VERSION" && \
     git clone --depth 1 --branch ${IMMICH_VERSION} \
       https://github.com/immich-app/immich.git . && \
