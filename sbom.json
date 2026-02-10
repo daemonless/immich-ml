@@ -1,12 +1,12 @@
 {
   "image": "immich-ml",
-  "generated": "2026-02-08T12:27:12Z",
+  "generated": "2026-02-10T23:36:52Z",
   "tags": {
     "latest": {
       "arch": "amd64",
-      "app_version": "v2.5.5",
+      "app_version": "v2.5.6",
       "source": "upstream-binary",
-      "generated": "2026-02-08T12:26:55Z",
+      "generated": "2026-02-10T23:36:37Z",
       "packages": {
         "freebsd": [
           {
@@ -1143,7 +1143,7 @@
           },
           {
             "name": "python311",
-            "version": "3.11.14_1"
+            "version": "3.11.14_2"
           },
           {
             "name": "qhull",
@@ -1479,7 +1479,7 @@
           },
           {
             "name": "immich-ml",
-            "version": "2.5.5"
+            "version": "2.5.6"
           },
           {
             "name": "importlib-resources",
@@ -1544,10 +1544,6 @@
           {
             "name": "more-itertools",
             "version": "10.8.0"
-          },
-          {
-            "name": "my-test-package",
-            "version": "1.0"
           },
           {
             "name": "networkx",
@@ -1816,10 +1812,10 @@
         "java": 0,
         "node": 1,
         "php": 0,
-        "python": 126,
+        "python": 125,
         "ruby": 0,
         "rust": 0,
-        "total": 447
+        "total": 446
       }
     }
   }
