@@ -1,12 +1,12 @@
 {
   "image": "immich-ml",
-  "generated": "2026-02-10T23:36:52Z",
+  "generated": "2026-02-13T13:25:33Z",
   "tags": {
     "latest": {
       "arch": "amd64",
       "app_version": "v2.5.6",
-      "source": "upstream-binary",
-      "generated": "2026-02-10T23:36:37Z",
+      "source": "upstream",
+      "generated": "2026-02-13T13:25:18Z",
       "packages": {
         "freebsd": [
           {
@@ -15,7 +15,7 @@
           },
           {
             "name": "FreeBSD-blocklist",
-            "version": "15.0"
+            "version": "15.0p3"
           },
           {
             "name": "FreeBSD-bzip2-lib",
@@ -715,7 +715,7 @@
           },
           {
             "name": "p11-kit",
-            "version": "0.25.10"
+            "version": "0.26.2"
           },
           {
             "name": "pango",
