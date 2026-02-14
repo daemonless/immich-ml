@@ -1,12 +1,12 @@
 {
   "image": "immich-ml",
-  "generated": "2026-02-13T13:25:33Z",
+  "generated": "2026-02-14T14:35:55Z",
   "tags": {
     "latest": {
       "arch": "amd64",
       "app_version": "v2.5.6",
       "source": "upstream",
-      "generated": "2026-02-13T13:25:18Z",
+      "generated": "2026-02-14T14:32:16Z",
       "packages": {
         "freebsd": [
           {
