@@ -1,7 +1,7 @@
 ARG BASE_VERSION=15-quarterly
 ARG UPSTREAM_URL="https://api.github.com/repos/immich-app/immich/releases/latest"
-ARG ONNXRUNTIME_WHEEL=onnxruntime-1.23.2-cp311-cp311-freebsd_15_0_release_amd64.whl
-ARG ONNXRUNTIME_URL=https://github.com/daemonless/immich-ml/releases/download/onnxruntime-1.23.2/${ONNXRUNTIME_WHEEL}
+ARG ONNXRUNTIME_WHEEL=onnxruntime-1.24.2-cp311-cp311-freebsd_15_0_release_amd64.whl
+ARG ONNXRUNTIME_URL=https://github.com/daemonless/immich-ml/releases/download/onnxruntime-1.24.2/${ONNXRUNTIME_WHEEL}
 
 FROM ghcr.io/daemonless/base:${BASE_VERSION} AS builder
 
@@ -17,7 +17,7 @@ RUN pkg update && pkg install -y \
     py311-pydantic2 py311-pydantic-settings \
     py311-fastapi py311-uvicorn py311-gunicorn \
     py311-huggingface-hub py311-tokenizers \
-    py311-onnx onnxruntime \
+    py311-onnx \
     py311-albumentations py311-albucore \
     git-lite gmake pkgconf \
     FreeBSD-clang FreeBSD-clibs-dev FreeBSD-clang-dev FreeBSD-utilities-dev \
@@ -102,7 +102,7 @@ FROM ghcr.io/daemonless/base:${BASE_VERSION}
 ARG FREEBSD_ARCH=amd64
 ARG ONNXRUNTIME_WHEEL
 ARG ONNXRUNTIME_URL
-ARG PACKAGES="python311 py311-numpy py311-pillow py311-orjson py311-scipy py311-scikit-learn py311-scikit-image py311-pydantic2 py311-pydantic-settings py311-fastapi py311-uvicorn py311-gunicorn py311-huggingface-hub py311-tokenizers py311-onnx py311-albumentations py311-albucore onnxruntime openblas geos opencv"
+ARG PACKAGES="python311 py311-numpy py311-pillow py311-orjson py311-scipy py311-scikit-learn py311-scikit-image py311-pydantic2 py311-pydantic-settings py311-fastapi py311-uvicorn py311-gunicorn py311-huggingface-hub py311-tokenizers py311-onnx py311-albumentations py311-albucore openblas geos opencv"
 ARG UPSTREAM_URL="https://api.github.com/repos/immich-app/immich/releases/latest"
 ARG UPSTREAM_JQ=".tag_name"
 {%- if ports %}
