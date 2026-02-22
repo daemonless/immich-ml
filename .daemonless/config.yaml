@@ -1,1 +1,4 @@
 icon: ':material-brain:'
+cit:
+  port: 3003
+  health: /ping
