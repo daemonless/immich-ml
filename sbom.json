@@ -1,12 +1,12 @@
 {
   "image": "immich-ml",
-  "generated": "2026-03-08T22:34:09Z",
+  "generated": "2026-03-12T23:48:40Z",
   "tags": {
     "latest": {
       "arch": "amd64",
       "app_version": "v2.5.6",
       "source": "upstream",
-      "generated": "2026-03-08T22:33:51Z",
+      "generated": "2026-03-12T23:48:24Z",
       "packages": {
         "freebsd": [
           {
@@ -1567,7 +1567,7 @@
           },
           {
             "name": "onnxruntime",
-            "version": "1.24.2"
+            "version": "1.24.3"
           },
           {
             "name": "orjson",
