@@ -6,7 +6,7 @@
 
 ARG BASE_VERSION=15-quarterly
 ARG UPSTREAM_URL="https://api.github.com/repos/immich-app/immich/releases/latest"
-ARG ONNXRUNTIME_WHEEL=onnxruntime-1.24.2-cp311-cp311-freebsd_15_0_release_amd64.whl
+ARG ONNXRUNTIME_WHEEL=onnxruntime-1.24.3-cp311-cp311-freebsd_15_0_release_amd64.whl
 ARG ONNXRUNTIME_URL=https://github.com/daemonless/immich-ml/releases/download/onnxruntime-1.24.2/${ONNXRUNTIME_WHEEL}
 
 FROM ghcr.io/daemonless/base:${BASE_VERSION} AS builder
