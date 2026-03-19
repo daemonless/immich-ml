@@ -5,15 +5,27 @@ Source: dbuild templates
 
 # Immich Machine Learning
 
-Immich Machine Learning service (Python/ONNX) on FreeBSD.
+[![Build Status](https://img.shields.io/github/actions/workflow/status/daemonless/immich-ml/build.yaml?style=flat-square&label=Build&color=green)](https://github.com/daemonless/immich-ml/actions)
+[![Last Commit](https://img.shields.io/github/last-commit/daemonless/immich-ml?style=flat-square&label=Last+Commit&color=blue)](https://github.com/daemonless/immich-ml/commits)
+
+Machine learning service for Immich — handles facial recognition, image classification, and semantic search using ONNX models.
 
 | | |
 |---|---|
 | **Port** | 3003 |
 | **Registry** | `ghcr.io/daemonless/immich-ml` |
-| **Docs** | [daemonless.io/images/immich-ml](https://daemonless.io/images/immich-ml/) |
 | **Source** | [https://github.com/immich-app/immich](https://github.com/immich-app/immich) |
 | **Website** | [https://immich.app/](https://immich.app/) |
+
+## Version Tags
+
+| Tag | Description | Best For |
+| :--- | :--- | :--- |
+| `latest` | **Upstream Binary**. Built from official release. | Most users. Matches Linux Docker behavior. |
+
+## Prerequisites
+
+Before deploying, ensure your host environment is ready. See the [Quick Start Guide](https://daemonless.io/guides/quick-start) for host setup instructions.
 
 ## Deployment
 
@@ -32,11 +44,64 @@ services:
       - PGID=1000
       - TZ=UTC
     volumes:
-      - /path/to/containers/immich-ml/cache:/cache
-      - /path/to/containers/immich-ml:/config
+      - "/path/to/containers/immich-ml/cache:/cache"
+      - "/path/to/containers/immich-ml:/config"
     ports:
       - 3003:3003
     restart: unless-stopped
+```
+
+### AppJail Director
+
+**.env**:
+
+```
+DIRECTOR_PROJECT=immich-ml
+MACHINE_LEARNING_HOST=0.0.0.0
+MACHINE_LEARNING_PORT=3003
+MACHINE_LEARNING_CACHE_FOLDER=/cache
+PUID=1000
+PGID=1000
+TZ=UTC
+```
+
+**appjail-director.yml**:
+
+```yaml
+options:
+  - virtualnet: ':<random> default'
+  - nat:
+services:
+  immich-ml:
+    name: immich_ml
+    options:
+      - container: 'boot args:--pull'
+    oci:
+      user: root
+      environment:
+        - MACHINE_LEARNING_HOST: !ENV '${MACHINE_LEARNING_HOST}'
+        - MACHINE_LEARNING_PORT: !ENV '${MACHINE_LEARNING_PORT}'
+        - MACHINE_LEARNING_CACHE_FOLDER: !ENV '${MACHINE_LEARNING_CACHE_FOLDER}'
+        - PUID: !ENV '${PUID}'
+        - PGID: !ENV '${PGID}'
+        - TZ: !ENV '${TZ}'
+    volumes:
+      - immich-ml_cache: /cache
+      - immich-ml: /config
+volumes:
+  immich-ml_cache:
+    device: '/path/to/containers/immich-ml/cache'
+  immich-ml:
+    device: '/path/to/containers/immich-ml'
+```
+
+**Makejail**:
+
+```
+ARG tag=latest
+
+OPTION overwrite=force
+OPTION from=ghcr.io/daemonless/immich-ml:${tag}
 ```
 
 ### Podman CLI
@@ -47,14 +112,13 @@ podman run -d --name immich-ml \
   -e MACHINE_LEARNING_HOST=0.0.0.0 \
   -e MACHINE_LEARNING_PORT=3003 \
   -e MACHINE_LEARNING_CACHE_FOLDER=/cache \
-  -e PUID=@PUID@ \
-  -e PGID=@PGID@ \
-  -e TZ=@TZ@ \
+  -e PUID=1000 \
+  -e PGID=1000 \
+  -e TZ=UTC \
   -v /path/to/containers/immich-ml/cache:/cache \
   -v /path/to/containers/immich-ml:/config \
   ghcr.io/daemonless/immich-ml:latest
 ```
-Access at: `http://localhost:3003`
 
 ### Ansible
 
@@ -69,9 +133,9 @@ Access at: `http://localhost:3003`
       MACHINE_LEARNING_HOST: "0.0.0.0"
       MACHINE_LEARNING_PORT: "3003"
       MACHINE_LEARNING_CACHE_FOLDER: "/cache"
-      PUID: "@PUID@"
-      PGID: "@PGID@"
-      TZ: "@TZ@"
+      PUID: "1000"
+      PGID: "1000"
+      TZ: "UTC"
     ports:
       - "3003:3003"
     volumes:
@@ -79,7 +143,10 @@ Access at: `http://localhost:3003`
       - "/path/to/containers/immich-ml:/config"
 ```
 
-## Configuration
+Access at: `http://localhost:3003`
+
+## Parameters
+
 ### Environment Variables
 
 | Variable | Default | Description |
@@ -90,12 +157,14 @@ Access at: `http://localhost:3003`
 | `PUID` | `1000` | User ID for the application process |
 | `PGID` | `1000` | Group ID for the application process |
 | `TZ` | `UTC` | Timezone for the container |
+
 ### Volumes
 
 | Path | Description |
 |------|-------------|
 | `/cache` | Model cache directory (HuggingFace) |
 | `/config` | Configuration directory (unused but mounted) |
+
 ### Ports
 
 | Port | Protocol | Description |
@@ -104,8 +173,10 @@ Access at: `http://localhost:3003`
 
 This image is part of the [Immich Stack](https://daemonless.io/images/immich).
 
-## Notes
+**Architectures:** amd64
+**User:** `bsd` (UID/GID via PUID/PGID, defaults to 1000:1000)
+**Base:** FreeBSD 15.0
 
-- **Architectures:** amd64
-- **User:** `bsd` (UID/GID set via PUID/PGID)
-- **Base:** Built on `ghcr.io/daemonless/base` (FreeBSD)
+---
+
+Need help? Join our [Discord](https://discord.gg/Kb9tkhecZT) community.

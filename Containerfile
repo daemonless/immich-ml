@@ -117,7 +117,7 @@ ENV HEALTHCHECK_URL="${HEALTHCHECK_ENDPOINT}"
 
 # --- Metadata (Injected by Generator) ---
 LABEL org.opencontainers.image.title="Immich Machine Learning" \
-      org.opencontainers.image.description="Immich Machine Learning service (Python/ONNX) on FreeBSD." \
+      org.opencontainers.image.description="Machine learning service for Immich — handles facial recognition, image classification, and semantic search using ONNX models." \
       org.opencontainers.image.source="https://github.com/daemonless/immich-ml" \
       org.opencontainers.image.url="https://immich.app/" \
       org.opencontainers.image.version="latest" \

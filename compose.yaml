@@ -4,13 +4,14 @@ x-daemonless:
   title: "Immich Machine Learning"
   icon: ":material-brain:"
   category: "Photos & Media"
-  description: "Immich Machine Learning service (Python/ONNX) on FreeBSD."
+  description: "Machine learning service for Immich — handles facial recognition, image classification, and semantic search using ONNX models."
   upstream_url: "https://github.com/immich-app/immich"
   web_url: "https://immich.app/"
   freshports_url: ""
   user: "bsd"
   mlock: false
   upstream_binary: true
+  appjail: true
   notes: "This image is part of the [Immich Stack](https://daemonless.io/images/immich)."
   
   docs:
