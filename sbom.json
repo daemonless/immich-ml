@@ -1,12 +1,12 @@
 {
   "image": "immich-ml",
-  "generated": "2026-03-12T23:48:40Z",
+  "generated": "2026-03-19T21:33:47Z",
   "tags": {
     "latest": {
       "arch": "amd64",
-      "app_version": "v2.5.6",
+      "app_version": "v2.6.1",
       "source": "upstream",
-      "generated": "2026-03-12T23:48:24Z",
+      "generated": "2026-03-19T21:33:31Z",
       "packages": {
         "freebsd": [
           {
@@ -755,7 +755,7 @@
           },
           {
             "name": "postgresql17-client",
-            "version": "17.7_2"
+            "version": "17.9"
           },
           {
             "name": "proj",
@@ -1367,7 +1367,7 @@
           },
           {
             "name": "charset-normalizer",
-            "version": "3.4.5"
+            "version": "3.4.6"
           },
           {
             "name": "click",
@@ -1475,7 +1475,7 @@
           },
           {
             "name": "immich-ml",
-            "version": "2.5.6"
+            "version": "2.6.1"
           },
           {
             "name": "importlib-resources",
