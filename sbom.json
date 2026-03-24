@@ -1,12 +1,12 @@
 {
   "image": "immich-ml",
-  "generated": "2026-03-19T23:02:12Z",
+  "generated": "2026-03-24T16:59:27Z",
   "tags": {
     "latest": {
       "arch": "amd64",
-      "app_version": "v2.6.1",
+      "app_version": "v2.6.2",
       "source": "upstream",
-      "generated": "2026-03-19T23:01:55Z",
+      "generated": "2026-03-24T16:59:11Z",
       "packages": {
         "freebsd": [
           {
@@ -143,7 +143,7 @@
           },
           {
             "name": "aom",
-            "version": "3.13.1"
+            "version": "3.13.2"
           },
           {
             "name": "bash",
@@ -164,6 +164,10 @@
           {
             "name": "brotli",
             "version": "1.2.0,1"
+          },
+          {
+            "name": "ca_root_nss",
+            "version": "3.117_2"
           },
           {
             "name": "cairo",
@@ -1475,7 +1479,7 @@
           },
           {
             "name": "immich-ml",
-            "version": "2.6.1"
+            "version": "2.6.2"
           },
           {
             "name": "importlib-resources",
@@ -1802,7 +1806,7 @@
         "rust": []
       },
       "summary": {
-        "freebsd": 319,
+        "freebsd": 320,
         "dotnet": 0,
         "go": 0,
         "java": 0,
@@ -1811,7 +1815,7 @@
         "python": 125,
         "ruby": 0,
         "rust": 0,
-        "total": 445
+        "total": 446
       }
     }
   }
