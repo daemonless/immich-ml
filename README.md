@@ -10,6 +10,7 @@ Source: dbuild templates
 
 Machine learning service for Immich — handles facial recognition, image classification, and semantic search using ONNX models.
 
+
 | | |
 |---|---|
 | **Port** | 3003 |
