@@ -26,6 +26,7 @@ jobs:
         uses: vmactions/freebsd-vm@v1
         with:
           release: '15.0'
+          vnc_password: ${{ secrets.VNC_PASSWORD }}
           usesh: true
           copyback: true
           prepare: |
