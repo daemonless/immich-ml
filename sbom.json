@@ -1,13 +1,13 @@
 {
+  "generated": "2026-04-07T23:17:47Z",
   "image": "immich-ml",
-  "generated": "2026-04-02T21:00:52Z",
   "tags": {
     "latest": {
+      "app_version": "v2.7.2",
       "arch": "amd64",
-      "app_version": "v2.6.3",
-      "source": "upstream",
-      "generated": "2026-04-02T20:59:36Z",
+      "generated": "2026-04-07T23:16:33Z",
       "packages": {
+        "dotnet": [],
         "freebsd": [
           {
             "name": "FreeBSD-audit-lib",
@@ -179,11 +179,11 @@
           },
           {
             "name": "curl",
-            "version": "8.17.0"
+            "version": "8.19.0_1"
           },
           {
             "name": "dav1d",
-            "version": "1.5.3"
+            "version": "1.5.3_1"
           },
           {
             "name": "execline",
@@ -191,11 +191,11 @@
           },
           {
             "name": "expat",
-            "version": "2.7.4"
+            "version": "2.7.5"
           },
           {
             "name": "ffmpeg",
-            "version": "8.0.1_1,1"
+            "version": "8.1,1"
           },
           {
             "name": "fontconfig",
@@ -207,7 +207,7 @@
           },
           {
             "name": "freetype2",
-            "version": "2.14.1"
+            "version": "2.14.3"
           },
           {
             "name": "freexl",
@@ -239,7 +239,7 @@
           },
           {
             "name": "gettext-runtime",
-            "version": "0.26"
+            "version": "1.0"
           },
           {
             "name": "gflags",
@@ -283,19 +283,19 @@
           },
           {
             "name": "graphviz",
-            "version": "14.1.1"
+            "version": "14.1.4"
           },
           {
             "name": "gstreamer1",
-            "version": "1.26.10"
+            "version": "1.28.1_1"
           },
           {
             "name": "gstreamer1-plugins",
-            "version": "1.26.10"
+            "version": "1.28.1"
           },
           {
             "name": "harfbuzz",
-            "version": "12.3.0"
+            "version": "13.2.1"
           },
           {
             "name": "hdf5",
@@ -307,7 +307,7 @@
           },
           {
             "name": "hwdata",
-            "version": "0.403,1"
+            "version": "0.405,1"
           },
           {
             "name": "icu",
@@ -319,7 +319,7 @@
           },
           {
             "name": "iso-codes",
-            "version": "4.19.0"
+            "version": "4.20.1"
           },
           {
             "name": "jbigkit",
@@ -343,7 +343,7 @@
           },
           {
             "name": "lcms2",
-            "version": "2.17"
+            "version": "2.18"
           },
           {
             "name": "lerc",
@@ -359,7 +359,7 @@
           },
           {
             "name": "libX11",
-            "version": "1.8.12,1"
+            "version": "1.8.13,1"
           },
           {
             "name": "libXScrnSaver",
@@ -415,7 +415,7 @@
           },
           {
             "name": "libaec",
-            "version": "1.1.4"
+            "version": "1.1.5"
           },
           {
             "name": "libass",
@@ -427,11 +427,11 @@
           },
           {
             "name": "libavif",
-            "version": "1.3.0_2"
+            "version": "1.3.0_3"
           },
           {
             "name": "libbluray",
-            "version": "1.4.0,1"
+            "version": "1.4.1,1"
           },
           {
             "name": "libdatrie",
@@ -475,7 +475,7 @@
           },
           {
             "name": "libgcrypt",
-            "version": "1.11.2"
+            "version": "1.12.0_1"
           },
           {
             "name": "libgd",
@@ -491,7 +491,7 @@
           },
           {
             "name": "libgpg-error",
-            "version": "1.58"
+            "version": "1.59"
           },
           {
             "name": "libgphoto2",
@@ -507,7 +507,7 @@
           },
           {
             "name": "libimagequant",
-            "version": "4.4.1_1"
+            "version": "4.4.1_3"
           },
           {
             "name": "libjxl",
@@ -543,7 +543,7 @@
           },
           {
             "name": "libplacebo",
-            "version": "7.351.0_1"
+            "version": "7.360.1"
           },
           {
             "name": "libpsl",
@@ -555,7 +555,7 @@
           },
           {
             "name": "librsvg2-rust",
-            "version": "2.61.3"
+            "version": "2.62.0_1"
           },
           {
             "name": "librttopo",
@@ -587,7 +587,7 @@
           },
           {
             "name": "libunistring",
-            "version": "1.4.1"
+            "version": "1.4.2"
           },
           {
             "name": "libunwind",
@@ -611,7 +611,7 @@
           },
           {
             "name": "libvpx",
-            "version": "1.15.2"
+            "version": "1.16.0"
           },
           {
             "name": "libx264",
@@ -647,7 +647,7 @@
           },
           {
             "name": "mpc",
-            "version": "1.3.1_1"
+            "version": "1.4.0"
           },
           {
             "name": "mpdecimal",
@@ -675,7 +675,7 @@
           },
           {
             "name": "nss",
-            "version": "3.121"
+            "version": "3.122"
           },
           {
             "name": "oniguruma",
@@ -691,27 +691,27 @@
           },
           {
             "name": "opencv",
-            "version": "4.12.0"
+            "version": "4.13.0_3"
           },
           {
             "name": "openexr",
-            "version": "3.4.5"
+            "version": "3.4.8"
           },
           {
             "name": "openjpeg",
-            "version": "2.5.4_1"
+            "version": "2.5.4_2"
           },
           {
             "name": "openjph",
-            "version": "0.25.3"
+            "version": "0.26.3"
           },
           {
             "name": "opus",
-            "version": "1.6"
+            "version": "1.6.1"
           },
           {
             "name": "orc",
-            "version": "0.4.41_1"
+            "version": "0.4.42"
           },
           {
             "name": "p11-kit",
@@ -719,7 +719,7 @@
           },
           {
             "name": "pango",
-            "version": "1.56.4"
+            "version": "1.56.4_1"
           },
           {
             "name": "pcre2",
@@ -739,7 +739,7 @@
           },
           {
             "name": "pkg",
-            "version": "2.5.1"
+            "version": "2.6.2_1"
           },
           {
             "name": "pkgconf",
@@ -747,19 +747,19 @@
           },
           {
             "name": "png",
-            "version": "1.6.53"
+            "version": "1.6.55"
           },
           {
             "name": "poppler",
-            "version": "25.10.0"
+            "version": "25.10.0_1"
           },
           {
             "name": "poppler-data",
             "version": "0.4.12"
           },
           {
-            "name": "postgresql17-client",
-            "version": "17.9"
+            "name": "postgresql18-client",
+            "version": "18.3"
           },
           {
             "name": "proj",
@@ -767,7 +767,7 @@
           },
           {
             "name": "py311-Babel",
-            "version": "2.17.0_1"
+            "version": "2.18.0"
           },
           {
             "name": "py311-Jinja2",
@@ -791,7 +791,7 @@
           },
           {
             "name": "py311-anyio",
-            "version": "4.12.0"
+            "version": "4.12.1"
           },
           {
             "name": "py311-boost-libs",
@@ -799,7 +799,7 @@
           },
           {
             "name": "py311-bottleneck",
-            "version": "1.3.8_1"
+            "version": "1.6.0"
           },
           {
             "name": "py311-brotli",
@@ -807,7 +807,7 @@
           },
           {
             "name": "py311-certifi",
-            "version": "2025.11.12"
+            "version": "2026.1.4"
           },
           {
             "name": "py311-click",
@@ -823,19 +823,19 @@
           },
           {
             "name": "py311-fastapi",
-            "version": "0.128.0"
+            "version": "0.135.1"
           },
           {
             "name": "py311-filelock",
-            "version": "3.20.1"
+            "version": "3.25.0"
           },
           {
             "name": "py311-fonttools",
-            "version": "4.61.1"
+            "version": "4.61.1_1"
           },
           {
             "name": "py311-fsspec",
-            "version": "2025.12.0"
+            "version": "2026.2.0"
           },
           {
             "name": "py311-gdal",
@@ -847,7 +847,7 @@
           },
           {
             "name": "py311-gunicorn",
-            "version": "23.0.0_3"
+            "version": "25.2.0"
           },
           {
             "name": "py311-h11",
@@ -859,7 +859,7 @@
           },
           {
             "name": "py311-hf-xet",
-            "version": "1.2.0_2"
+            "version": "1.4.2_1"
           },
           {
             "name": "py311-hpack",
@@ -875,7 +875,7 @@
           },
           {
             "name": "py311-huggingface-hub",
-            "version": "1.3.1"
+            "version": "1.8.0"
           },
           {
             "name": "py311-hyperframe",
@@ -894,10 +894,6 @@
             "version": "0.5.1"
           },
           {
-            "name": "py311-importlib-resources",
-            "version": "6.5.2"
-          },
-          {
             "name": "py311-itsdangerous",
             "version": "2.2.0"
           },
@@ -907,7 +903,7 @@
           },
           {
             "name": "py311-kiwisolver",
-            "version": "1.4.9,1"
+            "version": "1.5.0,1"
           },
           {
             "name": "py311-lazy_loader",
@@ -927,7 +923,7 @@
           },
           {
             "name": "py311-matplotlib",
-            "version": "3.8.0_2"
+            "version": "3.10.8"
           },
           {
             "name": "py311-mdurl",
@@ -935,7 +931,7 @@
           },
           {
             "name": "py311-networkx",
-            "version": "3.5_3,2"
+            "version": "3.6,2"
           },
           {
             "name": "py311-numexpr",
@@ -943,7 +939,7 @@
           },
           {
             "name": "py311-numpy",
-            "version": "1.26.4_11,1"
+            "version": "1.26.4_12,1"
           },
           {
             "name": "py311-olefile",
@@ -951,15 +947,15 @@
           },
           {
             "name": "py311-onnx",
-            "version": "1.17.0_2"
+            "version": "1.17.0_3"
           },
           {
             "name": "py311-orjson",
-            "version": "3.11.4_1"
+            "version": "3.11.4_3"
           },
           {
             "name": "py311-packaging",
-            "version": "25.0"
+            "version": "26.0"
           },
           {
             "name": "py311-pandas",
@@ -967,23 +963,19 @@
           },
           {
             "name": "py311-pillow",
-            "version": "11.3.0_1"
-          },
-          {
-            "name": "py311-pluggy",
-            "version": "1.6.0"
+            "version": "11.3.0_2"
           },
           {
             "name": "py311-protobuf",
-            "version": "6.33.2,1"
+            "version": "6.33.5,1"
           },
           {
             "name": "py311-psutil",
-            "version": "7.1.3"
+            "version": "7.2.2"
           },
           {
             "name": "py311-pydantic-core",
-            "version": "2.41.5_2"
+            "version": "2.41.5_4"
           },
           {
             "name": "py311-pydantic-settings",
@@ -999,7 +991,7 @@
           },
           {
             "name": "py311-pygments",
-            "version": "2.19.2"
+            "version": "2.20.0"
           },
           {
             "name": "py311-pygraphviz",
@@ -1007,7 +999,7 @@
           },
           {
             "name": "py311-pyparsing",
-            "version": "3.3.0"
+            "version": "3.3.2"
           },
           {
             "name": "py311-python-dateutil",
@@ -1019,7 +1011,7 @@
           },
           {
             "name": "py311-python-multipart",
-            "version": "0.0.21"
+            "version": "0.0.22"
           },
           {
             "name": "py311-pytz",
@@ -1031,15 +1023,15 @@
           },
           {
             "name": "py311-rich",
-            "version": "14.2.0"
+            "version": "14.3.3"
           },
           {
             "name": "py311-scikit-image",
-            "version": "0.25.2"
+            "version": "0.26.0"
           },
           {
             "name": "py311-scikit-learn",
-            "version": "1.7.2"
+            "version": "1.8.0_1"
           },
           {
             "name": "py311-scikit-sparse",
@@ -1047,11 +1039,11 @@
           },
           {
             "name": "py311-scipy",
-            "version": "1.11.1_4,1"
+            "version": "1.11.1_5,1"
           },
           {
             "name": "py311-setproctitle",
-            "version": "1.3.3_1"
+            "version": "1.3.7"
           },
           {
             "name": "py311-setuptools",
@@ -1079,7 +1071,7 @@
           },
           {
             "name": "py311-starlette",
-            "version": "0.50.0"
+            "version": "0.52.1"
           },
           {
             "name": "py311-stringzilla",
@@ -1091,7 +1083,7 @@
           },
           {
             "name": "py311-tifffile",
-            "version": "2025.12.20"
+            "version": "2026.1.28"
           },
           {
             "name": "py311-tkinter",
@@ -1099,15 +1091,11 @@
           },
           {
             "name": "py311-tokenizers",
-            "version": "0.22.2"
-          },
-          {
-            "name": "py311-tornado",
-            "version": "6.5"
+            "version": "0.22.2_2"
           },
           {
             "name": "py311-tqdm",
-            "version": "4.67.1"
+            "version": "4.67.3"
           },
           {
             "name": "py311-truststore",
@@ -1115,7 +1103,7 @@
           },
           {
             "name": "py311-typer",
-            "version": "0.20.1"
+            "version": "0.24.0"
           },
           {
             "name": "py311-typing-extensions",
@@ -1127,23 +1115,23 @@
           },
           {
             "name": "py311-tzdata",
-            "version": "2025.3"
+            "version": "2026.1"
           },
           {
             "name": "py311-unicodedata2",
-            "version": "17.0.0"
+            "version": "17.0.1"
           },
           {
             "name": "py311-uvicorn",
-            "version": "0.40.0"
+            "version": "0.41.0"
           },
           {
             "name": "py311-zopfli",
-            "version": "0.4.0"
+            "version": "0.4.1"
           },
           {
             "name": "python311",
-            "version": "3.11.15"
+            "version": "3.11.15_1"
           },
           {
             "name": "qhull",
@@ -1162,16 +1150,12 @@
             "version": "2.13.2.0"
           },
           {
-            "name": "s6-rc",
-            "version": "0.5.6.0"
-          },
-          {
             "name": "sfcgal",
             "version": "2.2.0_1"
           },
           {
             "name": "shaderc",
-            "version": "2025.5_1"
+            "version": "2026.1"
           },
           {
             "name": "shared-mime-info",
@@ -1215,7 +1199,7 @@
           },
           {
             "name": "suitesparse-config",
-            "version": "7.12.1"
+            "version": "7.12.2"
           },
           {
             "name": "suitesparse-cxsparse",
@@ -1231,7 +1215,7 @@
           },
           {
             "name": "svt-av1",
-            "version": "3.1.2"
+            "version": "4.1.0"
           },
           {
             "name": "tcl86",
@@ -1290,7 +1274,6 @@
             "version": "1.5.7_1"
           }
         ],
-        "dotnet": [],
         "go": [],
         "java": [],
         "node": [
@@ -1343,7 +1326,7 @@
           },
           {
             "name": "anyio",
-            "version": "4.12.0"
+            "version": "4.12.1"
           },
           {
             "name": "autocommand",
@@ -1351,7 +1334,7 @@
           },
           {
             "name": "babel",
-            "version": "2.17.0"
+            "version": "2.18.0"
           },
           {
             "name": "backports.tarfile",
@@ -1359,7 +1342,7 @@
           },
           {
             "name": "bottleneck",
-            "version": "1.3.8"
+            "version": "1.6.0"
           },
           {
             "name": "brotli",
@@ -1367,7 +1350,7 @@
           },
           {
             "name": "certifi",
-            "version": "2025.11.12"
+            "version": "2026.1.4"
           },
           {
             "name": "charset-normalizer",
@@ -1399,11 +1382,11 @@
           },
           {
             "name": "fastapi",
-            "version": "0.128.0"
+            "version": "0.135.1"
           },
           {
             "name": "filelock",
-            "version": "3.20.1"
+            "version": "3.25.0"
           },
           {
             "name": "fonttools",
@@ -1411,7 +1394,7 @@
           },
           {
             "name": "fsspec",
-            "version": "2025.12.0"
+            "version": "2026.2.0"
           },
           {
             "name": "ftfy",
@@ -1427,7 +1410,7 @@
           },
           {
             "name": "gunicorn",
-            "version": "23.0.0"
+            "version": "25.2.0"
           },
           {
             "name": "h11",
@@ -1439,7 +1422,7 @@
           },
           {
             "name": "hf-xet",
-            "version": "1.2.0"
+            "version": "1.4.2"
           },
           {
             "name": "hpack",
@@ -1459,7 +1442,7 @@
           },
           {
             "name": "huggingface-hub",
-            "version": "1.3.1"
+            "version": "1.8.0"
           },
           {
             "name": "hyperframe",
@@ -1479,11 +1462,7 @@
           },
           {
             "name": "immich-ml",
-            "version": "2.6.3"
-          },
-          {
-            "name": "importlib-resources",
-            "version": "6.5.2"
+            "version": "2.7.2"
           },
           {
             "name": "importlib_metadata",
@@ -1515,7 +1494,7 @@
           },
           {
             "name": "kiwisolver",
-            "version": "1.4.9"
+            "version": "1.5.0"
           },
           {
             "name": "lazy-loader",
@@ -1535,7 +1514,7 @@
           },
           {
             "name": "matplotlib",
-            "version": "3.8.0"
+            "version": "3.10.8"
           },
           {
             "name": "mdurl",
@@ -1547,7 +1526,7 @@
           },
           {
             "name": "networkx",
-            "version": "3.5"
+            "version": "3.6"
           },
           {
             "name": "numexpr",
@@ -1579,7 +1558,7 @@
           },
           {
             "name": "packaging",
-            "version": "25.0"
+            "version": "26.0"
           },
           {
             "name": "pandas",
@@ -1598,20 +1577,16 @@
             "version": "4.4.0"
           },
           {
-            "name": "pluggy",
-            "version": "1.6.0"
-          },
-          {
             "name": "prettytable",
             "version": "3.17.0"
           },
           {
             "name": "protobuf",
-            "version": "6.33.2"
+            "version": "6.33.5"
           },
           {
             "name": "psutil",
-            "version": "7.1.3"
+            "version": "7.2.2"
           },
           {
             "name": "pyclipper",
@@ -1635,7 +1610,7 @@
           },
           {
             "name": "pygments",
-            "version": "2.19.2"
+            "version": "2.20.0"
           },
           {
             "name": "pygraphviz",
@@ -1643,7 +1618,7 @@
           },
           {
             "name": "pyparsing",
-            "version": "3.3.0"
+            "version": "3.3.2"
           },
           {
             "name": "python-dateutil",
@@ -1655,7 +1630,7 @@
           },
           {
             "name": "python-multipart",
-            "version": "0.0.21"
+            "version": "0.0.22"
           },
           {
             "name": "pytz",
@@ -1671,15 +1646,15 @@
           },
           {
             "name": "rich",
-            "version": "14.2.0"
+            "version": "14.3.3"
           },
           {
             "name": "scikit-image",
-            "version": "0.25.2"
+            "version": "0.26.0"
           },
           {
             "name": "scikit-learn",
-            "version": "1.7.2"
+            "version": "1.8.0"
           },
           {
             "name": "scikit-sparse",
@@ -1687,7 +1662,7 @@
           },
           {
             "name": "setproctitle",
-            "version": "1.3.3"
+            "version": "1.3.7"
           },
           {
             "name": "setuptools",
@@ -1719,7 +1694,7 @@
           },
           {
             "name": "starlette",
-            "version": "0.50.0"
+            "version": "0.52.1"
           },
           {
             "name": "stringzilla",
@@ -1731,7 +1706,7 @@
           },
           {
             "name": "tifffile",
-            "version": "2025.12.20"
+            "version": "2026.1.28"
           },
           {
             "name": "tkinter",
@@ -1746,12 +1721,8 @@
             "version": "2.4.0"
           },
           {
-            "name": "tornado",
-            "version": "6.5"
-          },
-          {
             "name": "tqdm",
-            "version": "4.67.1"
+            "version": "4.67.3"
           },
           {
             "name": "truststore",
@@ -1759,7 +1730,7 @@
           },
           {
             "name": "typer",
-            "version": "0.20.1"
+            "version": "0.24.0"
           },
           {
             "name": "typing-inspection",
@@ -1771,11 +1742,11 @@
           },
           {
             "name": "tzdata",
-            "version": "2025.3"
+            "version": "2026.1"
           },
           {
             "name": "unicodedata2",
-            "version": "17.0.0"
+            "version": "17.0.1"
           },
           {
             "name": "urllib3",
@@ -1783,7 +1754,7 @@
           },
           {
             "name": "uvicorn",
-            "version": "0.40.0"
+            "version": "0.41.0"
           },
           {
             "name": "wcwidth",
@@ -1799,23 +1770,24 @@
           },
           {
             "name": "zopfli",
-            "version": "0.4.0"
+            "version": "0.4.1"
           }
         ],
         "ruby": [],
         "rust": []
       },
+      "source": "upstream",
       "summary": {
-        "freebsd": 320,
         "dotnet": 0,
+        "freebsd": 316,
         "go": 0,
         "java": 0,
         "node": 1,
         "php": 0,
-        "python": 125,
+        "python": 122,
         "ruby": 0,
         "rust": 0,
-        "total": 446
+        "total": 439
       }
     }
   }
