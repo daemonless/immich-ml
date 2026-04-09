@@ -1,11 +1,11 @@
 {
-  "generated": "2026-04-07T23:17:47Z",
+  "generated": "2026-04-09T20:32:47Z",
   "image": "immich-ml",
   "tags": {
     "latest": {
-      "app_version": "v2.7.2",
+      "app_version": "v2.7.3",
       "arch": "amd64",
-      "generated": "2026-04-07T23:16:33Z",
+      "generated": "2026-04-09T20:31:27Z",
       "packages": {
         "dotnet": [],
         "freebsd": [
@@ -1462,7 +1462,7 @@
           },
           {
             "name": "immich-ml",
-            "version": "2.7.2"
+            "version": "2.7.3"
           },
           {
             "name": "importlib_metadata",
@@ -1638,7 +1638,7 @@
           },
           {
             "name": "rapidocr",
-            "version": "3.7.0"
+            "version": "3.8.0"
           },
           {
             "name": "requests",
