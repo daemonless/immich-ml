@@ -1,11 +1,11 @@
 {
-  "generated": "2026-04-09T20:32:47Z",
+  "generated": "2026-04-10T20:48:01Z",
   "image": "immich-ml",
   "tags": {
     "latest": {
-      "app_version": "v2.7.3",
+      "app_version": "v2.7.4",
       "arch": "amd64",
-      "generated": "2026-04-09T20:31:27Z",
+      "generated": "2026-04-10T20:46:44Z",
       "packages": {
         "dotnet": [],
         "freebsd": [
@@ -1462,7 +1462,7 @@
           },
           {
             "name": "immich-ml",
-            "version": "2.7.3"
+            "version": "2.7.4"
           },
           {
             "name": "importlib_metadata",
