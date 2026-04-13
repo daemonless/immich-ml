@@ -1,11 +1,11 @@
 {
-  "generated": "2026-04-10T20:48:01Z",
+  "generated": "2026-04-13T17:31:51Z",
   "image": "immich-ml",
   "tags": {
     "latest": {
-      "app_version": "v2.7.4",
+      "app_version": "v2.7.5",
       "arch": "amd64",
-      "generated": "2026-04-10T20:46:44Z",
+      "generated": "2026-04-13T17:30:29Z",
       "packages": {
         "dotnet": [],
         "freebsd": [
@@ -143,7 +143,7 @@
           },
           {
             "name": "aom",
-            "version": "3.13.2"
+            "version": "3.13.3"
           },
           {
             "name": "bash",
@@ -283,7 +283,7 @@
           },
           {
             "name": "graphviz",
-            "version": "14.1.4"
+            "version": "14.1.4_1"
           },
           {
             "name": "gstreamer1",
@@ -695,7 +695,7 @@
           },
           {
             "name": "openexr",
-            "version": "3.4.8"
+            "version": "3.4.9"
           },
           {
             "name": "openjpeg",
@@ -1462,7 +1462,7 @@
           },
           {
             "name": "immich-ml",
-            "version": "2.7.4"
+            "version": "2.7.5"
           },
           {
             "name": "importlib_metadata",
@@ -1638,7 +1638,7 @@
           },
           {
             "name": "rapidocr",
-            "version": "3.8.0"
+            "version": "3.8.1"
           },
           {
             "name": "requests",
