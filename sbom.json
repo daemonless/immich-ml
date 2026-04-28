@@ -1,11 +1,11 @@
 {
-  "generated": "2026-04-20T22:41:44Z",
+  "generated": "2026-04-28T00:30:12Z",
   "image": "immich-ml",
   "tags": {
     "latest": {
       "app_version": "v2.7.5",
       "arch": "amd64",
-      "generated": "2026-04-20T22:40:30Z",
+      "generated": "2026-04-28T00:28:54Z",
       "packages": {
         "dotnet": [],
         "freebsd": [
@@ -87,11 +87,11 @@
           },
           {
             "name": "FreeBSD-openssl",
-            "version": "15.0"
+            "version": "15.0p2"
           },
           {
             "name": "FreeBSD-openssl-lib",
-            "version": "15.0"
+            "version": "15.0p2"
           },
           {
             "name": "FreeBSD-pkg-bootstrap",
@@ -103,7 +103,7 @@
           },
           {
             "name": "FreeBSD-runtime",
-            "version": "15.0"
+            "version": "15.0p6"
           },
           {
             "name": "FreeBSD-tcpd",
@@ -467,7 +467,7 @@
           },
           {
             "name": "libexif",
-            "version": "0.6.25"
+            "version": "0.6.26"
           },
           {
             "name": "libffi",
@@ -531,7 +531,7 @@
           },
           {
             "name": "libnghttp2",
-            "version": "1.68.0"
+            "version": "1.68.1"
           },
           {
             "name": "libogg",
@@ -675,7 +675,7 @@
           },
           {
             "name": "nss",
-            "version": "3.123"
+            "version": "3.123.1"
           },
           {
             "name": "oniguruma",
@@ -1570,7 +1570,7 @@
           },
           {
             "name": "pip",
-            "version": "26.0.1"
+            "version": "26.1"
           },
           {
             "name": "platformdirs",
