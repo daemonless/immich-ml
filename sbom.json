@@ -1,11 +1,11 @@
 {
-  "generated": "2026-04-28T00:30:12Z",
+  "generated": "2026-05-06T23:12:17Z",
   "image": "immich-ml",
   "tags": {
     "latest": {
       "app_version": "v2.7.5",
       "arch": "amd64",
-      "generated": "2026-04-28T00:28:54Z",
+      "generated": "2026-05-06T23:10:30Z",
       "packages": {
         "dotnet": [],
         "freebsd": [
@@ -103,7 +103,7 @@
           },
           {
             "name": "FreeBSD-runtime",
-            "version": "15.0p6"
+            "version": "15.0p8"
           },
           {
             "name": "FreeBSD-tcpd",
@@ -131,7 +131,7 @@
           },
           {
             "name": "FreeBSD-zoneinfo",
-            "version": "15.0"
+            "version": "15.0p7"
           },
           {
             "name": "Imath",
@@ -179,7 +179,7 @@
           },
           {
             "name": "curl",
-            "version": "8.19.0_1"
+            "version": "8.19.0_2"
           },
           {
             "name": "dav1d",
@@ -267,7 +267,7 @@
           },
           {
             "name": "gnutls",
-            "version": "3.8.12"
+            "version": "3.8.13"
           },
           {
             "name": "gpgme",
@@ -343,7 +343,7 @@
           },
           {
             "name": "lcms2",
-            "version": "2.18"
+            "version": "2.19"
           },
           {
             "name": "lerc",
@@ -395,7 +395,7 @@
           },
           {
             "name": "libXpm",
-            "version": "3.5.17_1"
+            "version": "3.5.19"
           },
           {
             "name": "libXrandr",
@@ -1115,7 +1115,7 @@
           },
           {
             "name": "py311-tzdata",
-            "version": "2026.1"
+            "version": "2026.2"
           },
           {
             "name": "py311-unicodedata2",
@@ -1231,7 +1231,7 @@
           },
           {
             "name": "uriparser",
-            "version": "1.0.0_1"
+            "version": "1.0.1"
           },
           {
             "name": "vmaf",
@@ -1570,7 +1570,7 @@
           },
           {
             "name": "pip",
-            "version": "26.1"
+            "version": "26.1.1"
           },
           {
             "name": "platformdirs",
@@ -1742,7 +1742,7 @@
           },
           {
             "name": "tzdata",
-            "version": "2026.1"
+            "version": "2026.2"
           },
           {
             "name": "unicodedata2",
@@ -1758,7 +1758,7 @@
           },
           {
             "name": "wcwidth",
-            "version": "0.6.0"
+            "version": "0.7.0"
           },
           {
             "name": "wheel",
