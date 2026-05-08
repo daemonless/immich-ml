@@ -1,11 +1,11 @@
 {
-  "generated": "2026-05-06T23:12:17Z",
+  "generated": "2026-05-08T22:00:47Z",
   "image": "immich-ml",
   "tags": {
     "latest": {
       "app_version": "v2.7.5",
       "arch": "amd64",
-      "generated": "2026-05-06T23:10:30Z",
+      "generated": "2026-05-08T21:59:20Z",
       "packages": {
         "dotnet": [],
         "freebsd": [
@@ -179,7 +179,7 @@
           },
           {
             "name": "curl",
-            "version": "8.19.0_2"
+            "version": "8.20.0"
           },
           {
             "name": "dav1d",
@@ -695,7 +695,7 @@
           },
           {
             "name": "openexr",
-            "version": "3.4.9"
+            "version": "3.4.11"
           },
           {
             "name": "openjpeg",
@@ -1550,7 +1550,7 @@
           },
           {
             "name": "onnxruntime",
-            "version": "1.24.3"
+            "version": "1.26.0"
           },
           {
             "name": "orjson",
@@ -1750,7 +1750,7 @@
           },
           {
             "name": "urllib3",
-            "version": "2.6.3"
+            "version": "2.7.0"
           },
           {
             "name": "uvicorn",
