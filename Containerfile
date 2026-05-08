@@ -6,14 +6,12 @@
 
 ARG BASE_VERSION=15-quarterly
 ARG UPSTREAM_URL="https://api.github.com/repos/immich-app/immich/releases/latest"
-ARG ONNXRUNTIME_WHEEL=onnxruntime-1.24.3-cp311-cp311-freebsd_15_0_release_amd64.whl
-ARG ONNXRUNTIME_URL=https://github.com/daemonless/immich-ml/releases/download/onnxruntime-1.24.3/${ONNXRUNTIME_WHEEL}
+ARG ONNXRUNTIME_RELEASES_API="https://api.github.com/repos/daemonless/immich-ml/releases"
 
 FROM ghcr.io/daemonless/base:${BASE_VERSION} AS builder
 
 ARG UPSTREAM_URL
-ARG ONNXRUNTIME_WHEEL
-ARG ONNXRUNTIME_URL
+ARG ONNXRUNTIME_RELEASES_API
 
 # Build dependencies
 RUN pkg update && pkg install -y \
@@ -44,8 +42,19 @@ ENV CXX="/usr/local/libexec/ccache/clang++"
 ENV CMAKE_C_COMPILER="/usr/local/libexec/ccache/clang"
 ENV CMAKE_CXX_COMPILER="/usr/local/libexec/ccache/clang++"
 
-# Download pre-built onnxruntime wheel
-RUN fetch -o /tmp/${ONNXRUNTIME_WHEEL} ${ONNXRUNTIME_URL}
+# Download pre-built onnxruntime wheel (auto-detect latest release)
+RUN --mount=type=secret,id=github_token \
+    GITHUB_TOKEN=$(cat /run/secrets/github_token 2>/dev/null || echo "") && \
+    if [ -n "${GITHUB_TOKEN}" ]; then \
+      API_URL=$(echo "${ONNXRUNTIME_RELEASES_API}" | sed "s|https://|https://x-access-token:${GITHUB_TOKEN}@|"); \
+    else \
+      API_URL="${ONNXRUNTIME_RELEASES_API}"; \
+    fi && \
+    ONNX_TAG=$(fetch -qo - "${API_URL}" | jq -r '[.[] | select(.tag_name | startswith("onnxruntime-"))] | first | .tag_name') && \
+    ONNX_VERSION=$(echo "${ONNX_TAG}" | sed 's/onnxruntime-//') && \
+    WHEEL="onnxruntime-${ONNX_VERSION}-cp311-cp311-freebsd_15_0_release_amd64.whl" && \
+    echo "Downloading onnxruntime ${ONNX_VERSION}" && \
+    fetch -o /tmp/onnxruntime.whl "https://github.com/daemonless/immich-ml/releases/download/${ONNX_TAG}/${WHEEL}"
 
 # Create virtual environment with system packages
 RUN python3.11 -m venv --system-site-packages /opt/venv
@@ -54,8 +63,8 @@ ENV VIRTUAL_ENV="/opt/venv"
 
 # Upgrade pip and install onnxruntime wheel
 RUN pip install --no-cache-dir --upgrade pip setuptools wheel && \
-    unzip -o /tmp/${ONNXRUNTIME_WHEEL} -d /opt/venv/lib/python3.11/site-packages/ && \
-    rm -f /tmp/${ONNXRUNTIME_WHEEL}
+    bsdtar -xf /tmp/onnxruntime.whl -C /opt/venv/lib/python3.11/site-packages/ && \
+    rm -f /tmp/onnxruntime.whl
 
 # Clone immich source (resolve latest version from upstream)
 WORKDIR /build
@@ -106,8 +115,7 @@ RUN pip install --no-cache-dir --no-deps . && \
 FROM ghcr.io/daemonless/base:${BASE_VERSION}
 
 ARG FREEBSD_ARCH=amd64
-ARG ONNXRUNTIME_WHEEL
-ARG ONNXRUNTIME_URL
+ARG ONNXRUNTIME_RELEASES_API
 ARG PACKAGES="python311 py311-numpy py311-pillow py311-orjson py311-scipy py311-scikit-learn py311-scikit-image py311-pydantic2 py311-pydantic-settings py311-fastapi py311-uvicorn py311-gunicorn py311-huggingface-hub py311-tokenizers py311-onnx py311-albumentations py311-albucore openblas geos opencv"
 ARG UPSTREAM_URL="https://api.github.com/repos/immich-app/immich/releases/latest"
 ARG UPSTREAM_JQ=".tag_name"
@@ -142,10 +150,21 @@ RUN pkg update && \
 # Copy virtual environment from builder (with correct ownership)
 COPY --from=builder --chown=bsd:bsd /opt/venv /opt/venv
 
-# Install onnxruntime wheel into venv
-RUN fetch -o /tmp/${ONNXRUNTIME_WHEEL} ${ONNXRUNTIME_URL} && \
-    unzip -o /tmp/${ONNXRUNTIME_WHEEL} -d /opt/venv/lib/python3.11/site-packages/ && \
-    rm -f /tmp/${ONNXRUNTIME_WHEEL}
+# Install onnxruntime wheel into venv (auto-detect latest release)
+RUN --mount=type=secret,id=github_token \
+    GITHUB_TOKEN=$(cat /run/secrets/github_token 2>/dev/null || echo "") && \
+    if [ -n "${GITHUB_TOKEN}" ]; then \
+      API_URL=$(echo "${ONNXRUNTIME_RELEASES_API}" | sed "s|https://|https://x-access-token:${GITHUB_TOKEN}@|"); \
+    else \
+      API_URL="${ONNXRUNTIME_RELEASES_API}"; \
+    fi && \
+    ONNX_TAG=$(fetch -qo - "${API_URL}" | python3.11 -c "import sys,json; releases=[r for r in json.load(sys.stdin) if r['tag_name'].startswith('onnxruntime-')]; print(releases[0]['tag_name'])") && \
+    ONNX_VERSION=$(echo "${ONNX_TAG}" | sed 's/onnxruntime-//') && \
+    WHEEL="onnxruntime-${ONNX_VERSION}-cp311-cp311-freebsd_15_0_release_amd64.whl" && \
+    echo "Downloading onnxruntime ${ONNX_VERSION}" && \
+    fetch -o /tmp/onnxruntime.whl "https://github.com/daemonless/immich-ml/releases/download/${ONNX_TAG}/${WHEEL}" && \
+    bsdtar -xf /tmp/onnxruntime.whl -C /opt/venv/lib/python3.11/site-packages/ && \
+    rm -f /tmp/onnxruntime.whl
 
 # Copy version from builder
 COPY --from=builder /tmp/immich_version /tmp/immich_version

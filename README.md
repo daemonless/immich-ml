@@ -10,7 +10,6 @@ Source: dbuild templates
 
 Machine learning service for Immich — handles facial recognition, image classification, and semantic search using ONNX models.
 
-
 | | |
 |---|---|
 | **Port** | 3003 |
@@ -143,8 +142,6 @@ podman run -d --name immich-ml \
       - "/path/to/containers/immich-ml/cache:/cache"
       - "/path/to/containers/immich-ml:/config"
 ```
-
-Access at: `http://localhost:3003`
 
 ## Parameters
 
