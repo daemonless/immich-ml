@@ -152,8 +152,8 @@ RUN pkg update && \
     pkg clean -ay && \
     rm -rf /var/cache/pkg/* /var/db/pkg/repos/*
 
-# Copy virtual environment from builder (with correct ownership)
-COPY --from=builder --chown=bsd:bsd /opt/venv /opt/venv
+# Copy virtual environment from builder (root-owned, world-readable)
+COPY --from=builder /opt/venv /opt/venv
 
 # Install onnxruntime wheel into venv (auto-detect latest release)
 RUN --mount=type=secret,id=github_token \
@@ -178,8 +178,7 @@ COPY --from=builder /tmp/immich_version /tmp/immich_version
 RUN mkdir -p /config /cache /app && \
     cp /tmp/immich_version /app/version && \
     chown bsd:bsd /config /cache && \
-    chown -R bsd:bsd /opt/venv/lib/python3.11/site-packages/onnxruntime* && \
-    chmod -R a+rX /opt/venv/lib/python3.11/site-packages/onnxruntime*
+    chmod -R a+rX /opt/venv
 
 # Copy service files
 COPY root/ /
