@@ -46,15 +46,16 @@ ENV CMAKE_CXX_COMPILER="/usr/local/libexec/ccache/clang++"
 RUN --mount=type=secret,id=github_token \
     GITHUB_TOKEN=$(cat /run/secrets/github_token 2>/dev/null || echo "") && \
     if [ -n "${GITHUB_TOKEN}" ]; then \
-      API_URL=$(echo "${ONNXRUNTIME_RELEASES_API}" | sed "s|https://|https://x-access-token:${GITHUB_TOKEN}@|"); \
-    else \
-      API_URL="${ONNXRUNTIME_RELEASES_API}"; \
+      printf 'machine api.github.com login x-access-token password %s\nmachine github.com login x-access-token password %s\n' \
+        "${GITHUB_TOKEN}" "${GITHUB_TOKEN}" > /root/.netrc && \
+      chmod 600 /root/.netrc; \
     fi && \
-    ONNX_TAG=$(fetch -qo - "${API_URL}" | jq -r '[.[] | select(.tag_name | startswith("onnxruntime-"))] | first | .tag_name') && \
+    ONNX_TAG=$(fetch -qo - "${ONNXRUNTIME_RELEASES_API}" | jq -r '[.[] | select(.tag_name | startswith("onnxruntime-"))] | first | .tag_name') && \
     ONNX_VERSION=$(echo "${ONNX_TAG}" | sed 's/onnxruntime-//') && \
     WHEEL="onnxruntime-${ONNX_VERSION}-cp311-cp311-freebsd_15_0_release_amd64.whl" && \
     echo "Downloading onnxruntime ${ONNX_VERSION}" && \
-    fetch -o /tmp/onnxruntime.whl "https://github.com/daemonless/immich-ml/releases/download/${ONNX_TAG}/${WHEEL}"
+    fetch -o /tmp/onnxruntime.whl "https://github.com/daemonless/immich-ml/releases/download/${ONNX_TAG}/${WHEEL}" && \
+    rm -f /root/.netrc
 
 # Create virtual environment with system packages
 RUN python3.11 -m venv --system-site-packages /opt/venv
@@ -69,16 +70,17 @@ RUN pip install --no-cache-dir --upgrade pip setuptools wheel && \
 # Clone immich source (resolve latest version from upstream)
 WORKDIR /build
 RUN --mount=type=secret,id=github_token \
-    FETCH_URL="${UPSTREAM_URL}"; \
-    GITHUB_TOKEN=$(cat /run/secrets/github_token 2>/dev/null || echo ""); \
+    GITHUB_TOKEN=$(cat /run/secrets/github_token 2>/dev/null || echo "") && \
     if [ -n "${GITHUB_TOKEN}" ]; then \
-      FETCH_URL=$(echo "${UPSTREAM_URL}" | sed "s|https://|https://x-access-token:${GITHUB_TOKEN}@|"); \
+      printf 'machine api.github.com login x-access-token password %s\n' "${GITHUB_TOKEN}" > /root/.netrc && \
+      chmod 600 /root/.netrc; \
     fi && \
-    IMMICH_VERSION=$(fetch -qo - "${FETCH_URL}" | jq -r '.tag_name') && \
+    IMMICH_VERSION=$(fetch -qo - "${UPSTREAM_URL}" | jq -r '.tag_name') && \
     echo "Resolved IMMICH_VERSION=$IMMICH_VERSION" && \
     git clone --depth 1 --branch ${IMMICH_VERSION} \
       https://github.com/immich-app/immich.git . && \
-    echo "${IMMICH_VERSION}" > /tmp/immich_version
+    echo "${IMMICH_VERSION}" > /tmp/immich_version && \
+    rm -f /root/.netrc
 
 WORKDIR /build/machine-learning
 
@@ -154,17 +156,17 @@ COPY --from=builder /opt/venv /opt/venv
 RUN --mount=type=secret,id=github_token \
     GITHUB_TOKEN=$(cat /run/secrets/github_token 2>/dev/null || echo "") && \
     if [ -n "${GITHUB_TOKEN}" ]; then \
-      API_URL=$(echo "${ONNXRUNTIME_RELEASES_API}" | sed "s|https://|https://x-access-token:${GITHUB_TOKEN}@|"); \
-    else \
-      API_URL="${ONNXRUNTIME_RELEASES_API}"; \
+      printf 'machine api.github.com login x-access-token password %s\nmachine github.com login x-access-token password %s\n' \
+        "${GITHUB_TOKEN}" "${GITHUB_TOKEN}" > /root/.netrc && \
+      chmod 600 /root/.netrc; \
     fi && \
-    ONNX_TAG=$(fetch -qo - "${API_URL}" | python3.11 -c "import sys,json; releases=[r for r in json.load(sys.stdin) if r['tag_name'].startswith('onnxruntime-')]; print(releases[0]['tag_name'])") && \
+    ONNX_TAG=$(fetch -qo - "${ONNXRUNTIME_RELEASES_API}" | python3.11 -c "import sys,json; releases=[r for r in json.load(sys.stdin) if r['tag_name'].startswith('onnxruntime-')]; print(releases[0]['tag_name'])") && \
     ONNX_VERSION=$(echo "${ONNX_TAG}" | sed 's/onnxruntime-//') && \
     WHEEL="onnxruntime-${ONNX_VERSION}-cp311-cp311-freebsd_15_0_release_amd64.whl" && \
     echo "Downloading onnxruntime ${ONNX_VERSION}" && \
     fetch -o /tmp/onnxruntime.whl "https://github.com/daemonless/immich-ml/releases/download/${ONNX_TAG}/${WHEEL}" && \
     bsdtar -xf /tmp/onnxruntime.whl -C /opt/venv/lib/python3.11/site-packages/ && \
-    rm -f /tmp/onnxruntime.whl
+    rm -f /tmp/onnxruntime.whl /root/.netrc
 
 # Copy version from builder
 COPY --from=builder /tmp/immich_version /tmp/immich_version
