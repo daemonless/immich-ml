@@ -1,11 +1,11 @@
 {
-  "generated": "2026-05-20T22:52:43Z",
+  "generated": "2026-05-28T08:12:48Z",
   "image": "immich-ml",
   "tags": {
     "latest": {
       "app_version": "v2.7.5",
       "arch": "amd64",
-      "generated": "2026-05-20T22:51:26Z",
+      "generated": "2026-05-28T08:11:30Z",
       "packages": {
         "dotnet": [],
         "freebsd": [
@@ -59,7 +59,7 @@
           },
           {
             "name": "FreeBSD-libcasper",
-            "version": "15.0"
+            "version": "15.0p9"
           },
           {
             "name": "FreeBSD-libexecinfo",
@@ -103,7 +103,7 @@
           },
           {
             "name": "FreeBSD-runtime",
-            "version": "15.0p8"
+            "version": "15.0p9"
           },
           {
             "name": "FreeBSD-tcpd",
@@ -115,7 +115,7 @@
           },
           {
             "name": "FreeBSD-utilities",
-            "version": "15.0p1"
+            "version": "15.0p9"
           },
           {
             "name": "FreeBSD-xz-lib",
@@ -167,7 +167,7 @@
           },
           {
             "name": "ca_root_nss",
-            "version": "3.123.1"
+            "version": "3.124"
           },
           {
             "name": "cairo",
@@ -415,7 +415,7 @@
           },
           {
             "name": "libaec",
-            "version": "1.1.5"
+            "version": "1.1.7"
           },
           {
             "name": "libass",
@@ -759,7 +759,7 @@
           },
           {
             "name": "postgresql18-client",
-            "version": "18.3"
+            "version": "18.4"
           },
           {
             "name": "proj",
@@ -1286,7 +1286,7 @@
         "python": [
           {
             "name": "Cython",
-            "version": "3.2.4"
+            "version": "3.2.5"
           },
           {
             "name": "Jinja2",
@@ -1434,7 +1434,7 @@
           },
           {
             "name": "httptools",
-            "version": "0.7.1"
+            "version": "0.8.0"
           },
           {
             "name": "httpx",
@@ -1470,7 +1470,7 @@
           },
           {
             "name": "insightface",
-            "version": "0.7.3"
+            "version": "1.0.1"
           },
           {
             "name": "itsdangerous",
