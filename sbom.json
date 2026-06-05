@@ -1,11 +1,11 @@
 {
-  "generated": "2026-05-28T22:56:18Z",
+  "generated": "2026-06-05T21:08:33Z",
   "image": "immich-ml",
   "tags": {
     "latest": {
       "app_version": "v2.7.5",
       "arch": "amd64",
-      "generated": "2026-05-28T22:54:59Z",
+      "generated": "2026-06-05T21:07:14Z",
       "packages": {
         "dotnet": [],
         "freebsd": [
@@ -283,7 +283,7 @@
           },
           {
             "name": "graphviz",
-            "version": "14.1.4_1"
+            "version": "14.1.4_2"
           },
           {
             "name": "gstreamer1",
@@ -695,7 +695,7 @@
           },
           {
             "name": "openexr",
-            "version": "3.4.11"
+            "version": "3.4.12"
           },
           {
             "name": "openjpeg",
@@ -1570,7 +1570,7 @@
           },
           {
             "name": "pip",
-            "version": "26.1.1"
+            "version": "26.1.2"
           },
           {
             "name": "platformdirs",
