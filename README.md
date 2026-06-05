@@ -37,12 +37,12 @@ services:
     image: ghcr.io/daemonless/immich-ml:latest
     container_name: immich-ml
     environment:
-      - MACHINE_LEARNING_HOST=0.0.0.0
-      - MACHINE_LEARNING_PORT=3003
-      - MACHINE_LEARNING_CACHE_FOLDER=/cache
-      - PUID=1000
-      - PGID=1000
-      - TZ=UTC
+      - MACHINE_LEARNING_HOST=0.0.0.0  # Host to bind to (0.0.0.0)
+      - MACHINE_LEARNING_PORT=3003  # Port to bind to (3003)
+      - MACHINE_LEARNING_CACHE_FOLDER=/cache  # Path to cache folder (/cache)
+      - PUID=1000  # User ID for the application process
+      - PGID=1000  # Group ID for the application process
+      - TZ=UTC  # Timezone for the container
     volumes:
       - "/path/to/containers/immich-ml/cache:/cache"
       - "/path/to/containers/immich-ml:/config"

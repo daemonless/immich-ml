@@ -107,6 +107,10 @@ RUN pip install --no-cache-dir --no-deps . && \
     shapely \
     pyyaml
 
+# https://github.com/immich-app/immich/pull/28610
+COPY patches/immich-28610-ocr-model_root_dir.patch /tmp/immich-28610.patch
+RUN patch -d /opt/venv/lib/python3.11/site-packages -p1 < /tmp/immich-28610.patch && rm /tmp/immich-28610.patch
+
 # Production image
 FROM ghcr.io/daemonless/base:${BASE_VERSION}
 
