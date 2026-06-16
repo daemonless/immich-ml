@@ -22,6 +22,7 @@ Machine learning service for Immich — handles facial recognition, image classi
 | Tag | Description | Best For |
 | :--- | :--- | :--- |
 | `latest` | **Upstream Binary**. Built from official release. | Most users. Matches Linux Docker behavior. |
+| `beta` | Beta release built from upstream v3.0.0-rc.0. | Alternative build. |
 
 ## Prerequisites
 
@@ -34,7 +35,7 @@ Before deploying, ensure your host environment is ready. See the [Quick Start Gu
 ```yaml
 services:
   immich-ml:
-    image: ghcr.io/daemonless/immich-ml:latest
+    image: "ghcr.io/daemonless/immich-ml:latest"
     container_name: immich-ml
     environment:
       - MACHINE_LEARNING_HOST=0.0.0.0  # Host to bind to (0.0.0.0)
@@ -47,7 +48,7 @@ services:
       - "/path/to/containers/immich-ml/cache:/cache"
       - "/path/to/containers/immich-ml:/config"
     ports:
-      - 3003:3003
+      - "3003:3003"
     restart: unless-stopped
 ```
 
@@ -126,7 +127,7 @@ podman run -d --name immich-ml \
 - name: Deploy immich-ml
   containers.podman.podman_container:
     name: immich-ml
-    image: ghcr.io/daemonless/immich-ml:latest
+    image: "ghcr.io/daemonless/immich-ml:latest"
     state: started
     restart_policy: always
     env:

@@ -13,7 +13,7 @@ x-daemonless:
   upstream_binary: true
   appjail: true
   notes: "This image is part of the [Immich Stack](https://daemonless.io/images/immich)."
-  
+
   docs:
     env:
       PUID: "User ID for the application process"
@@ -33,7 +33,7 @@ services:
     image: ghcr.io/daemonless/immich-ml:latest
     container_name: immich-ml
     restart: unless-stopped
-    
+
     environment:
       - MACHINE_LEARNING_HOST=0.0.0.0
       - MACHINE_LEARNING_PORT=3003
