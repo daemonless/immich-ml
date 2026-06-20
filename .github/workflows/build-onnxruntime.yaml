@@ -6,7 +6,7 @@ on:
       onnxruntime_version:
         description: 'onnxruntime version to build'
         required: true
-        default: '1.23.2'
+        default: '1.27.0'
       python_version:
         description: 'Python version'
         required: true
@@ -25,7 +25,7 @@ jobs:
       - name: Build onnxruntime wheel on FreeBSD
         uses: vmactions/freebsd-vm@v1
         with:
-          release: '15.0'
+          release: '15.1'
           vnc_password: ${{ secrets.VNC_PASSWORD }}
           usesh: true
           copyback: true
@@ -108,5 +108,5 @@ jobs:
             gh release create "${TAG}" \
               "${WHEEL}" \
               --title "onnxruntime ${ONNX_VERSION} FreeBSD wheel" \
-              --notes "Pre-built onnxruntime ${ONNX_VERSION} wheel for FreeBSD 15.0 / Python ${PY_VERSION} (amd64, CPU only)"
+              --notes "Pre-built onnxruntime ${ONNX_VERSION} wheel for FreeBSD 15.1 / Python ${PY_VERSION} (amd64, CPU only)"
           fi
