@@ -77,6 +77,7 @@ services:
     name: immich_ml
     options:
       - container: 'boot args:--pull'
+      - expose="3003:3003 proto:tcp" \
     oci:
       user: root
       environment:
@@ -104,6 +105,7 @@ ARG tag=latest
 OPTION overwrite=force
 OPTION from=ghcr.io/daemonless/immich-ml:${tag}
 ```
+**Note**: Exposing ports in AppJail means that your service can be reached from remote hosts. If that is not your intention, do not expose the ports and communicate with the service using the IPv4 address assigned by the virtual network.
 
 ### Podman CLI
 
@@ -120,6 +122,27 @@ podman run -d --name immich-ml \
   -v /path/to/containers/immich-ml:/config \
   ghcr.io/daemonless/immich-ml:latest
 ```
+
+### AppJail
+
+```bash
+appjail oci run -Pd \
+  -o overwrite=force \
+  -o container="args:--pull" \
+  -o virtualnet=":<random> default" \
+  -o nat \
+  -o expose="3003:3003 proto:tcp" \
+  -e MACHINE_LEARNING_HOST=0.0.0.0 \
+  -e MACHINE_LEARNING_PORT=3003 \
+  -e MACHINE_LEARNING_CACHE_FOLDER=/cache \
+  -e PUID=1000 \
+  -e PGID=1000 \
+  -e TZ=UTC \
+  -o fstab="/path/to/containers/immich-ml/cache /cache <pseudofs>" \
+  -o fstab="/path/to/containers/immich-ml /config <pseudofs>" \
+  ghcr.io/daemonless/immich-ml:latest immich-ml
+```
+**Note**: Exposing ports in AppJail means that your service can be reached from remote hosts. If that is not your intention, do not expose the ports and communicate with the service using the IPv4 address assigned by the virtual network.
 
 ### Ansible
 
@@ -174,7 +197,7 @@ This image is part of the [Immich Stack](https://daemonless.io/images/immich).
 
 **Architectures:** amd64
 **User:** `bsd` (UID/GID via PUID/PGID, defaults to 1000:1000)
-**Base:** FreeBSD 15.0
+**Base:** FreeBSD 15.1
 
 ---
 

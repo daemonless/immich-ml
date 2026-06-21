@@ -1,4 +1,4 @@
-ARG BASE_VERSION=15-quarterly
+ARG BASE_VERSION=15.1
 ARG UPSTREAM_URL="https://api.github.com/repos/immich-app/immich/releases/latest"
 ARG ONNXRUNTIME_RELEASES_API="https://api.github.com/repos/daemonless/immich-ml/releases"
 
@@ -46,7 +46,7 @@ RUN --mount=type=secret,id=github_token \
     fi && \
     ONNX_TAG=$(fetch -qo - "${ONNXRUNTIME_RELEASES_API}" | jq -r '[.[] | select(.tag_name | startswith("onnxruntime-"))] | first | .tag_name') && \
     ONNX_VERSION=$(echo "${ONNX_TAG}" | sed 's/onnxruntime-//') && \
-    WHEEL="onnxruntime-${ONNX_VERSION}-cp311-cp311-freebsd_15_0_release_amd64.whl" && \
+    WHEEL="onnxruntime-${ONNX_VERSION}-cp311-cp311-freebsd_15_1_release_amd64.whl" && \
     echo "Downloading onnxruntime ${ONNX_VERSION}" && \
     fetch -o /tmp/onnxruntime.whl "https://github.com/daemonless/immich-ml/releases/download/${ONNX_TAG}/${WHEEL}" && \
     rm -f /root/.netrc
@@ -171,7 +171,7 @@ RUN --mount=type=secret,id=github_token \
     fi && \
     ONNX_TAG=$(fetch -qo - "${ONNXRUNTIME_RELEASES_API}" | python3.11 -c "import sys,json; releases=[r for r in json.load(sys.stdin) if r['tag_name'].startswith('onnxruntime-')]; print(releases[0]['tag_name'])") && \
     ONNX_VERSION=$(echo "${ONNX_TAG}" | sed 's/onnxruntime-//') && \
-    WHEEL="onnxruntime-${ONNX_VERSION}-cp311-cp311-freebsd_15_0_release_amd64.whl" && \
+    WHEEL="onnxruntime-${ONNX_VERSION}-cp311-cp311-freebsd_15_1_release_amd64.whl" && \
     echo "Downloading onnxruntime ${ONNX_VERSION}" && \
     fetch -o /tmp/onnxruntime.whl "https://github.com/daemonless/immich-ml/releases/download/${ONNX_TAG}/${WHEEL}" && \
     bsdtar -xf /tmp/onnxruntime.whl -C /opt/venv/lib/python3.11/site-packages/ && \
