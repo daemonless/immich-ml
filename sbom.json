@@ -1,11 +1,11 @@
 {
-  "generated": "2026-06-18T09:52:39Z",
+  "generated": "2026-06-21T22:17:43Z",
   "image": "immich-ml",
   "tags": {
     "beta": {
-      "app_version": "v3.0.0-rc.1",
+      "app_version": "v3.0.0-rc.2",
       "arch": "amd64",
-      "generated": "2026-06-18T09:51:23Z",
+      "generated": "2026-06-21T22:16:01Z",
       "packages": {
         "dotnet": [],
         "freebsd": [
@@ -683,7 +683,7 @@
           },
           {
             "name": "nss",
-            "version": "3.123.1"
+            "version": "3.124"
           },
           {
             "name": "oniguruma",
@@ -1470,7 +1470,7 @@
           },
           {
             "name": "immich-ml",
-            "version": "3.0.0rc1"
+            "version": "3.0.0rc2"
           },
           {
             "name": "importlib_metadata",
@@ -1558,7 +1558,7 @@
           },
           {
             "name": "onnxruntime",
-            "version": "1.26.0"
+            "version": "1.27.0"
           },
           {
             "name": "orjson",
@@ -1801,7 +1801,7 @@
     "latest": {
       "app_version": "v2.7.5",
       "arch": "amd64",
-      "generated": "2026-06-18T09:51:08Z",
+      "generated": "2026-06-21T22:16:29Z",
       "packages": {
         "dotnet": [],
         "freebsd": [
@@ -2479,7 +2479,7 @@
           },
           {
             "name": "nss",
-            "version": "3.123.1"
+            "version": "3.124"
           },
           {
             "name": "oniguruma",
@@ -3354,7 +3354,7 @@
           },
           {
             "name": "onnxruntime",
-            "version": "1.26.0"
+            "version": "1.27.0"
           },
           {
             "name": "orjson",
