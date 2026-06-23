@@ -1,11 +1,11 @@
 {
-  "generated": "2026-06-21T22:17:43Z",
+  "generated": "2026-06-23T15:42:25Z",
   "image": "immich-ml",
   "tags": {
     "beta": {
       "app_version": "v3.0.0-rc.2",
       "arch": "amd64",
-      "generated": "2026-06-21T22:16:01Z",
+      "generated": "2026-06-23T15:41:03Z",
       "packages": {
         "dotnet": [],
         "freebsd": [
@@ -151,7 +151,7 @@
           },
           {
             "name": "aom",
-            "version": "3.13.3"
+            "version": "3.14.1"
           },
           {
             "name": "bash",
@@ -1139,7 +1139,7 @@
           },
           {
             "name": "python311",
-            "version": "3.11.15_3"
+            "version": "3.11.15_4"
           },
           {
             "name": "qhull",
@@ -1586,7 +1586,7 @@
           },
           {
             "name": "prettytable",
-            "version": "3.17.0"
+            "version": "3.18.0"
           },
           {
             "name": "protobuf",
@@ -1646,7 +1646,7 @@
           },
           {
             "name": "rapidocr",
-            "version": "3.8.4"
+            "version": "3.9.0"
           },
           {
             "name": "requests",
@@ -1801,7 +1801,7 @@
     "latest": {
       "app_version": "v2.7.5",
       "arch": "amd64",
-      "generated": "2026-06-21T22:16:29Z",
+      "generated": "2026-06-23T15:41:06Z",
       "packages": {
         "dotnet": [],
         "freebsd": [
@@ -1947,7 +1947,7 @@
           },
           {
             "name": "aom",
-            "version": "3.13.3"
+            "version": "3.14.1"
           },
           {
             "name": "bash",
@@ -2935,7 +2935,7 @@
           },
           {
             "name": "python311",
-            "version": "3.11.15_3"
+            "version": "3.11.15_4"
           },
           {
             "name": "qhull",
@@ -3382,7 +3382,7 @@
           },
           {
             "name": "prettytable",
-            "version": "3.17.0"
+            "version": "3.18.0"
           },
           {
             "name": "protobuf",
@@ -3442,7 +3442,7 @@
           },
           {
             "name": "rapidocr",
-            "version": "3.8.4"
+            "version": "3.9.0"
           },
           {
             "name": "requests",
