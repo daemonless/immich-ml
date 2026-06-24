@@ -1,11 +1,11 @@
 {
-  "generated": "2026-06-23T15:42:25Z",
+  "generated": "2026-06-24T21:38:43Z",
   "image": "immich-ml",
   "tags": {
     "beta": {
       "app_version": "v3.0.0-rc.2",
       "arch": "amd64",
-      "generated": "2026-06-23T15:41:03Z",
+      "generated": "2026-06-24T21:37:33Z",
       "packages": {
         "dotnet": [],
         "freebsd": [
@@ -703,7 +703,7 @@
           },
           {
             "name": "openexr",
-            "version": "3.4.12"
+            "version": "3.4.13"
           },
           {
             "name": "openjpeg",
@@ -1294,7 +1294,7 @@
         "python": [
           {
             "name": "Cython",
-            "version": "3.2.5"
+            "version": "3.2.6"
           },
           {
             "name": "Jinja2",
@@ -1801,7 +1801,7 @@
     "latest": {
       "app_version": "v2.7.5",
       "arch": "amd64",
-      "generated": "2026-06-23T15:41:06Z",
+      "generated": "2026-06-24T21:36:43Z",
       "packages": {
         "dotnet": [],
         "freebsd": [
@@ -2499,7 +2499,7 @@
           },
           {
             "name": "openexr",
-            "version": "3.4.12"
+            "version": "3.4.13"
           },
           {
             "name": "openjpeg",
@@ -3090,7 +3090,7 @@
         "python": [
           {
             "name": "Cython",
-            "version": "3.2.5"
+            "version": "3.2.6"
           },
           {
             "name": "Jinja2",
