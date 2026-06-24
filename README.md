@@ -18,14 +18,12 @@ Machine learning service for Immich — handles facial recognition, image classi
 | **Website** | [https://immich.app/](https://immich.app/) |
 
 ## Version Tags
-
 | Tag | Description | Best For |
 | :--- | :--- | :--- |
 | `latest` | **Upstream Binary**. Built from official release. | Most users. Matches Linux Docker behavior. |
 | `beta` | Beta release built from upstream v3.0.0-rc.2. | Alternative build. |
 
 ## Prerequisites
-
 Before deploying, ensure your host environment is ready. See the [Quick Start Guide](https://daemonless.io/guides/quick-start) for host setup instructions.
 
 ## Deployment
@@ -53,10 +51,11 @@ services:
 ```
 
 ### AppJail Director
-
 **.env**:
 
 ```
+# .env
+
 DIRECTOR_PROJECT=immich-ml
 MACHINE_LEARNING_HOST=0.0.0.0
 MACHINE_LEARNING_PORT=3003
@@ -69,6 +68,8 @@ TZ=UTC
 **appjail-director.yml**:
 
 ```yaml
+# appjail-director.yml
+
 options:
   - virtualnet: ':<random> default'
   - nat:
@@ -77,7 +78,7 @@ services:
     name: immich_ml
     options:
       - container: 'boot args:--pull'
-      - expose="3003:3003 proto:tcp" \
+      - expose: '3003:3003 proto:tcp' \
     oci:
       user: root
       environment:
@@ -100,6 +101,8 @@ volumes:
 **Makejail**:
 
 ```
+# Makejail 
+
 ARG tag=latest
 
 OPTION overwrite=force
