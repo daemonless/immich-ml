@@ -42,6 +42,9 @@ services:
       - PUID=1000  # User ID for the application process
       - PGID=1000  # Group ID for the application process
       - TZ=UTC  # Timezone for the container
+      - MACHINE_LEARNING_WORKERS=1  # Number of ML worker processes. Keep at 1 on weak / CPU-only hosts.
+      - MACHINE_LEARNING_WORKER_TIMEOUT=300  # Gunicorn worker timeout in seconds. Raise on slow CPUs so model loading doesn't time out and cycle the worker.
+      - SKIP_CHOWN=true  # Skip the one-time recursive chown of /cache and /config once ownership is recorded in /config/.chown_done (default true). Set false to force a chown on every start.
     volumes:
       - "/path/to/containers/immich-ml/cache:/cache"
       - "/path/to/containers/immich-ml:/config"
@@ -63,6 +66,9 @@ MACHINE_LEARNING_CACHE_FOLDER=/cache
 PUID=1000
 PGID=1000
 TZ=UTC
+MACHINE_LEARNING_WORKERS=1
+MACHINE_LEARNING_WORKER_TIMEOUT=300
+SKIP_CHOWN=true
 ```
 
 **appjail-director.yml**:
@@ -88,6 +94,9 @@ services:
         - PUID: !ENV '${PUID}'
         - PGID: !ENV '${PGID}'
         - TZ: !ENV '${TZ}'
+        - MACHINE_LEARNING_WORKERS: !ENV '${MACHINE_LEARNING_WORKERS}'
+        - MACHINE_LEARNING_WORKER_TIMEOUT: !ENV '${MACHINE_LEARNING_WORKER_TIMEOUT}'
+        - SKIP_CHOWN: !ENV '${SKIP_CHOWN}'
     volumes:
       - immich-ml_cache: /cache
       - immich-ml: /config
@@ -101,7 +110,7 @@ volumes:
 **Makejail**:
 
 ```
-# Makejail 
+# Makejail
 
 ARG tag=latest
 
@@ -121,6 +130,9 @@ podman run -d --name immich-ml \
   -e PUID=1000 \
   -e PGID=1000 \
   -e TZ=UTC \
+  -e MACHINE_LEARNING_WORKERS=1 \
+  -e MACHINE_LEARNING_WORKER_TIMEOUT=300 \
+  -e SKIP_CHOWN=true \
   -v /path/to/containers/immich-ml/cache:/cache \
   -v /path/to/containers/immich-ml:/config \
   ghcr.io/daemonless/immich-ml:latest
@@ -141,6 +153,9 @@ appjail oci run -Pd \
   -e PUID=1000 \
   -e PGID=1000 \
   -e TZ=UTC \
+  -e MACHINE_LEARNING_WORKERS=1 \
+  -e MACHINE_LEARNING_WORKER_TIMEOUT=300 \
+  -e SKIP_CHOWN=true \
   -o fstab="/path/to/containers/immich-ml/cache /cache <pseudofs>" \
   -o fstab="/path/to/containers/immich-ml /config <pseudofs>" \
   ghcr.io/daemonless/immich-ml:latest immich-ml
@@ -163,6 +178,9 @@ appjail oci run -Pd \
       PUID: "1000"
       PGID: "1000"
       TZ: "UTC"
+      MACHINE_LEARNING_WORKERS: "1"
+      MACHINE_LEARNING_WORKER_TIMEOUT: "300"
+      SKIP_CHOWN: "true"
     ports:
       - "3003:3003"
     volumes:
@@ -182,13 +200,16 @@ appjail oci run -Pd \
 | `PUID` | `1000` | User ID for the application process |
 | `PGID` | `1000` | Group ID for the application process |
 | `TZ` | `UTC` | Timezone for the container |
+| `MACHINE_LEARNING_WORKERS` | `1` | Number of ML worker processes. Keep at 1 on weak / CPU-only hosts. |
+| `MACHINE_LEARNING_WORKER_TIMEOUT` | `300` | Gunicorn worker timeout in seconds. Raise on slow CPUs so model loading doesn't time out and cycle the worker. |
+| `SKIP_CHOWN` | `true` | Skip the one-time recursive chown of /cache and /config once ownership is recorded in /config/.chown_done (default true). Set false to force a chown on every start. |
 
 ### Volumes
 
 | Path | Description |
 |------|-------------|
-| `/cache` | Model cache directory (HuggingFace) |
-| `/config` | Configuration directory (unused but mounted) |
+| `/cache` | Model cache (HuggingFace ONNX models). Use a persistent volume to avoid re-downloading models. |
+| `/config` | Gunicorn HOME and the .chown_done ownership marker. Must be a persistent volume (the chown-skip relies on it). |
 
 ### Ports
 
@@ -197,6 +218,33 @@ appjail oci run -Pd \
 | `3003` | TCP | ML API |
 
 This image is part of the [Immich Stack](https://daemonless.io/images/immich).
+
+### Low-power / CPU-only hosts
+
+On weak or CPU-only machines, model loading can be slow and the worker may
+time out during startup (repeated healthy/unhealthy cycles). Raise the
+timeout and pin the numeric libraries to a single thread to avoid thrashing:
+
+```yaml
+environment:
+  MACHINE_LEARNING_WORKERS: "1"
+  MACHINE_LEARNING_WORKER_TIMEOUT: "300"
+  MACHINE_LEARNING_MODEL_INTER_OP_THREADS: "1"
+  MACHINE_LEARNING_MODEL_INTRA_OP_THREADS: "1"
+  MACHINE_LEARNING_REQUEST_THREADS: "1"
+  OMP_NUM_THREADS: "1"
+  OPENBLAS_NUM_THREADS: "1"
+  MKL_NUM_THREADS: "1"
+```
+
+### Persistent volumes
+
+Mount both `/config` and `/cache` as **persistent volumes**. The one-time
+recursive chown is skipped on later starts via a `/config/.chown_done`
+marker — without a persistent `/config`, the marker is lost and the chown
+re-runs every start, so `SKIP_CHOWN=true` only takes effect once `/config`
+persists the marker.
+
 
 **Architectures:** amd64
 **User:** `bsd` (UID/GID via PUID/PGID, defaults to 1000:1000)

@@ -12,7 +12,34 @@ x-daemonless:
   mlock: false
   upstream_binary: true
   appjail: true
-  notes: "This image is part of the [Immich Stack](https://daemonless.io/images/immich)."
+  notes: |
+    This image is part of the [Immich Stack](https://daemonless.io/images/immich).
+
+    ### Low-power / CPU-only hosts
+
+    On weak or CPU-only machines, model loading can be slow and the worker may
+    time out during startup (repeated healthy/unhealthy cycles). Raise the
+    timeout and pin the numeric libraries to a single thread to avoid thrashing:
+
+    ```yaml
+    environment:
+      MACHINE_LEARNING_WORKERS: "1"
+      MACHINE_LEARNING_WORKER_TIMEOUT: "300"
+      MACHINE_LEARNING_MODEL_INTER_OP_THREADS: "1"
+      MACHINE_LEARNING_MODEL_INTRA_OP_THREADS: "1"
+      MACHINE_LEARNING_REQUEST_THREADS: "1"
+      OMP_NUM_THREADS: "1"
+      OPENBLAS_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+    ```
+
+    ### Persistent volumes
+
+    Mount both `/config` and `/cache` as **persistent volumes**. The one-time
+    recursive chown is skipped on later starts via a `/config/.chown_done`
+    marker — without a persistent `/config`, the marker is lost and the chown
+    re-runs every start, so `SKIP_CHOWN=true` only takes effect once `/config`
+    persists the marker.
 
   docs:
     env:
@@ -22,9 +49,18 @@ x-daemonless:
       MACHINE_LEARNING_HOST: "Host to bind to (0.0.0.0)"
       MACHINE_LEARNING_PORT: "Port to bind to (3003)"
       MACHINE_LEARNING_CACHE_FOLDER: "Path to cache folder (/cache)"
+      MACHINE_LEARNING_WORKERS:
+        desc: "Number of ML worker processes. Keep at 1 on weak / CPU-only hosts."
+        default: "1"
+      MACHINE_LEARNING_WORKER_TIMEOUT:
+        desc: "Gunicorn worker timeout in seconds. Raise on slow CPUs so model loading doesn't time out and cycle the worker."
+        default: "300"
+      SKIP_CHOWN:
+        desc: "Skip the one-time recursive chown of /cache and /config once ownership is recorded in /config/.chown_done (default true). Set false to force a chown on every start."
+        default: "true"
     volumes:
-      /cache: "Model cache directory (HuggingFace)"
-      /config: "Configuration directory (unused but mounted)"
+      /cache: "Model cache (HuggingFace ONNX models). Use a persistent volume to avoid re-downloading models."
+      /config: "Gunicorn HOME and the .chown_done ownership marker. Must be a persistent volume (the chown-skip relies on it)."
     ports:
       3003: "ML API"
 

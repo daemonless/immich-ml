@@ -13,5 +13,5 @@ exec s6-setuidgid bsd /opt/venv/bin/python -m gunicorn \
     immich_ml.main:app \
     -k uvicorn.workers.UvicornWorker \
     -b ${MACHINE_LEARNING_HOST:-0.0.0.0}:${MACHINE_LEARNING_PORT:-3003} \
-    -w 1 \
+    -w ${MACHINE_LEARNING_WORKERS:-1} \
     --timeout ${MACHINE_LEARNING_WORKER_TIMEOUT:-300}
