@@ -1,11 +1,11 @@
 {
-  "generated": "2026-06-24T21:38:43Z",
+  "generated": "2026-06-28T17:05:28Z",
   "image": "immich-ml",
   "tags": {
     "beta": {
       "app_version": "v3.0.0-rc.2",
       "arch": "amd64",
-      "generated": "2026-06-24T21:37:33Z",
+      "generated": "2026-06-28T17:04:16Z",
       "packages": {
         "dotnet": [],
         "freebsd": [
@@ -1801,7 +1801,7 @@
     "latest": {
       "app_version": "v2.7.5",
       "arch": "amd64",
-      "generated": "2026-06-24T21:36:43Z",
+      "generated": "2026-06-28T17:03:54Z",
       "packages": {
         "dotnet": [],
         "freebsd": [
