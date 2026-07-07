@@ -31,20 +31,21 @@ jobs:
           usesh: true
           copyback: true
           prepare: |
+            PYVER=$(echo "${{ inputs.python_version }}" | tr -d '.')
             pkg install -y cmake ninja gmake git patch \
-              python${{ inputs.python_version == '3.11' && '311' || '312' }} \
-              py${{ inputs.python_version == '3.11' && '311' || '312' }}-pip \
-              py${{ inputs.python_version == '3.11' && '311' || '312' }}-setuptools \
-              py${{ inputs.python_version == '3.11' && '311' || '312' }}-wheel \
-              py${{ inputs.python_version == '3.11' && '311' || '312' }}-numpy \
-              py${{ inputs.python_version == '3.11' && '311' || '312' }}-pybind11
+              python${PYVER} \
+              py${PYVER}-pip \
+              py${PYVER}-setuptools \
+              py${PYVER}-wheel \
+              py${PYVER}-numpy \
+              py${PYVER}-pybind11
             # Override BSD patch with GNU patch (onnxruntime uses --binary flag)
             mv /usr/bin/patch /usr/bin/patch.bsd
             ln -sf /usr/local/bin/gpatch /usr/bin/patch
             which patch && patch --version | head -1
           run: |
             set -ex
-            PYVER=${{ inputs.python_version == '3.11' && '311' || '312' }}
+            PYVER=$(echo "${{ inputs.python_version }}" | tr -d '.')
             PYTHON=python${PYVER%??}.${PYVER#?}
             VERSION=${{ inputs.onnxruntime_version }}
 
