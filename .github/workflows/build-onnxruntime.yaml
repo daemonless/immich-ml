@@ -110,5 +110,5 @@ jobs:
             gh release create "${TAG}" \
               "${WHEEL}" \
               --title "onnxruntime ${ONNX_VERSION} FreeBSD wheel" \
-              --notes "Pre-built onnxruntime ${ONNX_VERSION} wheel for FreeBSD 15.1 / Python ${PY_VERSION} (amd64, CPU only)"
+              --notes "Pre-built onnxruntime ${ONNX_VERSION} wheel for FreeBSD 15 / Python ${PY_VERSION} (amd64, CPU only)"
           fi

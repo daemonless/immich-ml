@@ -4,7 +4,7 @@
 # Source: Containerfile.j2
 # --------------------------------------------------------------------------
 
-ARG BASE_VERSION=15.1
+ARG BASE_VERSION=15.1-latest
 ARG UPSTREAM_URL="https://api.github.com/repos/immich-app/immich/releases/latest"
 ARG ONNXRUNTIME_RELEASES_API="https://api.github.com/repos/daemonless/immich-ml/releases"
 
@@ -16,13 +16,13 @@ ARG ONNXRUNTIME_RELEASES_API
 # Build dependencies
 RUN pkg update && pkg install -y \
     jq \
-    python311 py311-pip py311-setuptools py311-wheel \
-    py311-numpy py311-pillow py311-orjson py311-scipy py311-scikit-learn py311-scikit-image \
-    py311-pydantic2 py311-pydantic-settings \
-    py311-fastapi py311-uvicorn py311-gunicorn \
-    py311-huggingface-hub py311-tokenizers \
-    py311-onnx \
-    py311-albumentations py311-albucore \
+    python312 py312-pip py312-setuptools py312-wheel \
+    py312-numpy py312-pillow py312-orjson py312-scipy py312-scikit-learn py312-scikit-image \
+    py312-pydantic2 py312-pydantic-settings \
+    py312-fastapi py312-uvicorn py312-gunicorn \
+    py312-huggingface-hub py312-tokenizers \
+    py312-onnx \
+    py312-albumentations py312-albucore \
     git-lite gmake pkgconf \
     FreeBSD-clang FreeBSD-clibs-dev FreeBSD-clang-dev FreeBSD-utilities-dev \
     opencv cmake ninja \
@@ -52,19 +52,19 @@ RUN --mount=type=secret,id=github_token \
     fi && \
     ONNX_TAG=$(fetch -qo - "${ONNXRUNTIME_RELEASES_API}" | jq -r '[.[] | select(.tag_name | startswith("onnxruntime-"))] | first | .tag_name') && \
     ONNX_VERSION=$(echo "${ONNX_TAG}" | sed 's/onnxruntime-//') && \
-    WHEEL="onnxruntime-${ONNX_VERSION}-cp311-cp311-freebsd_15_1_release_amd64.whl" && \
+    WHEEL="onnxruntime-${ONNX_VERSION}-cp312-cp312-freebsd_15_1_release_amd64.whl" && \
     echo "Downloading onnxruntime ${ONNX_VERSION}" && \
     fetch -o /tmp/onnxruntime.whl "https://github.com/daemonless/immich-ml/releases/download/${ONNX_TAG}/${WHEEL}" && \
     rm -f /root/.netrc
 
 # Create virtual environment with system packages
-RUN python3.11 -m venv --system-site-packages /opt/venv
+RUN python3.12 -m venv --system-site-packages /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 ENV VIRTUAL_ENV="/opt/venv"
 
 # Upgrade pip and install onnxruntime wheel
 RUN pip install --no-cache-dir --upgrade pip setuptools wheel && \
-    bsdtar -xf /tmp/onnxruntime.whl -C /opt/venv/lib/python3.11/site-packages/ && \
+    bsdtar -xf /tmp/onnxruntime.whl -C /opt/venv/lib/python3.12/site-packages/ && \
     rm -f /tmp/onnxruntime.whl
 
 # Clone immich source (resolve latest version from upstream)
@@ -85,7 +85,9 @@ RUN --mount=type=secret,id=github_token \
 WORKDIR /build/machine-learning
 
 # Install remaining dependencies not available from ports
-# Note: numpy<2 requirement satisfied by py311-numpy pkg (1.26.4)
+# Note: py312-numpy on 15.1-latest is numpy 2.x (2.4.6). immich-ml previously
+# ran on numpy<2 (py311-numpy 1.26.4); onnxruntime cp312 is built against the
+# same latest/py312 numpy, so they're consistent — watch for numpy-2 runtime issues.
 RUN pip install --no-cache-dir \
     aiocache \
     ftfy \
@@ -115,14 +117,14 @@ RUN pip install --no-cache-dir --no-deps . && \
 
 # https://github.com/immich-app/immich/pull/28610
 COPY patches/immich-28610-ocr-model_root_dir.patch /tmp/immich-28610.patch
-RUN patch -d /opt/venv/lib/python3.11/site-packages -p1 < /tmp/immich-28610.patch && rm /tmp/immich-28610.patch
+RUN patch -d /opt/venv/lib/python3.12/site-packages -p1 < /tmp/immich-28610.patch && rm /tmp/immich-28610.patch
 
 # Production image
 FROM ghcr.io/daemonless/base:${BASE_VERSION}
 
 ARG FREEBSD_ARCH=amd64
 ARG ONNXRUNTIME_RELEASES_API
-ARG PACKAGES="python311 py311-numpy py311-pillow py311-orjson py311-scipy py311-scikit-learn py311-scikit-image py311-pydantic2 py311-pydantic-settings py311-fastapi py311-uvicorn py311-gunicorn py311-huggingface-hub py311-tokenizers py311-onnx py311-albumentations py311-albucore openblas geos opencv"
+ARG PACKAGES="python312 py312-numpy py312-pillow py312-orjson py312-scipy py312-scikit-learn py312-scikit-image py312-pydantic2 py312-pydantic-settings py312-fastapi py312-uvicorn py312-gunicorn py312-huggingface-hub py312-tokenizers py312-onnx py312-albumentations py312-albucore openblas geos opencv"
 ARG UPSTREAM_URL="https://api.github.com/repos/immich-app/immich/releases/latest"
 ARG UPSTREAM_JQ=".tag_name"
 ARG HEALTHCHECK_ENDPOINT="http://localhost:3003/ping"
@@ -164,12 +166,12 @@ RUN --mount=type=secret,id=github_token \
         "${GITHUB_TOKEN}" "${GITHUB_TOKEN}" > /root/.netrc && \
       chmod 600 /root/.netrc; \
     fi && \
-    ONNX_TAG=$(fetch -qo - "${ONNXRUNTIME_RELEASES_API}" | python3.11 -c "import sys,json; releases=[r for r in json.load(sys.stdin) if r['tag_name'].startswith('onnxruntime-')]; print(releases[0]['tag_name'])") && \
+    ONNX_TAG=$(fetch -qo - "${ONNXRUNTIME_RELEASES_API}" | python3.12 -c "import sys,json; releases=[r for r in json.load(sys.stdin) if r['tag_name'].startswith('onnxruntime-')]; print(releases[0]['tag_name'])") && \
     ONNX_VERSION=$(echo "${ONNX_TAG}" | sed 's/onnxruntime-//') && \
-    WHEEL="onnxruntime-${ONNX_VERSION}-cp311-cp311-freebsd_15_1_release_amd64.whl" && \
+    WHEEL="onnxruntime-${ONNX_VERSION}-cp312-cp312-freebsd_15_1_release_amd64.whl" && \
     echo "Downloading onnxruntime ${ONNX_VERSION}" && \
     fetch -o /tmp/onnxruntime.whl "https://github.com/daemonless/immich-ml/releases/download/${ONNX_TAG}/${WHEEL}" && \
-    bsdtar -xf /tmp/onnxruntime.whl -C /opt/venv/lib/python3.11/site-packages/ && \
+    bsdtar -xf /tmp/onnxruntime.whl -C /opt/venv/lib/python3.12/site-packages/ && \
     rm -f /tmp/onnxruntime.whl /root/.netrc
 
 # Copy version from builder
