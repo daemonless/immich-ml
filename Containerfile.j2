@@ -15,7 +15,7 @@ RUN pkg update && pkg install -y \
     py312-pydantic2 py312-pydantic-settings \
     py312-fastapi py312-uvicorn py312-gunicorn \
     py312-huggingface-hub py312-tokenizers \
-    py312-onnx \
+    py312-onnx py312-ml-dtypes \
     py312-albumentations py312-albucore \
     git-lite gmake pkgconf \
     FreeBSD-clang FreeBSD-clibs-dev FreeBSD-clang-dev FreeBSD-utilities-dev \
@@ -116,7 +116,7 @@ FROM ghcr.io/daemonless/base:${BASE_VERSION}
 
 ARG FREEBSD_ARCH=amd64
 ARG ONNXRUNTIME_RELEASES_API
-ARG PACKAGES="python312 py312-numpy py312-pillow py312-orjson py312-scipy py312-scikit-learn py312-scikit-image py312-pydantic2 py312-pydantic-settings py312-fastapi py312-uvicorn py312-gunicorn py312-huggingface-hub py312-tokenizers py312-onnx py312-albumentations py312-albucore openblas geos opencv"
+ARG PACKAGES="python312 py312-numpy py312-pillow py312-orjson py312-scipy py312-scikit-learn py312-scikit-image py312-pydantic2 py312-pydantic-settings py312-fastapi py312-uvicorn py312-gunicorn py312-huggingface-hub py312-tokenizers py312-onnx py312-ml-dtypes py312-albumentations py312-albucore openblas geos opencv"
 ARG UPSTREAM_URL="https://api.github.com/repos/immich-app/immich/releases/latest"
 ARG UPSTREAM_JQ=".tag_name"
 {%- if ports %}
