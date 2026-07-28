@@ -67,7 +67,7 @@ jobs:
 
             BUILD_FLAGS=""
             if [ "$VARIANT" = "no-avx" ]; then
-              BUILD_FLAGS="--disable_avx"
+              BUILD_FLAGS="--cmake_extra_defines onnxruntime_USE_AVX=OFF onnxruntime_USE_AVX2=OFF onnxruntime_USE_AVX512=OFF"
             fi
 
             CC=clang CXX=clang++ ${PYTHON} ./tools/ci_build/build.py \
