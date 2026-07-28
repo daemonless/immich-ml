@@ -44,11 +44,9 @@ RUN --mount=type=secret,id=github_token \
         "${GITHUB_TOKEN}" "${GITHUB_TOKEN}" > /root/.netrc && \
       chmod 600 /root/.netrc; \
     fi && \
-    ONNX_TAG=$(fetch -qo - "${ONNXRUNTIME_RELEASES_API}" | jq -r '[.[] | select(.tag_name | startswith("onnxruntime-"))] | first | .tag_name') && \
-    ONNX_VERSION=$(echo "${ONNX_TAG}" | sed 's/onnxruntime-//') && \
-    WHEEL="onnxruntime-${ONNX_VERSION}-cp312-cp312-freebsd_15_1_release_amd64.whl" && \
-    echo "Downloading onnxruntime ${ONNX_VERSION}" && \
-    fetch -o /tmp/onnxruntime.whl "https://github.com/daemonless/immich-ml/releases/download/${ONNX_TAG}/${WHEEL}" && \
+    ONNX_URL=$(fetch -qo - "${ONNXRUNTIME_RELEASES_API}" | jq -r '[.[] | select(.tag_name | startswith("onnxruntime-"))] | first | .assets[] | select(.name | test("cp312-cp312-freebsd_15_1_release.*amd64\\.whl$")) | .browser_download_url' | head -1) && \
+    echo "Downloading onnxruntime from ${ONNX_URL}" && \
+    fetch -o /tmp/onnxruntime.whl "${ONNX_URL}" && \
     rm -f /root/.netrc
 
 # Create virtual environment with system packages
@@ -171,11 +169,9 @@ RUN --mount=type=secret,id=github_token \
         "${GITHUB_TOKEN}" "${GITHUB_TOKEN}" > /root/.netrc && \
       chmod 600 /root/.netrc; \
     fi && \
-    ONNX_TAG=$(fetch -qo - "${ONNXRUNTIME_RELEASES_API}" | python3.12 -c "import sys,json; releases=[r for r in json.load(sys.stdin) if r['tag_name'].startswith('onnxruntime-')]; print(releases[0]['tag_name'])") && \
-    ONNX_VERSION=$(echo "${ONNX_TAG}" | sed 's/onnxruntime-//') && \
-    WHEEL="onnxruntime-${ONNX_VERSION}-cp312-cp312-freebsd_15_1_release_amd64.whl" && \
-    echo "Downloading onnxruntime ${ONNX_VERSION}" && \
-    fetch -o /tmp/onnxruntime.whl "https://github.com/daemonless/immich-ml/releases/download/${ONNX_TAG}/${WHEEL}" && \
+    ONNX_URL=$(fetch -qo - "${ONNXRUNTIME_RELEASES_API}" | python3.12 -c "import sys,json,re; releases=[r for r in json.load(sys.stdin) if r['tag_name'].startswith('onnxruntime-')]; assets=[a for a in releases[0]['assets'] if re.search(r'cp312-cp312-freebsd_15_1_release.*amd64\.whl$', a['name'])]; print(assets[0]['browser_download_url'])") && \
+    echo "Downloading onnxruntime from ${ONNX_URL}" && \
+    fetch -o /tmp/onnxruntime.whl "${ONNX_URL}" && \
     bsdtar -xf /tmp/onnxruntime.whl -C /opt/venv/lib/python3.12/site-packages/ && \
     rm -f /tmp/onnxruntime.whl /root/.netrc
 
