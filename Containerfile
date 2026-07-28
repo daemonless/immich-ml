@@ -7,11 +7,13 @@
 ARG BASE_VERSION=15.1-latest
 ARG UPSTREAM_URL="https://api.github.com/repos/immich-app/immich/releases/latest"
 ARG ONNXRUNTIME_RELEASES_API="https://api.github.com/repos/daemonless/immich-ml/releases"
+ARG NO_AVX="false"
 
 FROM ghcr.io/daemonless/base:${BASE_VERSION} AS builder
 
 ARG UPSTREAM_URL
 ARG ONNXRUNTIME_RELEASES_API
+ARG NO_AVX
 
 # Build dependencies
 RUN pkg update && pkg install -y \
@@ -50,7 +52,8 @@ RUN --mount=type=secret,id=github_token \
         "${GITHUB_TOKEN}" "${GITHUB_TOKEN}" > /root/.netrc && \
       chmod 600 /root/.netrc; \
     fi && \
-    ONNX_URL=$(fetch -qo - "${ONNXRUNTIME_RELEASES_API}" | jq -r '[.[] | select(.tag_name | startswith("onnxruntime-"))] | first | .assets[] | select(.name | test("cp312-cp312-freebsd_15_1_release.*amd64\\.whl$")) | .browser_download_url' | head -1) && \
+    WHEEL_REGEX=$([ "${NO_AVX}" = "true" ] && echo 'cp312-cp312-freebsd_15_1_release_no_avx.*amd64\.whl$' || echo 'cp312-cp312-freebsd_15_1_release-amd64\.whl$') && \
+    ONNX_URL=$(fetch -qo - "${ONNXRUNTIME_RELEASES_API}" | python3.12 -c "import sys,json,re; releases=[r for r in json.load(sys.stdin) if r['tag_name'].startswith('onnxruntime-')]; assets=[a for a in releases[0]['assets'] if re.search(r'${WHEEL_REGEX}', a['name'])]; print(assets[0]['browser_download_url'])") && \
     echo "Downloading onnxruntime from ${ONNX_URL}" && \
     fetch -o /tmp/onnxruntime.whl "${ONNX_URL}" && \
     rm -f /root/.netrc
@@ -122,6 +125,7 @@ FROM ghcr.io/daemonless/base:${BASE_VERSION}
 
 ARG FREEBSD_ARCH=amd64
 ARG ONNXRUNTIME_RELEASES_API
+ARG NO_AVX
 ARG PACKAGES="python312 py312-numpy py312-pillow py312-orjson py312-scipy py312-scikit-learn py312-scikit-image py312-pydantic2 py312-pydantic-settings py312-fastapi py312-uvicorn py312-gunicorn py312-huggingface-hub py312-tokenizers py312-onnx py312-ml-dtypes py312-albumentations py312-albucore openblas geos opencv"
 ARG UPSTREAM_URL="https://api.github.com/repos/immich-app/immich/releases/latest"
 ARG UPSTREAM_JQ=".tag_name"
@@ -164,7 +168,8 @@ RUN --mount=type=secret,id=github_token \
         "${GITHUB_TOKEN}" "${GITHUB_TOKEN}" > /root/.netrc && \
       chmod 600 /root/.netrc; \
     fi && \
-    ONNX_URL=$(fetch -qo - "${ONNXRUNTIME_RELEASES_API}" | python3.12 -c "import sys,json,re; releases=[r for r in json.load(sys.stdin) if r['tag_name'].startswith('onnxruntime-')]; assets=[a for a in releases[0]['assets'] if re.search(r'cp312-cp312-freebsd_15_1_release.*amd64\.whl$', a['name'])]; print(assets[0]['browser_download_url'])") && \
+    WHEEL_REGEX=$([ "${NO_AVX}" = "true" ] && echo 'cp312-cp312-freebsd_15_1_release_no_avx.*amd64\.whl$' || echo 'cp312-cp312-freebsd_15_1_release-amd64\.whl$') && \
+    ONNX_URL=$(fetch -qo - "${ONNXRUNTIME_RELEASES_API}" | python3.12 -c "import sys,json,re; releases=[r for r in json.load(sys.stdin) if r['tag_name'].startswith('onnxruntime-')]; assets=[a for a in releases[0]['assets'] if re.search(r'${WHEEL_REGEX}', a['name'])]; print(assets[0]['browser_download_url'])") && \
     echo "Downloading onnxruntime from ${ONNX_URL}" && \
     fetch -o /tmp/onnxruntime.whl "${ONNX_URL}" && \
     bsdtar -xf /tmp/onnxruntime.whl -C /opt/venv/lib/python3.12/site-packages/ && \

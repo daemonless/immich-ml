@@ -10,3 +10,7 @@ build:
       containerfile: Containerfile
       default: true
       aliases: [beta]
+    - tag: no-avx
+      containerfile: Containerfile
+      args:
+        NO_AVX: "true"
