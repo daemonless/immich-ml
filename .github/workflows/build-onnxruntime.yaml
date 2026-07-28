@@ -20,6 +20,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        variant: [standard, no-avx]
     steps:
       - uses: actions/checkout@v4
 
@@ -48,6 +52,7 @@ jobs:
             PYVER=$(echo "${{ inputs.python_version }}" | tr -d '.')
             PYTHON=python${PYVER%??}.${PYVER#?}
             VERSION=${{ inputs.onnxruntime_version }}
+            VARIANT="${{ matrix.variant }}"
 
             # Clone onnxruntime
             git clone --depth 1 --branch v${VERSION} --recursive \
@@ -58,8 +63,13 @@ jobs:
             patch -p1 < ../patches/onnxruntime-freebsd.patch
 
             # Build with wheel generation
-            # Extra include path needed for logging.h on FreeBSD
             export CXXFLAGS="-I$(pwd)/include/onnxruntime/core/common/logging"
+
+            BUILD_FLAGS=""
+            if [ "$VARIANT" = "no-avx" ]; then
+              BUILD_FLAGS="--disable_avx"
+            fi
+
             CC=clang CXX=clang++ ${PYTHON} ./tools/ci_build/build.py \
               --build_dir ./build/FreeBSD \
               --config Release \
@@ -68,16 +78,24 @@ jobs:
               --skip_tests \
               --parallel \
               --compile_no_warning_as_error \
-              --allow_running_as_root
+              --allow_running_as_root \
+              ${BUILD_FLAGS}
 
             # Copy wheel to workspace for upload
             mkdir -p ../dist
-            cp build/FreeBSD/Release/dist/onnxruntime-*.whl ../dist/
+            if [ "$VARIANT" = "no-avx" ]; then
+              for w in build/FreeBSD/Release/dist/onnxruntime-*.whl; do
+                new_w=$(echo "$w" | sed 's/-amd64\.whl$/_no_avx-amd64.whl/')
+                cp "$w" "../dist/$(basename "$new_w")"
+              done
+            else
+              cp build/FreeBSD/Release/dist/onnxruntime-*.whl ../dist/
+            fi
 
       - name: Upload wheel artifact
         uses: actions/upload-artifact@v4
         with:
-          name: onnxruntime-freebsd-py${{ inputs.python_version }}
+          name: onnxruntime-freebsd-py${{ inputs.python_version }}-${{ matrix.variant }}
           path: dist/*.whl
           if-no-files-found: error
 
@@ -88,11 +106,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Download wheel
+      - name: Download all wheel artifacts
         uses: actions/download-artifact@v4
         with:
-          name: onnxruntime-freebsd-py${{ inputs.python_version }}
+          pattern: onnxruntime-freebsd-py${{ inputs.python_version }}-*
           path: dist
+          merge-multiple: true
 
       - name: Create or Update Release
         env:
@@ -100,15 +119,14 @@ jobs:
           ONNX_VERSION: ${{ inputs.onnxruntime_version }}
           PY_VERSION: ${{ inputs.python_version }}
         run: |
-          WHEEL=$(ls dist/*.whl | head -1)
           TAG="onnxruntime-${ONNX_VERSION}"
 
-          # Create release if it doesn't exist, otherwise upload to existing
+          # Create release if it doesn't exist, otherwise upload all wheels to existing release
           if gh release view "${TAG}" >/dev/null 2>&1; then
-            gh release upload "${TAG}" "${WHEEL}" --clobber
+            gh release upload "${TAG}" dist/*.whl --clobber
           else
             gh release create "${TAG}" \
-              "${WHEEL}" \
-              --title "onnxruntime ${ONNX_VERSION} FreeBSD wheel" \
-              --notes "Pre-built onnxruntime ${ONNX_VERSION} wheel for FreeBSD 15 / Python ${PY_VERSION} (amd64, CPU only)"
+              dist/*.whl \
+              --title "onnxruntime ${ONNX_VERSION} FreeBSD wheels" \
+              --notes "Pre-built onnxruntime ${ONNX_VERSION} wheels for FreeBSD 15 / Python ${PY_VERSION} (amd64, standard and no-avx)"
           fi
