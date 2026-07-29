@@ -85,7 +85,7 @@ jobs:
             mkdir -p ../dist
             if [ "$VARIANT" = "no-avx" ]; then
               for w in build/FreeBSD/Release/dist/onnxruntime-*.whl; do
-                new_w=$(echo "$w" | sed 's/-amd64\.whl$/_no_avx-amd64.whl/')
+                new_w=$(echo "$w" | sed 's/\.whl$/_no_avx.whl/')
                 cp "$w" "../dist/$(basename "$new_w")"
               done
             else

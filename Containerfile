@@ -52,8 +52,8 @@ RUN --mount=type=secret,id=github_token \
         "${GITHUB_TOKEN}" "${GITHUB_TOKEN}" > /root/.netrc && \
       chmod 600 /root/.netrc; \
     fi && \
-    WHEEL_REGEX=$([ "${NO_AVX}" = "true" ] && echo 'cp312-cp312-freebsd_15_1_release_no_avx.*amd64\.whl$' || echo 'cp312-cp312-freebsd_15_1_release-amd64\.whl$') && \
-    ONNX_URL=$(fetch -qo - "${ONNXRUNTIME_RELEASES_API}" | python3.12 -c "import sys,json,re; releases=[r for r in json.load(sys.stdin) if r['tag_name'].startswith('onnxruntime-')]; assets=[a for a in releases[0]['assets'] if re.search(r'${WHEEL_REGEX}', a['name'])]; print(assets[0]['browser_download_url'])") && \
+    IS_NO_AVX=$([ "${NO_AVX}" = "true" ] && echo "true" || echo "false") && \
+    ONNX_URL=$(fetch -qo - "${ONNXRUNTIME_RELEASES_API}" | python3.12 -c "import sys,json; releases=[r for r in json.load(sys.stdin) if r['tag_name'].startswith('onnxruntime-')]; is_no_avx='${IS_NO_AVX}'=='true'; assets=[a for a in releases[0]['assets'] if ('no_avx' in a['name']) == is_no_avx]; print(assets[0]['browser_download_url'])") && \
     echo "Downloading onnxruntime from ${ONNX_URL}" && \
     fetch -o /tmp/onnxruntime.whl "${ONNX_URL}" && \
     rm -f /root/.netrc
@@ -168,8 +168,8 @@ RUN --mount=type=secret,id=github_token \
         "${GITHUB_TOKEN}" "${GITHUB_TOKEN}" > /root/.netrc && \
       chmod 600 /root/.netrc; \
     fi && \
-    WHEEL_REGEX=$([ "${NO_AVX}" = "true" ] && echo 'cp312-cp312-freebsd_15_1_release_no_avx.*amd64\.whl$' || echo 'cp312-cp312-freebsd_15_1_release-amd64\.whl$') && \
-    ONNX_URL=$(fetch -qo - "${ONNXRUNTIME_RELEASES_API}" | python3.12 -c "import sys,json,re; releases=[r for r in json.load(sys.stdin) if r['tag_name'].startswith('onnxruntime-')]; assets=[a for a in releases[0]['assets'] if re.search(r'${WHEEL_REGEX}', a['name'])]; print(assets[0]['browser_download_url'])") && \
+    IS_NO_AVX=$([ "${NO_AVX}" = "true" ] && echo "true" || echo "false") && \
+    ONNX_URL=$(fetch -qo - "${ONNXRUNTIME_RELEASES_API}" | python3.12 -c "import sys,json; releases=[r for r in json.load(sys.stdin) if r['tag_name'].startswith('onnxruntime-')]; is_no_avx='${IS_NO_AVX}'=='true'; assets=[a for a in releases[0]['assets'] if ('no_avx' in a['name']) == is_no_avx]; print(assets[0]['browser_download_url'])") && \
     echo "Downloading onnxruntime from ${ONNX_URL}" && \
     fetch -o /tmp/onnxruntime.whl "${ONNX_URL}" && \
     bsdtar -xf /tmp/onnxruntime.whl -C /opt/venv/lib/python3.12/site-packages/ && \
