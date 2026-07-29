@@ -1,11 +1,11 @@
 {
-  "generated": "2026-07-29T08:19:15Z",
+  "generated": "2026-07-29T16:30:38Z",
   "image": "immich-ml",
   "tags": {
     "latest": {
-      "app_version": "v3.0.3",
+      "app_version": "v3.1.0",
       "arch": "amd64",
-      "generated": "2026-07-29T08:17:45Z",
+      "generated": "2026-07-29T16:29:20Z",
       "packages": {
         "dotnet": [],
         "freebsd": [
@@ -1542,7 +1542,7 @@
           },
           {
             "name": "immich-ml",
-            "version": "3.0.3"
+            "version": "3.1.0"
           },
           {
             "name": "importlib_metadata",
@@ -1883,9 +1883,9 @@
       }
     },
     "no-avx": {
-      "app_version": "v3.0.3",
+      "app_version": "v3.1.0",
       "arch": "amd64",
-      "generated": "2026-07-29T08:17:58Z",
+      "generated": "2026-07-29T16:28:08Z",
       "packages": {
         "dotnet": [],
         "freebsd": [
@@ -3422,7 +3422,7 @@
           },
           {
             "name": "immich-ml",
-            "version": "3.0.3"
+            "version": "3.1.0"
           },
           {
             "name": "importlib_metadata",
