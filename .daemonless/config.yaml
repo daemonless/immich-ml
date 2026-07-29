@@ -14,3 +14,4 @@ build:
       containerfile: Containerfile
       args:
         NO_AVX: "true"
+      tag_desc: "**No-AVX Build**. onnxruntime compiled without AVX/AVX2/AVX512, for CPUs (or VMs/older hardware) that don't support AVX."
