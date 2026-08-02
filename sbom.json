@@ -1,11 +1,11 @@
 {
-  "generated": "2026-08-01T20:22:48Z",
+  "generated": "2026-08-02T09:56:31Z",
   "image": "immich-ml",
   "tags": {
     "latest": {
       "app_version": "v3.1.0",
       "arch": "amd64",
-      "generated": "2026-08-01T20:16:42Z",
+      "generated": "2026-08-02T09:51:42Z",
       "packages": {
         "dotnet": [],
         "freebsd": [
@@ -3072,7 +3072,7 @@
     "no-avx": {
       "app_version": "v3.1.0",
       "arch": "amd64",
-      "generated": "2026-08-01T20:18:17Z",
+      "generated": "2026-08-02T09:53:18Z",
       "packages": {
         "dotnet": [],
         "freebsd": [
