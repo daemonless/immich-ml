@@ -43,6 +43,8 @@ ENV CC="/usr/local/libexec/ccache/clang"
 ENV CXX="/usr/local/libexec/ccache/clang++"
 ENV CMAKE_C_COMPILER="/usr/local/libexec/ccache/clang"
 ENV CMAKE_CXX_COMPILER="/usr/local/libexec/ccache/clang++"
+ENV CFLAGS=$([ "${NO_AVX}" = "true" ] && echo "-march=x86-64 -mno-avx -mno-avx2 -mno-sse4.1 -mno-sse4.2 -mno-ssse3 -mno-fma ${CFLAGS}" || echo "${CFLAGS}")
+ENV CXXFLAGS=$([ "${NO_AVX}" = "true" ] && echo "-march=x86-64 -mno-avx -mno-avx2 -mno-sse4.1 -mno-sse4.2 -mno-ssse3 -mno-fma ${CXXFLAGS}" || echo "${CXXFLAGS}")
 
 # Download pre-built onnxruntime wheel (auto-detect latest release)
 RUN --mount=type=secret,id=github_token \

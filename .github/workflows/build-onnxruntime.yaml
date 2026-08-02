@@ -63,11 +63,14 @@ jobs:
             patch -p1 < ../patches/onnxruntime-freebsd.patch
 
             # Build with wheel generation
-            export CXXFLAGS="-I$(pwd)/include/onnxruntime/core/common/logging"
-
-            BUILD_FLAGS=""
             if [ "$VARIANT" = "no-avx" ]; then
-              BUILD_FLAGS="--cmake_extra_defines onnxruntime_USE_AVX=OFF onnxruntime_USE_AVX2=OFF onnxruntime_USE_AVX512=OFF"
+              NO_AVX_FLAGS="-march=x86-64 -mno-avx -mno-avx2 -mno-sse4.1 -mno-sse4.2 -mno-ssse3 -mno-fma"
+              export CFLAGS="${NO_AVX_FLAGS}"
+              export CXXFLAGS="-I$(pwd)/include/onnxruntime/core/common/logging ${NO_AVX_FLAGS}"
+              BUILD_FLAGS="--cmake_extra_defines onnxruntime_USE_AVX=OFF onnxruntime_USE_AVX2=OFF onnxruntime_USE_AVX512=OFF CMAKE_C_FLAGS=\"${NO_AVX_FLAGS}\" CMAKE_CXX_FLAGS=\"${NO_AVX_FLAGS}\""
+            else
+              export CXXFLAGS="-I$(pwd)/include/onnxruntime/core/common/logging"
+              BUILD_FLAGS=""
             fi
 
             CC=clang CXX=clang++ ${PYTHON} ./tools/ci_build/build.py \

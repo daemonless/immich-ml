@@ -46,11 +46,12 @@ patch -p1 < /path/to/patches/onnxruntime-freebsd.patch
 
 ### Build
 
+Standard build:
 ```bash
 # Extra include path needed for logging.h on FreeBSD
 export CXXFLAGS="-I$(pwd)/include/onnxruntime/core/common/logging"
 
-CC=clang CXX=clang++ python3.11 ./tools/ci_build/build.py \
+CC=clang CXX=clang++ python3.12 ./tools/ci_build/build.py \
     --build_dir ./build/FreeBSD \
     --config Release \
     --enable_pybind \
@@ -58,6 +59,22 @@ CC=clang CXX=clang++ python3.11 ./tools/ci_build/build.py \
     --skip_tests \
     --parallel \
     --compile_no_warning_as_error
+```
+
+No-AVX build (for older CPUs without AVX/AVX2/SSE4):
+```bash
+export CFLAGS="-march=x86-64 -mno-avx -mno-avx2 -mno-sse4.1 -mno-sse4.2 -mno-ssse3 -mno-fma"
+export CXXFLAGS="-I$(pwd)/include/onnxruntime/core/common/logging ${CFLAGS}"
+
+CC=clang CXX=clang++ python3.12 ./tools/ci_build/build.py \
+    --build_dir ./build/FreeBSD \
+    --config Release \
+    --enable_pybind \
+    --build_wheel \
+    --skip_tests \
+    --parallel \
+    --compile_no_warning_as_error \
+    --cmake_extra_defines onnxruntime_USE_AVX=OFF onnxruntime_USE_AVX2=OFF onnxruntime_USE_AVX512=OFF CMAKE_C_FLAGS="${CFLAGS}" CMAKE_CXX_FLAGS="${CFLAGS}"
 ```
 
 ### Output
