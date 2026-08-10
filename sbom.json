@@ -1,11 +1,11 @@
 {
-  "generated": "2026-08-02T09:56:31Z",
+  "generated": "2026-08-10T15:25:45Z",
   "image": "immich-ml",
   "tags": {
     "latest": {
       "app_version": "v3.1.0",
       "arch": "amd64",
-      "generated": "2026-08-02T09:51:42Z",
+      "generated": "2026-08-10T15:21:30Z",
       "packages": {
         "dotnet": [],
         "freebsd": [
@@ -458,7 +458,7 @@
               "LGPL20"
             ],
             "name": "glib",
-            "version": "2.86.4,2"
+            "version": "2.88.3,2"
           },
           {
             "licenses": [
@@ -518,7 +518,7 @@
               "EPL"
             ],
             "name": "graphviz",
-            "version": "15.1.0_1"
+            "version": "15.1.1"
           },
           {
             "licenses": [
@@ -561,7 +561,7 @@
               "GPLv2+"
             ],
             "name": "hwdata",
-            "version": "0.409,1"
+            "version": "0.410,1"
           },
           {
             "licenses": [
@@ -710,7 +710,7 @@
               "MIT"
             ],
             "name": "libXft",
-            "version": "2.3.8"
+            "version": "2.3.9"
           },
           {
             "licenses": [
@@ -815,7 +815,7 @@
               "MIT"
             ],
             "name": "libdrm",
-            "version": "2.4.133,1"
+            "version": "2.4.134,1"
           },
           {
             "licenses": [
@@ -1046,7 +1046,7 @@
               "BSD2CLAUSE"
             ],
             "name": "libudev-devd",
-            "version": "0.6.0"
+            "version": "0.7.0"
           },
           {
             "licenses": [
@@ -1196,7 +1196,7 @@
               "LGPL21"
             ],
             "name": "mpg123",
-            "version": "1.33.6"
+            "version": "1.33.7"
           },
           {
             "licenses": [
@@ -1303,7 +1303,7 @@
               "BSD3CLAUSE"
             ],
             "name": "p11-kit",
-            "version": "0.26.4"
+            "version": "0.26.5"
           },
           {
             "licenses": [
@@ -1411,20 +1411,6 @@
             ],
             "name": "py312-Jinja2",
             "version": "3.1.6"
-          },
-          {
-            "licenses": [
-              "MIT"
-            ],
-            "name": "py312-albucore",
-            "version": "0.0.24_2"
-          },
-          {
-            "licenses": [
-              "LGPL3"
-            ],
-            "name": "py312-albumentations",
-            "version": "2.0.8"
           },
           {
             "licenses": [
@@ -1564,7 +1550,7 @@
               "APACHE20"
             ],
             "name": "py312-hf-xet",
-            "version": "1.5.2_1"
+            "version": "1.6.0"
           },
           {
             "licenses": [
@@ -1903,14 +1889,14 @@
               "BSD2CLAUSE"
             ],
             "name": "py312-scikit-sparse",
-            "version": "0.4.16_4"
+            "version": "0.5.0"
           },
           {
             "licenses": [
               "BSD3CLAUSE"
             ],
             "name": "py312-scipy",
-            "version": "1.17.1_3,1"
+            "version": "1.17.1_4,1"
           },
           {
             "licenses": [
@@ -1932,13 +1918,6 @@
             ],
             "name": "py312-shellingham",
             "version": "1.5.4_1"
-          },
-          {
-            "licenses": [
-              "APACHE20"
-            ],
-            "name": "py312-simsimd",
-            "version": "6.0.4_1"
           },
           {
             "licenses": [
@@ -1967,13 +1946,6 @@
             ],
             "name": "py312-starlette",
             "version": "1.3.1"
-          },
-          {
-            "licenses": [
-              "APACHE20"
-            ],
-            "name": "py312-stringzilla",
-            "version": "4.6.1"
           },
           {
             "licenses": [
@@ -2114,7 +2086,7 @@
               "APACHE20"
             ],
             "name": "shaderc",
-            "version": "2026.2_1"
+            "version": "2026.3"
           },
           {
             "licenses": [
@@ -2160,6 +2132,13 @@
           },
           {
             "licenses": [
+              "LGPL21+"
+            ],
+            "name": "suitesparse-btf",
+            "version": "2.3.3"
+          },
+          {
+            "licenses": [
               "BSD3CLAUSE"
             ],
             "name": "suitesparse-camd",
@@ -2199,6 +2178,13 @@
             ],
             "name": "suitesparse-cxsparse",
             "version": "4.4.2"
+          },
+          {
+            "licenses": [
+              "LGPL21+"
+            ],
+            "name": "suitesparse-klu",
+            "version": "2.3.6"
           },
           {
             "licenses": [
@@ -2265,7 +2251,7 @@
               "APACHE20"
             ],
             "name": "vulkan-loader",
-            "version": "1.4.356"
+            "version": "1.4.357"
           },
           {
             "licenses": [
@@ -2414,7 +2400,7 @@
           {
             "name": "albucore",
             "purl": "",
-            "version": "0.0.24"
+            "version": "0.2.12"
           },
           {
             "name": "albumentations",
@@ -2569,7 +2555,7 @@
           {
             "name": "hf-xet",
             "purl": "",
-            "version": "1.5.2"
+            "version": "1.6.0"
           },
           {
             "name": "hpack",
@@ -2779,7 +2765,7 @@
           {
             "name": "pip",
             "purl": "",
-            "version": "26.2"
+            "version": "26.2.1"
           },
           {
             "name": "platformdirs",
@@ -2899,7 +2885,7 @@
           {
             "name": "scikit-sparse",
             "purl": "",
-            "version": "0.4.16"
+            "version": "0.5.0"
           },
           {
             "name": "scipy",
@@ -2927,11 +2913,6 @@
             "version": "1.5.4"
           },
           {
-            "name": "simsimd",
-            "purl": "",
-            "version": "6.0.4"
-          },
-          {
             "name": "six",
             "purl": "",
             "version": "1.17.0"
@@ -2950,11 +2931,6 @@
             "name": "starlette",
             "purl": "",
             "version": "1.3.1"
-          },
-          {
-            "name": "stringzilla",
-            "purl": "",
-            "version": "4.6.1"
           },
           {
             "name": "threadpoolctl",
@@ -3058,21 +3034,21 @@
       "source": "upstream",
       "summary": {
         "dotnet": 0,
-        "freebsd": 325,
+        "freebsd": 323,
         "go": 0,
         "java": 0,
         "node": 11,
         "php": 0,
-        "python": 133,
+        "python": 131,
         "ruby": 0,
         "rust": 0,
-        "total": 469
+        "total": 465
       }
     },
     "no-avx": {
       "app_version": "v3.1.0",
       "arch": "amd64",
-      "generated": "2026-08-02T09:53:18Z",
+      "generated": "2026-08-10T15:22:12Z",
       "packages": {
         "dotnet": [],
         "freebsd": [
@@ -3525,7 +3501,7 @@
               "LGPL20"
             ],
             "name": "glib",
-            "version": "2.86.4,2"
+            "version": "2.88.3,2"
           },
           {
             "licenses": [
@@ -3585,7 +3561,7 @@
               "EPL"
             ],
             "name": "graphviz",
-            "version": "15.1.0_1"
+            "version": "15.1.1"
           },
           {
             "licenses": [
@@ -3628,7 +3604,7 @@
               "GPLv2+"
             ],
             "name": "hwdata",
-            "version": "0.409,1"
+            "version": "0.410,1"
           },
           {
             "licenses": [
@@ -3777,7 +3753,7 @@
               "MIT"
             ],
             "name": "libXft",
-            "version": "2.3.8"
+            "version": "2.3.9"
           },
           {
             "licenses": [
@@ -3882,7 +3858,7 @@
               "MIT"
             ],
             "name": "libdrm",
-            "version": "2.4.133,1"
+            "version": "2.4.134,1"
           },
           {
             "licenses": [
@@ -4113,7 +4089,7 @@
               "BSD2CLAUSE"
             ],
             "name": "libudev-devd",
-            "version": "0.6.0"
+            "version": "0.7.0"
           },
           {
             "licenses": [
@@ -4263,7 +4239,7 @@
               "LGPL21"
             ],
             "name": "mpg123",
-            "version": "1.33.6"
+            "version": "1.33.7"
           },
           {
             "licenses": [
@@ -4370,7 +4346,7 @@
               "BSD3CLAUSE"
             ],
             "name": "p11-kit",
-            "version": "0.26.4"
+            "version": "0.26.5"
           },
           {
             "licenses": [
@@ -4478,20 +4454,6 @@
             ],
             "name": "py312-Jinja2",
             "version": "3.1.6"
-          },
-          {
-            "licenses": [
-              "MIT"
-            ],
-            "name": "py312-albucore",
-            "version": "0.0.24_2"
-          },
-          {
-            "licenses": [
-              "LGPL3"
-            ],
-            "name": "py312-albumentations",
-            "version": "2.0.8"
           },
           {
             "licenses": [
@@ -4631,7 +4593,7 @@
               "APACHE20"
             ],
             "name": "py312-hf-xet",
-            "version": "1.5.2_1"
+            "version": "1.6.0"
           },
           {
             "licenses": [
@@ -4970,14 +4932,14 @@
               "BSD2CLAUSE"
             ],
             "name": "py312-scikit-sparse",
-            "version": "0.4.16_4"
+            "version": "0.5.0"
           },
           {
             "licenses": [
               "BSD3CLAUSE"
             ],
             "name": "py312-scipy",
-            "version": "1.17.1_3,1"
+            "version": "1.17.1_4,1"
           },
           {
             "licenses": [
@@ -4999,13 +4961,6 @@
             ],
             "name": "py312-shellingham",
             "version": "1.5.4_1"
-          },
-          {
-            "licenses": [
-              "APACHE20"
-            ],
-            "name": "py312-simsimd",
-            "version": "6.0.4_1"
           },
           {
             "licenses": [
@@ -5034,13 +4989,6 @@
             ],
             "name": "py312-starlette",
             "version": "1.3.1"
-          },
-          {
-            "licenses": [
-              "APACHE20"
-            ],
-            "name": "py312-stringzilla",
-            "version": "4.6.1"
           },
           {
             "licenses": [
@@ -5181,7 +5129,7 @@
               "APACHE20"
             ],
             "name": "shaderc",
-            "version": "2026.2_1"
+            "version": "2026.3"
           },
           {
             "licenses": [
@@ -5227,6 +5175,13 @@
           },
           {
             "licenses": [
+              "LGPL21+"
+            ],
+            "name": "suitesparse-btf",
+            "version": "2.3.3"
+          },
+          {
+            "licenses": [
               "BSD3CLAUSE"
             ],
             "name": "suitesparse-camd",
@@ -5266,6 +5221,13 @@
             ],
             "name": "suitesparse-cxsparse",
             "version": "4.4.2"
+          },
+          {
+            "licenses": [
+              "LGPL21+"
+            ],
+            "name": "suitesparse-klu",
+            "version": "2.3.6"
           },
           {
             "licenses": [
@@ -5332,7 +5294,7 @@
               "APACHE20"
             ],
             "name": "vulkan-loader",
-            "version": "1.4.356"
+            "version": "1.4.357"
           },
           {
             "licenses": [
@@ -5481,7 +5443,7 @@
           {
             "name": "albucore",
             "purl": "",
-            "version": "0.0.24"
+            "version": "0.2.12"
           },
           {
             "name": "albumentations",
@@ -5636,7 +5598,7 @@
           {
             "name": "hf-xet",
             "purl": "",
-            "version": "1.5.2"
+            "version": "1.6.0"
           },
           {
             "name": "hpack",
@@ -5846,7 +5808,7 @@
           {
             "name": "pip",
             "purl": "",
-            "version": "26.2"
+            "version": "26.2.1"
           },
           {
             "name": "platformdirs",
@@ -5966,7 +5928,7 @@
           {
             "name": "scikit-sparse",
             "purl": "",
-            "version": "0.4.16"
+            "version": "0.5.0"
           },
           {
             "name": "scipy",
@@ -5994,11 +5956,6 @@
             "version": "1.5.4"
           },
           {
-            "name": "simsimd",
-            "purl": "",
-            "version": "6.0.4"
-          },
-          {
             "name": "six",
             "purl": "",
             "version": "1.17.0"
@@ -6017,11 +5974,6 @@
             "name": "starlette",
             "purl": "",
             "version": "1.3.1"
-          },
-          {
-            "name": "stringzilla",
-            "purl": "",
-            "version": "4.6.1"
           },
           {
             "name": "threadpoolctl",
@@ -6125,15 +6077,15 @@
       "source": "upstream",
       "summary": {
         "dotnet": 0,
-        "freebsd": 325,
+        "freebsd": 323,
         "go": 0,
         "java": 0,
         "node": 11,
         "php": 0,
-        "python": 133,
+        "python": 131,
         "ruby": 0,
         "rust": 0,
-        "total": 469
+        "total": 465
       }
     }
   }
