@@ -20,8 +20,7 @@ Machine learning service for Immich — handles facial recognition, image classi
 ## Version Tags
 | Tag | Description | Best For |
 | :--- | :--- | :--- |
-| `beta` / `latest` | **Upstream Binary**. Built from official release. | Most users — recommended. |
-| `no-avx` | **No-AVX Build**. onnxruntime compiled without AVX/AVX2/AVX512, for CPUs (or VMs/older hardware) that don't support AVX. | Alternative build. |
+| `latest` | **Upstream Binary**. Built from official release. | Most users — recommended. |
 
 ## Prerequisites
 Before deploying, ensure your host environment is ready. See the [Quick Start Guide](https://daemonless.io/guides/quick-start) for host setup instructions.

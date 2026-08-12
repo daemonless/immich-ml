@@ -1,12 +1,8 @@
-# Building onnxruntime Python Wheel on FreeBSD
+# Building onnxruntime Python Wheel on FreeBSD (Legacy / Deprecated)
 
-This documents how to build onnxruntime with Python bindings on FreeBSD.
+> **Note:** Custom `onnxruntime` wheel builds are deprecated. `immich-ml` now uses FreeBSD's native `py-onnxruntime` package (`misc/py-onnxruntime`) installed directly via `pkg`.
 
-## Pre-built Wheels
-
-Pre-built wheels are available from [GitHub Releases](https://github.com/daemonless/immich-ml/releases).
-
-To build a new wheel, trigger the [Build onnxruntime FreeBSD Wheel](../../actions/workflows/build-onnxruntime.yaml) workflow.
+This document is preserved for historical reference on building standalone onnxruntime wheels with Python bindings on FreeBSD.
 
 ## Manual Build
 

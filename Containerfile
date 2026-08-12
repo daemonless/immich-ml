@@ -6,14 +6,10 @@
 
 ARG BASE_VERSION=15.1-latest
 ARG UPSTREAM_URL="https://api.github.com/repos/immich-app/immich/releases/latest"
-ARG ONNXRUNTIME_RELEASES_API="https://api.github.com/repos/daemonless/immich-ml/releases"
-ARG NO_AVX="false"
 
 FROM ghcr.io/daemonless/base:${BASE_VERSION} AS builder
 
 ARG UPSTREAM_URL
-ARG ONNXRUNTIME_RELEASES_API
-ARG NO_AVX
 
 # Build dependencies
 RUN pkg update && pkg install -y \
@@ -23,7 +19,7 @@ RUN pkg update && pkg install -y \
     py312-pydantic2 py312-pydantic-settings \
     py312-fastapi py312-uvicorn py312-gunicorn \
     py312-huggingface-hub py312-tokenizers \
-    py312-onnx py312-ml-dtypes \
+    py312-onnx py312-onnxruntime py312-ml-dtypes \
     git-lite gmake pkgconf \
     FreeBSD-clang FreeBSD-clibs-dev FreeBSD-clang-dev FreeBSD-utilities-dev \
     opencv cmake ninja \
@@ -43,29 +39,13 @@ ENV CXX="/usr/local/libexec/ccache/clang++"
 ENV CMAKE_C_COMPILER="/usr/local/libexec/ccache/clang"
 ENV CMAKE_CXX_COMPILER="/usr/local/libexec/ccache/clang++"
 
-# Download pre-built onnxruntime wheel (auto-detect latest release)
-RUN --mount=type=secret,id=github_token \
-    GITHUB_TOKEN=$(cat /run/secrets/github_token 2>/dev/null || echo "") && \
-    if [ -n "${GITHUB_TOKEN}" ]; then \
-      printf 'machine api.github.com login x-access-token password %s\nmachine github.com login x-access-token password %s\n' \
-        "${GITHUB_TOKEN}" "${GITHUB_TOKEN}" > /root/.netrc && \
-      chmod 600 /root/.netrc; \
-    fi && \
-    IS_NO_AVX=$([ "${NO_AVX}" = "true" ] && echo "true" || echo "false") && \
-    ONNX_URL=$(fetch -qo - "${ONNXRUNTIME_RELEASES_API}" | python3.12 -c "import sys,json; releases=[r for r in json.load(sys.stdin) if r['tag_name'].startswith('onnxruntime-')]; is_no_avx='${IS_NO_AVX}'=='true'; assets=[a for a in releases[0]['assets'] if ('no_avx' in a['name']) == is_no_avx]; print(assets[0]['browser_download_url'])") && \
-    echo "Downloading onnxruntime from ${ONNX_URL}" && \
-    fetch -o /tmp/onnxruntime.whl "${ONNX_URL}" && \
-    rm -f /root/.netrc
-
 # Create virtual environment with system packages
 RUN python3.12 -m venv --system-site-packages /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 ENV VIRTUAL_ENV="/opt/venv"
 
-# Upgrade pip and install onnxruntime wheel
-RUN pip install --no-cache-dir --upgrade pip setuptools wheel && \
-    bsdtar -xf /tmp/onnxruntime.whl -C /opt/venv/lib/python3.12/site-packages/ && \
-    rm -f /tmp/onnxruntime.whl
+# Upgrade pip
+RUN pip install --no-cache-dir --upgrade pip setuptools wheel
 
 # Clone immich source (resolve latest version from upstream)
 WORKDIR /build
@@ -129,9 +109,7 @@ RUN patch -N -d /opt/venv/lib/python3.12/site-packages -p1 < /tmp/immich-28610.p
 FROM ghcr.io/daemonless/base:${BASE_VERSION}
 
 ARG FREEBSD_ARCH=amd64
-ARG ONNXRUNTIME_RELEASES_API
-ARG NO_AVX
-ARG PACKAGES="python312 py312-numpy py312-pillow py312-orjson py312-scipy py312-scikit-learn py312-scikit-image py312-pydantic2 py312-pydantic-settings py312-fastapi py312-uvicorn py312-gunicorn py312-huggingface-hub py312-tokenizers py312-onnx py312-ml-dtypes openblas geos opencv"
+ARG PACKAGES="python312 py312-onnxruntime py312-numpy py312-pillow py312-orjson py312-scipy py312-scikit-learn py312-scikit-image py312-pydantic2 py312-pydantic-settings py312-fastapi py312-uvicorn py312-gunicorn py312-huggingface-hub py312-tokenizers py312-onnx py312-ml-dtypes openblas geos opencv"
 ARG UPSTREAM_URL="https://api.github.com/repos/immich-app/immich/releases/latest"
 ARG UPSTREAM_JQ=".tag_name"
 ARG HEALTHCHECK_ENDPOINT="http://localhost:3003/ping"
@@ -164,21 +142,6 @@ RUN pkg update && \
 
 # Copy virtual environment from builder (root-owned, world-readable)
 COPY --from=builder /opt/venv /opt/venv
-
-# Install onnxruntime wheel into venv (auto-detect latest release)
-RUN --mount=type=secret,id=github_token \
-    GITHUB_TOKEN=$(cat /run/secrets/github_token 2>/dev/null || echo "") && \
-    if [ -n "${GITHUB_TOKEN}" ]; then \
-      printf 'machine api.github.com login x-access-token password %s\nmachine github.com login x-access-token password %s\n' \
-        "${GITHUB_TOKEN}" "${GITHUB_TOKEN}" > /root/.netrc && \
-      chmod 600 /root/.netrc; \
-    fi && \
-    IS_NO_AVX=$([ "${NO_AVX}" = "true" ] && echo "true" || echo "false") && \
-    ONNX_URL=$(fetch -qo - "${ONNXRUNTIME_RELEASES_API}" | python3.12 -c "import sys,json; releases=[r for r in json.load(sys.stdin) if r['tag_name'].startswith('onnxruntime-')]; is_no_avx='${IS_NO_AVX}'=='true'; assets=[a for a in releases[0]['assets'] if ('no_avx' in a['name']) == is_no_avx]; print(assets[0]['browser_download_url'])") && \
-    echo "Downloading onnxruntime from ${ONNX_URL}" && \
-    fetch -o /tmp/onnxruntime.whl "${ONNX_URL}" && \
-    bsdtar -xf /tmp/onnxruntime.whl -C /opt/venv/lib/python3.12/site-packages/ && \
-    rm -f /tmp/onnxruntime.whl /root/.netrc
 
 # Copy version from builder
 COPY --from=builder /tmp/immich_version /tmp/immich_version
