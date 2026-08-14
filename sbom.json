@@ -1,11 +1,11 @@
 {
-  "generated": "2026-08-12T09:37:14Z",
+  "generated": "2026-08-14T06:24:56Z",
   "image": "immich-ml",
   "tags": {
     "latest": {
       "app_version": "v3.1.0",
       "arch": "amd64",
-      "generated": "2026-08-12T09:34:43Z",
+      "generated": "2026-08-14T06:22:19Z",
       "packages": {
         "dotnet": [],
         "freebsd": [
@@ -288,7 +288,7 @@
               "BSL"
             ],
             "name": "boost-libs",
-            "version": "1.89.0_3"
+            "version": "1.91.0"
           },
           {
             "licenses": [
@@ -401,7 +401,7 @@
               "GPLv3RLE"
             ],
             "name": "gcc14",
-            "version": "14.2.0_6"
+            "version": "14.2.0_7"
           },
           {
             "licenses": [
@@ -525,14 +525,14 @@
               "LGPL20+"
             ],
             "name": "gstreamer1",
-            "version": "1.28.5_1"
+            "version": "1.28.6"
           },
           {
             "licenses": [
               "LGPL20"
             ],
             "name": "gstreamer1-plugins",
-            "version": "1.28.5"
+            "version": "1.28.6"
           },
           {
             "licenses": [
@@ -1119,7 +1119,7 @@
               "GPLv2"
             ],
             "name": "libx264",
-            "version": "0.164.3095"
+            "version": "0.165.3223"
           },
           {
             "licenses": [
@@ -1345,14 +1345,14 @@
               "BSD2CLAUSE"
             ],
             "name": "pkg",
-            "version": "2.8.1_1"
+            "version": "2.8.2"
           },
           {
             "licenses": [
               "ISCL"
             ],
             "name": "pkgconf",
-            "version": "2.4.3_1,1"
+            "version": "3.0.5,1"
           },
           {
             "licenses": [
@@ -1438,7 +1438,7 @@
               "BSL"
             ],
             "name": "py312-boost-libs",
-            "version": "1.89.0"
+            "version": "1.91.0"
           },
           {
             "licenses": [
@@ -1578,7 +1578,7 @@
               "BSD3CLAUSE"
             ],
             "name": "py312-httpcore2",
-            "version": "2.5.0"
+            "version": "2.9.1"
           },
           {
             "licenses": [
@@ -1592,7 +1592,7 @@
               "BSD3CLAUSE"
             ],
             "name": "py312-httpx2",
-            "version": "2.5.0"
+            "version": "2.9.1"
           },
           {
             "licenses": [
@@ -2058,7 +2058,7 @@
               "PSFL"
             ],
             "name": "python312",
-            "version": "3.12.13_3"
+            "version": "3.12.13_4"
           },
           {
             "licenses": [
@@ -2093,7 +2093,7 @@
               "GPLv2"
             ],
             "name": "sfcgal",
-            "version": "2.3.0"
+            "version": "2.3.0_1"
           },
           {
             "licenses": [
@@ -2414,7 +2414,7 @@
           {
             "name": "albucore",
             "purl": "",
-            "version": "0.2.12"
+            "version": "0.2.13"
           },
           {
             "name": "albumentations",
@@ -2474,7 +2474,7 @@
           {
             "name": "charset-normalizer",
             "purl": "",
-            "version": "3.4.9"
+            "version": "3.5.0"
           },
           {
             "name": "click",
@@ -2589,7 +2589,7 @@
           {
             "name": "httpcore2",
             "purl": "",
-            "version": "2.5.0"
+            "version": "2.9.1"
           },
           {
             "name": "httptools",
@@ -2604,7 +2604,7 @@
           {
             "name": "httpx2",
             "purl": "",
-            "version": "2.5.0"
+            "version": "2.9.1"
           },
           {
             "name": "huggingface-hub",
