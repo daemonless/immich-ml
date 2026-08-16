@@ -27,18 +27,6 @@ RUN pkg update && pkg install -y \
     distcc ccache \
     && pkg clean -ay
 
-# Configure ccache + distcc
-ENV CCACHE_DIR=/data/ccache
-ENV CCACHE_PREFIX=distcc
-ARG DISTCC_HOSTS="localhost"
-ENV DISTCC_HOSTS=${DISTCC_HOSTS}
-ENV PATH="/usr/local/libexec/ccache:$PATH"
-ENV CCACHE_PATH="/usr/bin:/usr/local/bin"
-ENV CC="/usr/local/libexec/ccache/clang"
-ENV CXX="/usr/local/libexec/ccache/clang++"
-ENV CMAKE_C_COMPILER="/usr/local/libexec/ccache/clang"
-ENV CMAKE_CXX_COMPILER="/usr/local/libexec/ccache/clang++"
-
 # Create virtual environment with system packages
 RUN python3.12 -m venv --system-site-packages /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
@@ -109,7 +97,7 @@ RUN patch -N -d /opt/venv/lib/python3.12/site-packages -p1 < /tmp/immich-28610.p
 FROM ghcr.io/daemonless/base:${BASE_VERSION}
 
 ARG FREEBSD_ARCH=amd64
-ARG PACKAGES="python312 py312-onnxruntime py312-numpy py312-pillow py312-orjson py312-scipy py312-scikit-learn py312-scikit-image py312-pydantic2 py312-pydantic-settings py312-fastapi py312-uvicorn py312-gunicorn py312-huggingface-hub py312-tokenizers py312-onnx py312-ml-dtypes openblas geos opencv"
+ARG PACKAGES="python312 py312-onnxruntime py312-numpy py312-pillow py312-orjson py312-scipy py312-scikit-learn py312-scikit-image py312-pydantic2 py312-pydantic-settings py312-fastapi py312-uvicorn py312-uvloop py312-gunicorn py312-huggingface-hub py312-tokenizers py312-onnx py312-ml-dtypes openblas geos opencv"
 ARG UPSTREAM_URL="https://api.github.com/repos/immich-app/immich/releases/latest"
 ARG UPSTREAM_JQ=".tag_name"
 ARG HEALTHCHECK_ENDPOINT="http://localhost:3003/ping"
