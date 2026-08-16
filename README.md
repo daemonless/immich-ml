@@ -49,8 +49,7 @@ services:
       - "/path/to/containers/immich-ml:/config"
     ports:
       - "3003:3003"
-    # always (not unless-stopped) so FreeBSD's podman rc.d auto-starts it at boot
-    restart: always
+    restart: unless-stopped
 ```
 
 ### AppJail Director
