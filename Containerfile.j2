@@ -13,13 +13,18 @@ RUN pkg update && pkg install -y \
     py312-pydantic2 py312-pydantic-settings \
     py312-fastapi py312-uvicorn py312-gunicorn \
     py312-huggingface-hub py312-tokenizers \
-    py312-onnx py312-onnxruntime py312-ml-dtypes \
-    git-lite gmake pkgconf \
+    py312-onnx py312-onnxruntime \
+    git-lite gmake pkgconf FreeBSD-bmake \
+    py312-scikit-build-core py312-build py312-installer \
     FreeBSD-clang FreeBSD-clibs-dev FreeBSD-clang-dev FreeBSD-utilities-dev \
     opencv cmake ninja \
     openblas gcc \
     distcc ccache \
     && pkg clean -ay
+
+# py312-ml-dtypes has no package in the latest repo: the 0.6.0 update broke the
+# port (fixed in ports 2026-09-14, not rebuilt yet). Build it from ports.
+RUN ports-build --cleanup math/py-ml-dtypes lang/python312
 
 # Create virtual environment with system packages
 RUN python3.12 -m venv --system-site-packages /opt/venv
