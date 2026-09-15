@@ -38,23 +38,23 @@ jobs:
             IMG=ghcr.io/daemonless/immich-ml:build-latest
             echo "=== image under test: $IMG ==="
             podman images --format '{{.Repository}}:{{.Tag}} {{.Size}}' | grep immich-ml
-            echo "=== 1. python starts ==="
-            podman run --rm --entrypoint "" $IMG /opt/venv/bin/python -c 'print("python ok")' || echo "FAILED rc=$?"
+            echo "=== start it exactly as CIT does ==="
+            podman volume create cit-debug-config >/dev/null 2>&1 || true
+            podman run -d --name cit-debug --network=podman \
+              -e PUID=1000 -e PGID=1000 -v cit-debug-config:/config "$IMG"
 
-            echo "=== 2. import onnxruntime ==="
-            podman run --rm --entrypoint "" $IMG \
-              /opt/venv/bin/python -c 'import onnxruntime; print("ort ok", onnxruntime.__version__)' || echo "FAILED rc=$?"
+            # Let it crash-loop a few times, then take the WHOLE log.
+            sleep 45
+            echo "=== podman logs cit-debug (full, untruncated) ==="
+            podman logs cit-debug 2>&1
 
-            echo "=== 3. import ml_dtypes ==="
-            podman run --rm --entrypoint "" $IMG \
-              /opt/venv/bin/python -c 'import ml_dtypes; print("ml_dtypes ok", ml_dtypes.__version__)' || echo "FAILED rc=$?"
+            echo "=== inspect ==="
+            podman ps -a --format '{{.Names}} {{.Status}}'
+            podman inspect cit-debug --format 'exit={{.State.ExitCode}} oom={{.State.OOMKilled}} err={{.State.Error}}' 2>&1
 
-            echo "=== 4. import the app (the worker's boot path) ==="
-            podman run --rm --entrypoint "" $IMG \
-              sh -c 'cd /opt/venv && ./bin/python -c "import immich_ml.main; print(\"app ok\")"' || echo "FAILED rc=$?"
-
-            echo "=== 5. gunicorn, exactly as the service runs it ==="
-            podman run --rm --entrypoint "" $IMG sh -c '
+            echo "=== same image, s6 bypassed (known-good control) ==="
+            podman run --rm --entrypoint "" "$IMG" sh -c '
               export HOME=/config MPLCONFIGDIR=/tmp HF_HOME=/cache/huggingface
-              cd /opt/venv && timeout 60 ./bin/python -m gunicorn immich_ml.main:app \
-                -k uvicorn.workers.UvicornWorker -b 0.0.0.0:3003 -w 1 --timeout 300' || echo "FAILED rc=$?"
+              cd /opt/venv && timeout 30 ./bin/python -m gunicorn immich_ml.main:app \
+                -k uvicorn.workers.UvicornWorker -b 0.0.0.0:3003 -w 1 --timeout 300' 2>&1 | tail -8
+            echo "(rc=124 above means it stayed up for the full 30s)"
