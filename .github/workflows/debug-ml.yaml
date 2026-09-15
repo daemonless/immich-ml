@@ -14,6 +14,9 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
+      - name: Prepare VM data directory
+        run: sudo mkdir -p /mnt/freebsd-vm && sudo chmod 777 /mnt/freebsd-vm
+
       - name: A/B the prepare environment
         uses: vmactions/freebsd-vm@v1.5.2
         with:
