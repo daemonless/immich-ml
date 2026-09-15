@@ -10,13 +10,15 @@ jobs:
   debug:
     runs-on: ubuntu-latest
     steps:
-      - name: Import immich_ml in a FreeBSD VM
+      - uses: actions/checkout@v6
+
+      - name: Build and import immich_ml in a FreeBSD VM
         uses: vmactions/freebsd-vm@v1.5.2
         with:
           release: "15.1"
           usesh: true
           prepare: |
-            pkg install -y podman ocijail catatonit
+            pkg install -y podman ocijail catatonit buildah skopeo jq python3 devel/py-pyyaml
             kldload pf || true
             sysctl net.inet.ip.forwarding=1 || true
           run: |
@@ -25,7 +27,17 @@ jobs:
             grep -o 'AVX[0-9A-Z]*' /var/run/dmesg.boot 2>/dev/null | sort -u | tr '\n' ' '; echo
             podman --version
 
-            IMG=ghcr.io/daemonless/immich-ml:debug
+            # Build here, the way CI does, and test THAT image -- the pulled
+            # :debug image (built on saturn) already passes every check below.
+            fetch -qo /tmp/dbuild.tar.gz \
+              "https://github.com/daemonless/dbuild/archive/v1.9.16.tar.gz"
+            mkdir -p /tmp/dbuild && tar -xzf /tmp/dbuild.tar.gz -C /tmp/dbuild --strip-components=1
+            export PYTHONPATH=/tmp/dbuild
+            python3 -m dbuild -v build --variant latest --arch amd64 || echo "BUILD FAILED rc=$?"
+
+            IMG=ghcr.io/daemonless/immich-ml:build-latest
+            echo "=== image under test: $IMG ==="
+            podman images --format '{{.Repository}}:{{.Tag}} {{.Size}}' | grep immich-ml
             echo "=== 1. python starts ==="
             podman run --rm --entrypoint "" $IMG /opt/venv/bin/python -c 'print("python ok")' || echo "FAILED rc=$?"
 
