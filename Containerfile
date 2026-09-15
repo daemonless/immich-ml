@@ -30,7 +30,8 @@ RUN pkg update && pkg install -y \
 
 # py312-ml-dtypes has no package in the latest repo: the 0.6.0 update broke the
 # port (fixed in ports 2026-09-14, not rebuilt yet). Build it from ports.
-RUN ports-build --cleanup math/py-ml-dtypes lang/python312
+RUN ports-build --cleanup math/py-ml-dtypes lang/python312 && \
+    mkdir -p /pkgs && pkg create -o /pkgs py312-ml-dtypes
 
 # Create virtual environment with system packages
 RUN python3.12 -m venv --system-site-packages /opt/venv
@@ -102,7 +103,7 @@ RUN patch -N -d /opt/venv/lib/python3.12/site-packages -p1 < /tmp/immich-28610.p
 FROM ghcr.io/daemonless/base:${BASE_VERSION}
 
 ARG FREEBSD_ARCH=amd64
-ARG PACKAGES="python312 py312-onnxruntime py312-numpy py312-pillow py312-orjson py312-scipy py312-scikit-learn py312-scikit-image py312-pydantic2 py312-pydantic-settings py312-fastapi py312-uvicorn py312-uvloop py312-gunicorn py312-huggingface-hub py312-tokenizers py312-onnx py312-ml-dtypes openblas geos opencv"
+ARG PACKAGES="python312 py312-onnxruntime py312-numpy py312-pillow py312-orjson py312-scipy py312-scikit-learn py312-scikit-image py312-pydantic2 py312-pydantic-settings py312-fastapi py312-uvicorn py312-uvloop py312-gunicorn py312-huggingface-hub py312-tokenizers py312-onnx openblas geos opencv"
 ARG UPSTREAM_URL="https://api.github.com/repos/immich-app/immich/releases/latest"
 ARG UPSTREAM_JQ=".tag_name"
 ARG HEALTHCHECK_ENDPOINT="http://localhost:3003/ping"
@@ -128,8 +129,13 @@ LABEL org.opencontainers.image.title="Immich Machine Learning" \
       io.daemonless.packages="${PACKAGES}"
 
 # Install runtime dependencies
+# py312-ml-dtypes comes from the builder's ports build -- no package exists in
+# the latest repo (see the builder stage).
+COPY --from=builder /pkgs /tmp/pkgs
 RUN pkg update && \
     pkg install -y ${PACKAGES} && \
+    pkg add /tmp/pkgs/*.pkg && \
+    rm -rf /tmp/pkgs && \
     pkg clean -ay && \
     rm -rf /var/cache/pkg/* /var/db/pkg/repos/*
 
