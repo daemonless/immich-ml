@@ -17,6 +17,8 @@ jobs:
         with:
           release: "15.1"
           usesh: true
+          debug-on-error: true
+          vnc-password: ${{ secrets.VNC_PASSWORD }}
           prepare: |
             pkg install -y podman ocijail catatonit buildah skopeo jq python3 devel/py-pyyaml
             kldload pf || true
@@ -33,28 +35,38 @@ jobs:
               "https://github.com/daemonless/dbuild/archive/v1.9.16.tar.gz"
             mkdir -p /tmp/dbuild && tar -xzf /tmp/dbuild.tar.gz -C /tmp/dbuild --strip-components=1
             export PYTHONPATH=/tmp/dbuild
+            echo "=== disk BEFORE build ==="; df -h /; podman system df 2>/dev/null | head -4
+
             python3 -m dbuild -v build --variant latest --arch amd64 || echo "BUILD FAILED rc=$?"
+
+            echo "=== disk AFTER build (this is what CIT actually runs against) ==="
+            df -h /; podman system df 2>/dev/null | head -4
+            echo "free memory:"; sysctl -n hw.physmem vm.stats.vm.v_free_count 2>/dev/null
 
             IMG=ghcr.io/daemonless/immich-ml:build-latest
             echo "=== image under test: $IMG ==="
             podman images --format '{{.Repository}}:{{.Tag}} {{.Size}}' | grep immich-ml
-            echo "=== start it exactly as CIT does ==="
+            echo "=== reproduce the real failure: dbuild test ==="
+            python3 -m dbuild -v test --variant latest || echo "dbuild test FAILED rc=$?"
+
+            echo "=== leave a crash-looping container up for inspection ==="
             podman volume create cit-debug-config >/dev/null 2>&1 || true
+            podman rm -f cit-debug >/dev/null 2>&1 || true
             podman run -d --name cit-debug --network=podman \
               -e PUID=1000 -e PGID=1000 -v cit-debug-config:/config "$IMG"
+            sleep 30
+            podman logs cit-debug 2>&1 | tail -40
+            df -h /
 
-            # Let it crash-loop a few times, then take the WHOLE log.
-            sleep 45
-            echo "=== podman logs cit-debug (full, untruncated) ==="
-            podman logs cit-debug 2>&1
-
-            echo "=== inspect ==="
-            podman ps -a --format '{{.Names}} {{.Status}}'
-            podman inspect cit-debug --format 'exit={{.State.ExitCode}} oom={{.State.OOMKilled}} err={{.State.Error}}' 2>&1
-
-            echo "=== same image, s6 bypassed (known-good control) ==="
-            podman run --rm --entrypoint "" "$IMG" sh -c '
-              export HOME=/config MPLCONFIGDIR=/tmp HF_HOME=/cache/huggingface
-              cd /opt/venv && timeout 30 ./bin/python -m gunicorn immich_ml.main:app \
-                -k uvicorn.workers.UvicornWorker -b 0.0.0.0:3003 -w 1 --timeout 300' 2>&1 | tail -8
-            echo "(rc=124 above means it stayed up for the full 30s)"
+            echo
+            echo "################################################################"
+            echo "#  VM HELD OPEN. Open the trycloudflare VNC link above.        #"
+            echo "#                                                              #"
+            echo "#    podman logs cit-debug            # the crash, in full     #"
+            echo "#    podman ps -a                     # what CIT left behind   #"
+            echo "#    df -h /                          # post-build disk        #"
+            echo "#    podman run --rm --entrypoint \"\" $IMG sh -c '...'         #"
+            echo "#                                                              #"
+            echo "#  When done:  touch ~/continue                                #"
+            echo "################################################################"
+            exit 1
