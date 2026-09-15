@@ -24,7 +24,10 @@ RUN pkg update && pkg install -y \
 
 # py312-ml-dtypes has no package in the latest repo: the 0.6.0 update broke the
 # port (fixed in ports 2026-09-14, not rebuilt yet). Build it from ports.
+# chmod: ocijail 0.6.0 leaks umask(077) into the build, so a port built here
+# installs unreadable by the runtime user (PermissionError on import as bsd).
 RUN ports-build --cleanup math/py-ml-dtypes lang/python312 && \
+    chmod -R a+rX /usr/local/lib/python3.12/site-packages/ml_dtypes && \
     mkdir -p /pkgs && pkg create -o /pkgs py312-ml-dtypes
 
 # Create virtual environment with system packages
