@@ -1,0 +1,48 @@
+# TEMPORARY -- delete once the CIT crash is understood.
+# Runs the gunicorn worker's import path in the foreground on a GHA FreeBSD VM,
+# so the traceback lands in the log instead of being buried by s6 restarts.
+name: debug-ml
+
+on:
+  workflow_dispatch:
+
+jobs:
+  debug:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Import immich_ml in a FreeBSD VM
+        uses: vmactions/freebsd-vm@v1.5.2
+        with:
+          release: "15.1"
+          usesh: true
+          prepare: |
+            pkg install -y podman ocijail catatonit
+            kldload pf || true
+            sysctl net.inet.ip.forwarding=1 || true
+          run: |
+            echo "=== host ==="
+            sysctl -n hw.model hw.ncpu
+            grep -o 'AVX[0-9A-Z]*' /var/run/dmesg.boot 2>/dev/null | sort -u | tr '\n' ' '; echo
+            podman --version
+
+            IMG=ghcr.io/daemonless/immich-ml:debug
+            echo "=== 1. python starts ==="
+            podman run --rm --entrypoint "" $IMG /opt/venv/bin/python -c 'print("python ok")' || echo "FAILED rc=$?"
+
+            echo "=== 2. import onnxruntime ==="
+            podman run --rm --entrypoint "" $IMG \
+              /opt/venv/bin/python -c 'import onnxruntime; print("ort ok", onnxruntime.__version__)' || echo "FAILED rc=$?"
+
+            echo "=== 3. import ml_dtypes ==="
+            podman run --rm --entrypoint "" $IMG \
+              /opt/venv/bin/python -c 'import ml_dtypes; print("ml_dtypes ok", ml_dtypes.__version__)' || echo "FAILED rc=$?"
+
+            echo "=== 4. import the app (the worker's boot path) ==="
+            podman run --rm --entrypoint "" $IMG \
+              sh -c 'cd /opt/venv && ./bin/python -c "import immich_ml.main; print(\"app ok\")"' || echo "FAILED rc=$?"
+
+            echo "=== 5. gunicorn, exactly as the service runs it ==="
+            podman run --rm --entrypoint "" $IMG sh -c '
+              export HOME=/config MPLCONFIGDIR=/tmp HF_HOME=/cache/huggingface
+              cd /opt/venv && timeout 60 ./bin/python -m gunicorn immich_ml.main:app \
+                -k uvicorn.workers.UvicornWorker -b 0.0.0.0:3003 -w 1 --timeout 300' || echo "FAILED rc=$?"
