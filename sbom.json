@@ -1,11 +1,11 @@
 {
-  "generated": "2026-09-15T22:45:21Z",
+  "generated": "2026-09-21T22:29:28Z",
   "image": "immich-ml",
   "tags": {
     "latest": {
       "app_version": "v3.2.2",
       "arch": "amd64",
-      "generated": "2026-09-15T22:42:51Z",
+      "generated": "2026-09-21T22:17:56Z",
       "packages": {
         "dotnet": [],
         "freebsd": [
@@ -63,6 +63,13 @@
               "BSD2CLAUSE"
             ],
             "name": "FreeBSD-devmatch",
+            "version": "15.1"
+          },
+          {
+            "licenses": [
+              "BSD-3-Clause"
+            ],
+            "name": "FreeBSD-dhclient",
             "version": "15.1"
           },
           {
@@ -188,6 +195,13 @@
             "licenses": [
               "BSD2CLAUSE"
             ],
+            "name": "FreeBSD-resolvconf",
+            "version": "15.1"
+          },
+          {
+            "licenses": [
+              "BSD2CLAUSE"
+            ],
             "name": "FreeBSD-runtime",
             "version": "15.1p3"
           },
@@ -273,7 +287,7 @@
               "GPLv3+"
             ],
             "name": "bash",
-            "version": "5.3.15"
+            "version": "5.3.20"
           },
           {
             "licenses": [
@@ -865,7 +879,7 @@
               "LGPL21+"
             ],
             "name": "libgcrypt",
-            "version": "1.12.3_2"
+            "version": "1.12.4"
           },
           {
             "licenses": [
@@ -1274,7 +1288,7 @@
               "BSD3CLAUSE"
             ],
             "name": "openexr",
-            "version": "3.4.15_1"
+            "version": "3.4.15_2"
           },
           {
             "licenses": [
@@ -1288,7 +1302,7 @@
               "BSD2CLAUSE"
             ],
             "name": "openjph",
-            "version": "0.31.0"
+            "version": "0.32.0"
           },
           {
             "licenses": [
@@ -1557,7 +1571,7 @@
               "BSD3CLAUSE"
             ],
             "name": "py312-fsspec",
-            "version": "2026.7.0"
+            "version": "2026.9.0"
           },
           {
             "licenses": [
@@ -1634,7 +1648,7 @@
               "BSD3CLAUSE"
             ],
             "name": "py312-httpx2",
-            "version": "2.12.0"
+            "version": "2.12.0_1"
           },
           {
             "licenses": [
@@ -1655,7 +1669,7 @@
               "BSD3CLAUSE"
             ],
             "name": "py312-idna",
-            "version": "3.19"
+            "version": "3.20"
           },
           {
             "licenses": [
@@ -1840,7 +1854,7 @@
               "BSD3CLAUSE"
             ],
             "name": "py312-protobuf",
-            "version": "7.36.1,1"
+            "version": "7.36.2,1"
           },
           {
             "licenses": [
@@ -2015,14 +2029,14 @@
               "BSD3CLAUSE"
             ],
             "name": "py312-threadpoolctl",
-            "version": "3.6.0"
+            "version": "3.7.0"
           },
           {
             "licenses": [
               "BSD3CLAUSE"
             ],
             "name": "py312-tifffile",
-            "version": "2026.9.9"
+            "version": "2026.9.15"
           },
           {
             "licenses": [
@@ -2086,14 +2100,14 @@
               "APACHE20"
             ],
             "name": "py312-unicodedata2",
-            "version": "17.0.1"
+            "version": "18.0.0"
           },
           {
             "licenses": [
               "BSD3CLAUSE"
             ],
             "name": "py312-uvicorn",
-            "version": "0.52.4"
+            "version": "0.53.0"
           },
           {
             "licenses": [
@@ -2143,7 +2157,7 @@
               "GPLv3"
             ],
             "name": "readline",
-            "version": "8.3.3"
+            "version": "8.3.6"
           },
           {
             "licenses": [
@@ -2199,7 +2213,7 @@
               "LGPL21"
             ],
             "name": "srt",
-            "version": "1.5.6"
+            "version": "1.5.7_1"
           },
           {
             "licenses": [
@@ -2248,7 +2262,7 @@
               "GPLv2+"
             ],
             "name": "suitesparse-config",
-            "version": "7.14.0"
+            "version": "7.14.1"
           },
           {
             "licenses": [
@@ -2322,7 +2336,7 @@
               "BSD2CLAUSE+PATENT"
             ],
             "name": "vmaf",
-            "version": "3.2.0"
+            "version": "3.2.1"
           },
           {
             "licenses": [
@@ -2371,7 +2385,7 @@
               "BSD2CLAUSE"
             ],
             "name": "xxhash",
-            "version": "0.8.3"
+            "version": "0.8.4"
           },
           {
             "licenses": [
@@ -2623,7 +2637,7 @@
           {
             "name": "fsspec",
             "purl": "",
-            "version": "2026.7.0"
+            "version": "2026.9.0"
           },
           {
             "name": "ftfy",
@@ -2893,7 +2907,7 @@
           {
             "name": "protobuf",
             "purl": "",
-            "version": "7.36.1"
+            "version": "7.36.2"
           },
           {
             "name": "psutil",
@@ -3053,12 +3067,12 @@
           {
             "name": "threadpoolctl",
             "purl": "",
-            "version": "3.6.0"
+            "version": "3.7.0"
           },
           {
             "name": "tifffile",
             "purl": "",
-            "version": "2026.9.9"
+            "version": "2026.9.15"
           },
           {
             "name": "tkinter",
@@ -3113,7 +3127,7 @@
           {
             "name": "unicodedata2",
             "purl": "",
-            "version": "17.0.1"
+            "version": "18.0.0"
           },
           {
             "name": "urllib3",
@@ -3123,7 +3137,7 @@
           {
             "name": "uvicorn",
             "purl": "",
-            "version": "0.52.4"
+            "version": "0.53.0"
           },
           {
             "name": "uvloop",
@@ -3133,7 +3147,7 @@
           {
             "name": "wcwidth",
             "purl": "",
-            "version": "0.8.3"
+            "version": "0.8.4"
           },
           {
             "name": "wheel",
@@ -3162,7 +3176,7 @@
       "source": "upstream",
       "summary": {
         "dotnet": 0,
-        "freebsd": 334,
+        "freebsd": 336,
         "go": 0,
         "java": 0,
         "node": 11,
@@ -3170,7 +3184,7 @@
         "python": 141,
         "ruby": 0,
         "rust": 0,
-        "total": 486
+        "total": 488
       }
     }
   }
