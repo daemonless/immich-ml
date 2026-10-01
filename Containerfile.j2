@@ -16,6 +16,7 @@ RUN pkg update && pkg install -y \
     py312-fastapi py312-uvicorn py312-gunicorn \
     py312-huggingface-hub py312-tokenizers \
     py312-onnx py312-onnxruntime py312-ml-dtypes \
+    py312-safetensors py312-sympy py312-typing-extensions py312-packaging \
     git-lite gmake pkgconf FreeBSD-bmake \
     py312-scikit-build-core py312-build py312-installer \
     FreeBSD-clang FreeBSD-clibs-dev FreeBSD-clang-dev FreeBSD-utilities-dev \
@@ -83,6 +84,18 @@ RUN pip install --no-cache-dir --no-deps . && \
     pyclipper \
     pyyaml
 
+# 3.3 moved model loading into immich-model, pinned in pyproject.toml to a
+# commit of immich-app/ml-models (a uv git source, which pip doesn't read).
+# Its own deps: numpy/onnx/ml-dtypes/safetensors from pkg, the two pure-Python
+# onnx tools from PyPI. It asks for safetensors<0.8, but only until onnx-ir
+# carried onnx/ir-py#439 -- onnx-ir 1.0.0 does, and pkg has 0.8.
+RUN IMMICH_MODEL_REV=$(sed -n 's/^immich-model = { *git = "[^"]*", *rev = "\([0-9a-f]*\)".*/\1/p' pyproject.toml) && \
+    if [ -n "${IMMICH_MODEL_REV}" ]; then \
+      pip install --no-cache-dir --no-deps "onnx-ir>=1.0.0" onnxscript \
+        "immich-model @ git+https://github.com/immich-app/ml-models.git@${IMMICH_MODEL_REV}" && \
+      python -c "import immich_model.runtime"; \
+    fi
+
 # https://github.com/immich-app/immich/pull/28610 -- already merged upstream
 # as of v3.1.0, so -N makes this a no-op now; kept as a safety net in case a
 # future release ever regresses it.
@@ -95,7 +108,7 @@ RUN patch -N -d /opt/venv/lib/python3.12/site-packages -p1 < /tmp/immich-28610.p
 FROM ghcr.io/daemonless/base:${BASE_VERSION}
 
 ARG FREEBSD_ARCH=amd64
-ARG PACKAGES="python312 py312-onnxruntime py312-numpy py312-pillow py312-orjson py312-scipy py312-scikit-learn py312-scikit-image py312-pydantic2 py312-pydantic-settings py312-fastapi py312-uvicorn py312-uvloop py312-gunicorn py312-huggingface-hub py312-tokenizers py312-onnx py312-ml-dtypes py312-shapely openblas geos opencv"
+ARG PACKAGES="python312 py312-onnxruntime py312-numpy py312-pillow py312-orjson py312-scipy py312-scikit-learn py312-scikit-image py312-pydantic2 py312-pydantic-settings py312-fastapi py312-uvicorn py312-uvloop py312-gunicorn py312-huggingface-hub py312-tokenizers py312-onnx py312-ml-dtypes py312-safetensors py312-sympy py312-typing-extensions py312-packaging py312-shapely openblas geos opencv"
 ARG UPSTREAM_URL="https://api.github.com/repos/immich-app/immich/releases/latest"
 ARG UPSTREAM_JQ=".tag_name"
 {%- if ports %}
