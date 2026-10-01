@@ -22,6 +22,7 @@ Machine learning service for Immich — handles facial recognition, image classi
 | Tag | Description | Best For |
 | :--- | :--- | :--- |
 | `latest` | **Upstream Binary**. Built from official release. | Most users — recommended. |
+| `beta` | **Upstream Binary**. Built from official release. | Alternative build. |
 
 ## Prerequisites
 Before deploying, ensure your host environment is ready. See the [Quick Start Guide](https://daemonless.io/guides/quick-start) for host setup instructions.
@@ -46,8 +47,8 @@ services:
       - MACHINE_LEARNING_WORKER_TIMEOUT=300  # Gunicorn worker timeout in seconds. Raise on slow CPUs so model loading doesn't time out and cycle the worker.
       - SKIP_CHOWN=true  # Skip the one-time recursive chown of /cache and /config once ownership is recorded in /config/.chown_done (default true). Set false to force a chown on every start.
     volumes:
-      - "/path/to/containers/immich-ml/cache:/cache"
-      - "/path/to/containers/immich-ml:/config"
+      - "/containers/immich-ml/cache:/cache"
+      - "/containers/immich-ml:/config"
     ports:
       - "3003:3003"
     # always (not unless-stopped) so FreeBSD's podman rc.d auto-starts it at boot
@@ -105,9 +106,9 @@ services:
       - immich-ml: /config
 volumes:
   immich-ml_cache:
-    device: '/path/to/containers/immich-ml/cache'
+    device: '/containers/immich-ml/cache'
   immich-ml:
-    device: '/path/to/containers/immich-ml'
+    device: '/containers/immich-ml'
 ```
 
 **Makejail**:
@@ -144,8 +145,8 @@ podman run -d --name immich-ml \
   -e MACHINE_LEARNING_WORKERS=1 \
   -e MACHINE_LEARNING_WORKER_TIMEOUT=300 \
   -e SKIP_CHOWN=true \
-  -v /path/to/containers/immich-ml/cache:/cache \
-  -v /path/to/containers/immich-ml:/config \
+  -v /containers/immich-ml/cache:/cache \
+  -v /containers/immich-ml:/config \
   ghcr.io/daemonless/immich-ml:latest
 ```
 
@@ -170,8 +171,8 @@ appjail oci run -Pd \
   -e MACHINE_LEARNING_WORKERS=1 \
   -e MACHINE_LEARNING_WORKER_TIMEOUT=300 \
   -e SKIP_CHOWN=true \
-  -o fstab="/path/to/containers/immich-ml/cache /cache <pseudofs>" \
-  -o fstab="/path/to/containers/immich-ml /config <pseudofs>" \
+  -o fstab="/containers/immich-ml/cache /cache <pseudofs>" \
+  -o fstab="/containers/immich-ml /config <pseudofs>" \
   ghcr.io/daemonless/immich-ml:latest immich-ml
 ```
 
@@ -206,8 +207,8 @@ services:
       - MACHINE_LEARNING_WORKER_TIMEOUT=300
       - SKIP_CHOWN=true
     volumes:
-      - "/path/to/containers/immich-ml/cache:/cache"
-      - "/path/to/containers/immich-ml:/config"
+      - "/containers/immich-ml/cache:/cache"
+      - "/containers/immich-ml:/config"
 ```
 
 Save as `bastille-compose.yml`, then run `bastille up`. Or via CLI:
@@ -223,8 +224,8 @@ bastille create -O \
   --env MACHINE_LEARNING_WORKERS=1 \
   --env MACHINE_LEARNING_WORKER_TIMEOUT=300 \
   --env SKIP_CHOWN=true \
-  --volume /path/to/containers/immich-ml/cache /cache \
-  --volume /path/to/containers/immich-ml /config \
+  --volume /containers/immich-ml/cache /cache \
+  --volume /containers/immich-ml /config \
   immich-ml ghcr.io/daemonless/immich-ml:latest inherit
 ```
 
@@ -250,8 +251,8 @@ bastille create -O \
     ports:
       - "3003:3003"
     volumes:
-      - "/path/to/containers/immich-ml/cache:/cache"
-      - "/path/to/containers/immich-ml:/config"
+      - "/containers/immich-ml/cache:/cache"
+      - "/containers/immich-ml:/config"
 ```
 
 Save as `immich-ml-deploy.yaml`, then run `ansible-playbook immich-ml-deploy.yaml`.

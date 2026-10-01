@@ -10,6 +10,7 @@ ARG UPSTREAM_URL="https://api.github.com/repos/immich-app/immich/releases/latest
 FROM ghcr.io/daemonless/base:${BASE_VERSION} AS builder
 
 ARG UPSTREAM_URL
+ARG UPSTREAM_JQ=".tag_name"
 
 # Build dependencies
 RUN pkg update && pkg install -y \
@@ -53,7 +54,7 @@ RUN --mount=type=secret,id=github_token \
       printf 'machine api.github.com login x-access-token password %s\n' "${GITHUB_TOKEN}" > /root/.netrc && \
       chmod 600 /root/.netrc; \
     fi && \
-    IMMICH_VERSION=$(fetch -qo - "${UPSTREAM_URL}" | jq -r '.tag_name') && \
+    IMMICH_VERSION=$(fetch -qo - "${UPSTREAM_URL}" | jq -r "${UPSTREAM_JQ}") && \
     echo "Resolved IMMICH_VERSION=$IMMICH_VERSION" && \
     git clone --depth 1 --branch ${IMMICH_VERSION} \
       https://github.com/immich-app/immich.git . && \

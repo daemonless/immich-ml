@@ -8,5 +8,11 @@ build:
     - tag: latest
       containerfile: Containerfile
       default: true
-      aliases: ["beta"]
+    - tag: beta
+      containerfile: Containerfile
+      args:
+        # Newest release, release candidates included: v3.3.0-rc.1 today, and
+        # the same as latest once a stable release is the newest.
+        UPSTREAM_URL: "https://api.github.com/repos/immich-app/immich/releases"
+        UPSTREAM_JQ: "first(.[] | select(.draft | not)) | .tag_name"
 
