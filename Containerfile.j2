@@ -15,7 +15,7 @@ RUN pkg update && pkg install -y \
     py312-pydantic2 py312-pydantic-settings \
     py312-fastapi py312-uvicorn py312-gunicorn \
     py312-huggingface-hub py312-tokenizers \
-    py312-onnx py312-onnxruntime \
+    py312-onnx py312-onnxruntime py312-ml-dtypes \
     git-lite gmake pkgconf FreeBSD-bmake \
     py312-scikit-build-core py312-build py312-installer \
     FreeBSD-clang FreeBSD-clibs-dev FreeBSD-clang-dev FreeBSD-utilities-dev \
@@ -23,14 +23,6 @@ RUN pkg update && pkg install -y \
     openblas gcc \
     distcc ccache \
     && pkg clean -ay
-
-# py312-ml-dtypes has no package in the latest repo: the 0.6.0 update broke the
-# port (fixed in ports 2026-09-14, not rebuilt yet). Build it from ports.
-# chmod: ocijail 0.6.0 leaks umask(077) into the build, so a port built here
-# installs unreadable by the runtime user (PermissionError on import as bsd).
-RUN ports-build --cleanup math/py-ml-dtypes lang/python312 && \
-    chmod -R a+rX /usr/local/lib/python3.12/site-packages/ml_dtypes && \
-    mkdir -p /pkgs && pkg create -o /pkgs py312-ml-dtypes
 
 # Create virtual environment with system packages
 RUN python3.12 -m venv --system-site-packages /opt/venv
@@ -103,7 +95,7 @@ RUN patch -N -d /opt/venv/lib/python3.12/site-packages -p1 < /tmp/immich-28610.p
 FROM ghcr.io/daemonless/base:${BASE_VERSION}
 
 ARG FREEBSD_ARCH=amd64
-ARG PACKAGES="python312 py312-onnxruntime py312-numpy py312-pillow py312-orjson py312-scipy py312-scikit-learn py312-scikit-image py312-pydantic2 py312-pydantic-settings py312-fastapi py312-uvicorn py312-uvloop py312-gunicorn py312-huggingface-hub py312-tokenizers py312-onnx py312-shapely openblas geos opencv"
+ARG PACKAGES="python312 py312-onnxruntime py312-numpy py312-pillow py312-orjson py312-scipy py312-scikit-learn py312-scikit-image py312-pydantic2 py312-pydantic-settings py312-fastapi py312-uvicorn py312-uvloop py312-gunicorn py312-huggingface-hub py312-tokenizers py312-onnx py312-ml-dtypes py312-shapely openblas geos opencv"
 ARG UPSTREAM_URL="https://api.github.com/repos/immich-app/immich/releases/latest"
 ARG UPSTREAM_JQ=".tag_name"
 {%- if ports %}
@@ -140,13 +132,8 @@ LABEL org.opencontainers.image.title="{{ title }}" \
       io.daemonless.packages="${PACKAGES}"
 
 # Install runtime dependencies
-# py312-ml-dtypes comes from the builder's ports build -- no package exists in
-# the latest repo (see the builder stage).
-COPY --from=builder /pkgs /tmp/pkgs
 RUN pkg update && \
     pkg install -y ${PACKAGES} && \
-    pkg add /tmp/pkgs/*.pkg && \
-    rm -rf /tmp/pkgs && \
     pkg clean -ay && \
     rm -rf /var/cache/pkg/* /var/db/pkg/repos/*
 
