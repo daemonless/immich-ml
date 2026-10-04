@@ -131,59 +131,6 @@ Save the files above, then run `appjail-director up`.
 >
 > To avoid exposing ports, just remove the `expose` option in your `appjail-director.yml` or from your command-line arguments.
 
-### Podman CLI
-
-```bash
-podman run -d --name immich-ml \
-  -p 3003:3003 \
-  -e MACHINE_LEARNING_HOST=0.0.0.0 \
-  -e MACHINE_LEARNING_PORT=3003 \
-  -e MACHINE_LEARNING_CACHE_FOLDER=/cache \
-  -e PUID=1000 \
-  -e PGID=1000 \
-  -e TZ=UTC \
-  -e MACHINE_LEARNING_WORKERS=1 \
-  -e MACHINE_LEARNING_WORKER_TIMEOUT=300 \
-  -e SKIP_CHOWN=true \
-  -v /containers/immich-ml/cache:/cache \
-  -v /containers/immich-ml:/config \
-  ghcr.io/daemonless/immich-ml:latest
-```
-
-Save as `run.sh`, then run `sh run.sh`.
-
-### AppJail
-
-
-```bash
-appjail oci run -Pd \
-  -o overwrite=force \
-  -o container="args:--pull" \
-  -o virtualnet=":<random> default" \
-  -o nat \
-  -o expose="3003:3003 proto:tcp" \
-  -e MACHINE_LEARNING_HOST=0.0.0.0 \
-  -e MACHINE_LEARNING_PORT=3003 \
-  -e MACHINE_LEARNING_CACHE_FOLDER=/cache \
-  -e PUID=1000 \
-  -e PGID=1000 \
-  -e TZ=UTC \
-  -e MACHINE_LEARNING_WORKERS=1 \
-  -e MACHINE_LEARNING_WORKER_TIMEOUT=300 \
-  -e SKIP_CHOWN=true \
-  -o fstab="/containers/immich-ml/cache /cache <pseudofs>" \
-  -o fstab="/containers/immich-ml /config <pseudofs>" \
-  ghcr.io/daemonless/immich-ml:latest immich-ml
-```
-
-Save the files above, then run `sh run.sh`.
-
-
-> [!WARNING]
-> Exposing ports in AppJail means that your service can be reached from remote hosts. If that is not your intention, do not expose the ports and communicate with the service using the jail's IPv4 address or hostname assigned by the virtual network.
->
-> To avoid exposing ports, just remove the `expose` option in your `appjail-director.yml` or from your command-line arguments.
-
 ### Bastille
 
 > [!WARNING]
@@ -211,51 +158,7 @@ services:
       - "/containers/immich-ml:/config"
 ```
 
-Save as `bastille-compose.yml`, then run `bastille up`. Or via CLI:
-
-```bash
-bastille create -O \
-  --env MACHINE_LEARNING_HOST=0.0.0.0 \
-  --env MACHINE_LEARNING_PORT=3003 \
-  --env MACHINE_LEARNING_CACHE_FOLDER=/cache \
-  --env PUID=1000 \
-  --env PGID=1000 \
-  --env TZ=UTC \
-  --env MACHINE_LEARNING_WORKERS=1 \
-  --env MACHINE_LEARNING_WORKER_TIMEOUT=300 \
-  --env SKIP_CHOWN=true \
-  --volume /containers/immich-ml/cache /cache \
-  --volume /containers/immich-ml /config \
-  immich-ml ghcr.io/daemonless/immich-ml:latest inherit
-```
-
-### Ansible
-
-```yaml
-- name: Deploy immich-ml
-  containers.podman.podman_container:
-    name: immich-ml
-    image: "ghcr.io/daemonless/immich-ml:latest"
-    state: started
-    restart_policy: always
-    env:
-      MACHINE_LEARNING_HOST: "0.0.0.0"
-      MACHINE_LEARNING_PORT: "3003"
-      MACHINE_LEARNING_CACHE_FOLDER: "/cache"
-      PUID: "1000"
-      PGID: "1000"
-      TZ: "UTC"
-      MACHINE_LEARNING_WORKERS: "1"
-      MACHINE_LEARNING_WORKER_TIMEOUT: "300"
-      SKIP_CHOWN: "true"
-    ports:
-      - "3003:3003"
-    volumes:
-      - "/containers/immich-ml/cache:/cache"
-      - "/containers/immich-ml:/config"
-```
-
-Save as `immich-ml-deploy.yaml`, then run `ansible-playbook immich-ml-deploy.yaml`.
+Save as `bastille-compose.yml`, then run `bastille up`.
 
 ## Parameters
 

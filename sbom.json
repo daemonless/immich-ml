@@ -1,11 +1,11 @@
 {
-  "generated": "2026-10-01T10:47:06Z",
+  "generated": "2026-10-04T16:56:00Z",
   "image": "immich-ml",
   "tags": {
     "beta": {
-      "app_version": "v3.3.0-rc.1",
+      "app_version": "v3.3.0-rc.2",
       "arch": "amd64",
-      "generated": "2026-10-01T10:44:06Z",
+      "generated": "2026-10-04T16:52:20Z",
       "packages": {
         "dotnet": [],
         "freebsd": [
@@ -266,7 +266,7 @@
               "BSD3CLAUSE"
             ],
             "name": "Imath",
-            "version": "3.2.3"
+            "version": "3.2.3_1"
           },
           {
             "licenses": [
@@ -302,7 +302,7 @@
               "BSL"
             ],
             "name": "boost-libs",
-            "version": "1.91.0"
+            "version": "1.92.0"
           },
           {
             "licenses": [
@@ -668,7 +668,7 @@
               "MIT"
             ],
             "name": "level-zero",
-            "version": "1.33.1"
+            "version": "1.34.0"
           },
           {
             "licenses": [
@@ -972,7 +972,7 @@
               "BSD3CLAUSE"
             ],
             "name": "libkml",
-            "version": "1.3.0_31"
+            "version": "1.3.0_32"
           },
           {
             "licenses": [
@@ -1317,7 +1317,7 @@
               "BSD3CLAUSE"
             ],
             "name": "opencv",
-            "version": "4.13.0_8"
+            "version": "4.13.0_9"
           },
           {
             "licenses": [
@@ -1345,7 +1345,7 @@
               "BSD3CLAUSE"
             ],
             "name": "openmpi",
-            "version": "5.0.10_2"
+            "version": "5.0.11"
           },
           {
             "licenses": [
@@ -1381,7 +1381,7 @@
               "BSD3CLAUSE"
             ],
             "name": "pcre2",
-            "version": "10.48"
+            "version": "10.49"
           },
           {
             "licenses": [
@@ -1423,7 +1423,7 @@
               "BSD3CLAUSE"
             ],
             "name": "pmix",
-            "version": "5.0.10"
+            "version": "5.0.11"
           },
           {
             "licenses": [
@@ -1474,7 +1474,7 @@
               "BSD3CLAUSE"
             ],
             "name": "prrte",
-            "version": "3.0.13"
+            "version": "3.0.14"
           },
           {
             "licenses": [
@@ -1551,7 +1551,7 @@
               "BSL"
             ],
             "name": "py312-boost-libs",
-            "version": "1.91.0"
+            "version": "1.92.0"
           },
           {
             "licenses": [
@@ -1831,7 +1831,7 @@
               "APACHE20"
             ],
             "name": "py312-ml-dtypes",
-            "version": "0.6.0"
+            "version": "0.6.0_1"
           },
           {
             "licenses": [
@@ -1995,7 +1995,7 @@
               "MIT"
             ],
             "name": "py312-pyparsing",
-            "version": "3.3.2"
+            "version": "3.3.3"
           },
           {
             "licenses": [
@@ -2149,7 +2149,7 @@
               "BSD3CLAUSE"
             ],
             "name": "py312-tifffile",
-            "version": "2026.9.15"
+            "version": "2026.9.20"
           },
           {
             "licenses": [
@@ -2178,14 +2178,14 @@
               "MIT"
             ],
             "name": "py312-truststore",
-            "version": "0.10.4"
+            "version": "0.10.4_1"
           },
           {
             "licenses": [
               "MIT"
             ],
             "name": "py312-typer",
-            "version": "0.27.2"
+            "version": "0.27.2_1"
           },
           {
             "licenses": [
@@ -2199,7 +2199,7 @@
               "MIT"
             ],
             "name": "py312-typing-inspection",
-            "version": "0.4.4"
+            "version": "0.4.4_1"
           },
           {
             "licenses": [
@@ -2291,7 +2291,7 @@
               "GPLv2"
             ],
             "name": "sfcgal",
-            "version": "2.3.0_1"
+            "version": "2.3.0_2"
           },
           {
             "licenses": [
@@ -2886,7 +2886,7 @@
           {
             "name": "immich-ml",
             "purl": "",
-            "version": "3.3.0rc1"
+            "version": "3.3.0rc2"
           },
           {
             "name": "immich_model",
@@ -2901,7 +2901,7 @@
           {
             "name": "insightface",
             "purl": "",
-            "version": "2.0"
+            "version": "2.1"
           },
           {
             "name": "itsdangerous",
@@ -3126,7 +3126,7 @@
           {
             "name": "pyparsing",
             "purl": "",
-            "version": "3.3.2"
+            "version": "3.3.3"
           },
           {
             "name": "pyproject-hooks",
@@ -3256,7 +3256,7 @@
           {
             "name": "tifffile",
             "purl": "",
-            "version": "2026.9.15"
+            "version": "2026.9.20"
           },
           {
             "name": "tkinter",
@@ -3379,7 +3379,7 @@
     "latest": {
       "app_version": "v3.2.4",
       "arch": "amd64",
-      "generated": "2026-10-01T10:42:23Z",
+      "generated": "2026-10-04T16:53:15Z",
       "packages": {
         "dotnet": [],
         "freebsd": [
@@ -3640,7 +3640,7 @@
               "BSD3CLAUSE"
             ],
             "name": "Imath",
-            "version": "3.2.3"
+            "version": "3.2.3_1"
           },
           {
             "licenses": [
@@ -3676,7 +3676,7 @@
               "BSL"
             ],
             "name": "boost-libs",
-            "version": "1.91.0"
+            "version": "1.92.0"
           },
           {
             "licenses": [
@@ -4042,7 +4042,7 @@
               "MIT"
             ],
             "name": "level-zero",
-            "version": "1.33.1"
+            "version": "1.34.0"
           },
           {
             "licenses": [
@@ -4346,7 +4346,7 @@
               "BSD3CLAUSE"
             ],
             "name": "libkml",
-            "version": "1.3.0_31"
+            "version": "1.3.0_32"
           },
           {
             "licenses": [
@@ -4691,7 +4691,7 @@
               "BSD3CLAUSE"
             ],
             "name": "opencv",
-            "version": "4.13.0_8"
+            "version": "4.13.0_9"
           },
           {
             "licenses": [
@@ -4719,7 +4719,7 @@
               "BSD3CLAUSE"
             ],
             "name": "openmpi",
-            "version": "5.0.10_2"
+            "version": "5.0.11"
           },
           {
             "licenses": [
@@ -4755,7 +4755,7 @@
               "BSD3CLAUSE"
             ],
             "name": "pcre2",
-            "version": "10.48"
+            "version": "10.49"
           },
           {
             "licenses": [
@@ -4797,7 +4797,7 @@
               "BSD3CLAUSE"
             ],
             "name": "pmix",
-            "version": "5.0.10"
+            "version": "5.0.11"
           },
           {
             "licenses": [
@@ -4848,7 +4848,7 @@
               "BSD3CLAUSE"
             ],
             "name": "prrte",
-            "version": "3.0.13"
+            "version": "3.0.14"
           },
           {
             "licenses": [
@@ -4925,7 +4925,7 @@
               "BSL"
             ],
             "name": "py312-boost-libs",
-            "version": "1.91.0"
+            "version": "1.92.0"
           },
           {
             "licenses": [
@@ -5205,7 +5205,7 @@
               "APACHE20"
             ],
             "name": "py312-ml-dtypes",
-            "version": "0.6.0"
+            "version": "0.6.0_1"
           },
           {
             "licenses": [
@@ -5369,7 +5369,7 @@
               "MIT"
             ],
             "name": "py312-pyparsing",
-            "version": "3.3.2"
+            "version": "3.3.3"
           },
           {
             "licenses": [
@@ -5523,7 +5523,7 @@
               "BSD3CLAUSE"
             ],
             "name": "py312-tifffile",
-            "version": "2026.9.15"
+            "version": "2026.9.20"
           },
           {
             "licenses": [
@@ -5552,14 +5552,14 @@
               "MIT"
             ],
             "name": "py312-truststore",
-            "version": "0.10.4"
+            "version": "0.10.4_1"
           },
           {
             "licenses": [
               "MIT"
             ],
             "name": "py312-typer",
-            "version": "0.27.2"
+            "version": "0.27.2_1"
           },
           {
             "licenses": [
@@ -5573,7 +5573,7 @@
               "MIT"
             ],
             "name": "py312-typing-inspection",
-            "version": "0.4.4"
+            "version": "0.4.4_1"
           },
           {
             "licenses": [
@@ -5665,7 +5665,7 @@
               "GPLv2"
             ],
             "name": "sfcgal",
-            "version": "2.3.0_1"
+            "version": "2.3.0_2"
           },
           {
             "licenses": [
@@ -6270,7 +6270,7 @@
           {
             "name": "insightface",
             "purl": "",
-            "version": "2.0"
+            "version": "2.1"
           },
           {
             "name": "itsdangerous",
@@ -6485,7 +6485,7 @@
           {
             "name": "pyparsing",
             "purl": "",
-            "version": "3.3.2"
+            "version": "3.3.3"
           },
           {
             "name": "pyproject-hooks",
@@ -6615,7 +6615,7 @@
           {
             "name": "tifffile",
             "purl": "",
-            "version": "2026.9.15"
+            "version": "2026.9.20"
           },
           {
             "name": "tkinter",
