@@ -22,7 +22,6 @@ Machine learning service for Immich — handles facial recognition, image classi
 | Tag | Description | Best For |
 | :--- | :--- | :--- |
 | `latest` | **Upstream Binary**. Built from official release. | Most users — recommended. |
-| `beta` | **Upstream Binary**. Built from official release. | Alternative build. |
 
 ## Prerequisites
 Before deploying, ensure your host environment is ready. See the [Quick Start Guide](https://daemonless.io/guides/quick-start) for host setup instructions.
