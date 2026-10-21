@@ -1,11 +1,11 @@
 {
-  "generated": "2026-10-20T12:57:50Z",
+  "generated": "2026-10-21T19:55:16Z",
   "image": "immich-ml",
   "tags": {
     "latest": {
-      "app_version": "v3.3.4",
+      "app_version": "v3.3.5",
       "arch": "amd64",
-      "generated": "2026-10-20T12:54:48Z",
+      "generated": "2026-10-21T19:52:29Z",
       "packages": {
         "dotnet": [],
         "freebsd": [
@@ -2678,7 +2678,7 @@
           {
             "name": "certifi",
             "purl": "",
-            "version": "2026.6.17"
+            "version": "2026.10.19"
           },
           {
             "name": "charset-normalizer",
@@ -2863,7 +2863,7 @@
           {
             "name": "immich-ml",
             "purl": "",
-            "version": "3.3.4"
+            "version": "3.3.5"
           },
           {
             "name": "immich_model",
@@ -3003,7 +3003,7 @@
           {
             "name": "onnx-ir",
             "purl": "",
-            "version": "1.0.0"
+            "version": "1.1.0"
           },
           {
             "name": "onnxruntime",
@@ -3043,7 +3043,7 @@
           {
             "name": "pip",
             "purl": "",
-            "version": "26.2.1"
+            "version": "26.2.2"
           },
           {
             "name": "platformdirs",
@@ -3308,7 +3308,7 @@
           {
             "name": "wcwidth",
             "purl": "",
-            "version": "0.9.2"
+            "version": "0.9.3"
           },
           {
             "name": "wheel",
