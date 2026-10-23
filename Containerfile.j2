@@ -1,7 +1,7 @@
 ARG BASE_VERSION=15.1-latest
 ARG UPSTREAM_URL="https://api.github.com/repos/immich-app/immich/releases/latest"
 
-FROM ghcr.io/daemonless/base:${BASE_VERSION} AS builder
+FROM ghcr.io/daemonless/base-exec:${BASE_VERSION} AS builder
 
 ARG UPSTREAM_URL
 ARG UPSTREAM_JQ=".tag_name"
