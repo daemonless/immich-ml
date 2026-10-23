@@ -1,11 +1,11 @@
 {
-  "generated": "2026-10-21T19:55:16Z",
+  "generated": "2026-10-23T08:31:37Z",
   "image": "immich-ml",
   "tags": {
     "latest": {
       "app_version": "v3.3.5",
       "arch": "amd64",
-      "generated": "2026-10-21T19:52:29Z",
+      "generated": "2026-10-23T08:21:59Z",
       "packages": {
         "dotnet": [],
         "freebsd": [
@@ -349,13 +349,6 @@
           },
           {
             "licenses": [
-              "ISCL"
-            ],
-            "name": "execline",
-            "version": "2.9.8.1"
-          },
-          {
-            "licenses": [
               "MIT"
             ],
             "name": "expat",
@@ -553,7 +546,7 @@
               "MIT"
             ],
             "name": "harfbuzz",
-            "version": "14.5.1"
+            "version": "14.6.0"
           },
           {
             "licenses": [
@@ -689,7 +682,7 @@
               "MIT"
             ],
             "name": "libX11",
-            "version": "1.8.13_1,1"
+            "version": "1.8.14,1"
           },
           {
             "licenses": [
@@ -752,7 +745,7 @@
               "MIT"
             ],
             "name": "libXpm",
-            "version": "3.5.19"
+            "version": "3.5.20"
           },
           {
             "licenses": [
@@ -766,7 +759,7 @@
               "MIT"
             ],
             "name": "libXrender",
-            "version": "0.9.12"
+            "version": "0.9.13"
           },
           {
             "licenses": [
@@ -1416,7 +1409,7 @@
               "ISCL"
             ],
             "name": "pkgconf",
-            "version": "3.0.7,1"
+            "version": "3.0.9,1"
           },
           {
             "licenses": [
@@ -1621,7 +1614,7 @@
               "MIT"
             ],
             "name": "py312-filelock",
-            "version": "4.1.0"
+            "version": "4.2.4"
           },
           {
             "licenses": [
@@ -1664,13 +1657,6 @@
             ],
             "name": "py312-gmpy2",
             "version": "2.3.2"
-          },
-          {
-            "licenses": [
-              "BSD3CLAUSE"
-            ],
-            "name": "py312-google-re2",
-            "version": "1.1.20251105"
           },
           {
             "licenses": [
@@ -1719,7 +1705,7 @@
               "BSD3CLAUSE"
             ],
             "name": "py312-httpcore2",
-            "version": "2.13.1"
+            "version": "2.14.0"
           },
           {
             "licenses": [
@@ -1733,7 +1719,7 @@
               "BSD3CLAUSE"
             ],
             "name": "py312-httpx2",
-            "version": "2.13.1"
+            "version": "2.14.0"
           },
           {
             "licenses": [
@@ -1881,14 +1867,14 @@
               "MIT"
             ],
             "name": "py312-onnx",
-            "version": "1.23.0"
+            "version": "1.23.2"
           },
           {
             "licenses": [
               "MIT"
             ],
             "name": "py312-onnxruntime",
-            "version": "1.30.0"
+            "version": "1.31.0"
           },
           {
             "licenses": [
@@ -2239,24 +2225,10 @@
           },
           {
             "licenses": [
-              "BSD3CLAUSE"
-            ],
-            "name": "re2",
-            "version": "20251105"
-          },
-          {
-            "licenses": [
               "GPLv3"
             ],
             "name": "readline",
             "version": "8.3.6"
-          },
-          {
-            "licenses": [
-              "ISCL"
-            ],
-            "name": "s6",
-            "version": "2.14.0.1"
           },
           {
             "licenses": [
@@ -2278,13 +2250,6 @@
             ],
             "name": "shared-mime-info",
             "version": "2.4_2"
-          },
-          {
-            "licenses": [
-              "ISCL"
-            ],
-            "name": "skalibs",
-            "version": "2.14.5.1"
           },
           {
             "licenses": [
@@ -2743,7 +2708,7 @@
           {
             "name": "filelock",
             "purl": "",
-            "version": "4.1.0"
+            "version": "4.2.4"
           },
           {
             "name": "flatbuffers",
@@ -2781,11 +2746,6 @@
             "version": "2.3.2"
           },
           {
-            "name": "google-re2",
-            "purl": "",
-            "version": "1.1.20251105"
-          },
-          {
             "name": "gunicorn",
             "purl": "",
             "version": "26.2.0"
@@ -2818,7 +2778,7 @@
           {
             "name": "httpcore2",
             "purl": "",
-            "version": "2.13.1"
+            "version": "2.14.0"
           },
           {
             "name": "httptools",
@@ -2833,7 +2793,7 @@
           {
             "name": "httpx2",
             "purl": "",
-            "version": "2.13.1"
+            "version": "2.14.0"
           },
           {
             "name": "huggingface-hub",
@@ -2998,7 +2958,7 @@
           {
             "name": "onnx",
             "purl": "",
-            "version": "1.23.0"
+            "version": "1.23.2"
           },
           {
             "name": "onnx-ir",
@@ -3008,7 +2968,7 @@
           {
             "name": "onnxruntime",
             "purl": "",
-            "version": "1.30.0"
+            "version": "1.31.0"
           },
           {
             "name": "onnxscript",
@@ -3337,15 +3297,15 @@
       "source": "upstream",
       "summary": {
         "dotnet": 0,
-        "freebsd": 351,
+        "freebsd": 346,
         "go": 0,
         "java": 0,
         "node": 12,
         "php": 0,
-        "python": 151,
+        "python": 150,
         "ruby": 0,
         "rust": 0,
-        "total": 514
+        "total": 508
       }
     }
   }
