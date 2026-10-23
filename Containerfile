@@ -111,7 +111,7 @@ RUN patch -N -d /opt/venv/lib/python3.12/site-packages -p1 < /tmp/immich-28610.p
     true
 
 # Production image
-FROM ghcr.io/daemonless/base:${BASE_VERSION}
+FROM ghcr.io/daemonless/base-exec:${BASE_VERSION}
 
 ARG FREEBSD_ARCH=amd64
 ARG PACKAGES="python312 py312-onnxruntime py312-numpy py312-pillow py312-orjson py312-scipy py312-scikit-learn py312-scikit-image py312-pydantic2 py312-pydantic-settings py312-fastapi py312-opentelemetry-api py312-uvicorn py312-uvloop py312-gunicorn py312-huggingface-hub py312-tokenizers py312-onnx py312-ml-dtypes py312-safetensors py312-sympy py312-typing-extensions py312-packaging py312-shapely openblas geos opencv"
@@ -159,7 +159,9 @@ RUN mkdir -p /config /cache /app && \
 
 # Copy service files
 COPY root/ /
-RUN chmod +x /etc/services.d/*/run /etc/cont-init.d/* 2>/dev/null || true
+RUN chmod +x /daemonless/libexec/immich-ml /daemonless/init.d/*
+
+CMD ["/daemonless/libexec/immich-ml"]
 
 ENV PATH="/opt/venv/bin:$PATH"
 ENV VIRTUAL_ENV="/opt/venv"
