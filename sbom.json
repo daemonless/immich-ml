@@ -1,11 +1,11 @@
 {
-  "generated": "2026-11-04T12:51:59Z",
+  "generated": "2026-11-04T20:33:17Z",
   "image": "immich-ml",
   "tags": {
     "latest": {
-      "app_version": "v3.3.5",
+      "app_version": "v3.3.6",
       "arch": "amd64",
-      "generated": "2026-11-04T12:49:18Z",
+      "generated": "2026-11-04T20:31:00Z",
       "packages": {
         "dotnet": [],
         "freebsd": [
@@ -2709,7 +2709,7 @@
           {
             "name": "immich-ml",
             "purl": "",
-            "version": "3.3.5"
+            "version": "3.3.6"
           },
           {
             "name": "immich_model",
