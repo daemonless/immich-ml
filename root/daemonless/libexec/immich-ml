@@ -8,6 +8,9 @@ export HOME=/config
 export MPLCONFIGDIR=/tmp
 export HF_HOME=/cache/huggingface
 
+# Work around onnxruntime 1.31's F_KINFO bug on FreeBSD (Containerfile.j2 has the details).
+[ -f /usr/local/lib/fkinfo_shim.so ] && export LD_PRELOAD="/usr/local/lib/fkinfo_shim.so${LD_PRELOAD:+ $LD_PRELOAD}"
+
 cd /opt/venv
 exec /opt/venv/bin/python -m gunicorn \
     immich_ml.main:app \
