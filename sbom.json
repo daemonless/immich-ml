@@ -1,11 +1,11 @@
 {
-  "generated": "2026-11-04T20:33:17Z",
+  "generated": "2026-11-05T11:13:13Z",
   "image": "immich-ml",
   "tags": {
     "latest": {
       "app_version": "v3.3.6",
       "arch": "amd64",
-      "generated": "2026-11-04T20:31:00Z",
+      "generated": "2026-11-05T11:10:16Z",
       "packages": {
         "dotnet": [],
         "freebsd": [
@@ -2479,7 +2479,7 @@
           {
             "name": "albucore",
             "purl": "",
-            "version": "0.3.4"
+            "version": "0.3.5"
           },
           {
             "name": "albumentations",
