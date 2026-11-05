@@ -20,6 +20,7 @@ RUN pkg update && pkg install -y \
     git-lite gmake pkgconf FreeBSD-bmake \
     py312-scikit-build-core py312-build py312-installer \
     FreeBSD-clang FreeBSD-clibs-dev FreeBSD-clang-dev FreeBSD-utilities-dev \
+    FreeBSD-audit-dev \
     opencv cmake ninja \
     openblas gcc \
     distcc ccache \
@@ -104,6 +105,15 @@ RUN patch -N -d /opt/venv/lib/python3.12/site-packages -p1 < /tmp/immich-28610.p
     rm /tmp/immich-28610.patch; \
     true
 
+# onnxruntime 1.31.0 calls fcntl(F_KINFO) without setting kf_structsize, so on FreeBSD every
+# model with external weights (all of Immich's prepacked cpu/ models) fails to load with
+# "SystemError : 22". This preload shim sets the size, exactly as the upstream fix does
+# (microsoft/onnxruntime#33433). Drop it once py312-onnxruntime carries that fix.
+# FreeBSD-audit-dev (above) supplies bsm/audit.h, which sys/user.h includes via sys/ucred.h.
+COPY patches/fkinfo_shim.c /tmp/fkinfo_shim.c
+RUN cc -O2 -Wall -Wextra -Werror -fPIC -shared -o /tmp/fkinfo_shim.so /tmp/fkinfo_shim.c && \
+    rm /tmp/fkinfo_shim.c
+
 # Production image
 FROM ghcr.io/daemonless/base-exec:${BASE_VERSION}
 
@@ -155,6 +165,9 @@ COPY --from=builder /opt/venv /opt/venv
 
 # Copy version from builder
 COPY --from=builder /tmp/immich_version /tmp/immich_version
+
+# F_KINFO preload shim (see the builder stage); loaded by /daemonless/libexec/immich-ml
+COPY --from=builder /tmp/fkinfo_shim.so /usr/local/lib/fkinfo_shim.so
 
 # Create directories, write version, and fix permissions
 RUN mkdir -p /config /cache /app && \
