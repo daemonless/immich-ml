@@ -27,6 +27,7 @@ RUN pkg update && pkg install -y \
     py312-scikit-build-core py312-build py312-installer \
     FreeBSD-clang FreeBSD-clibs-dev FreeBSD-clang-dev FreeBSD-utilities-dev \
     FreeBSD-audit-dev \
+    FreeBSD-libexecinfo-dev FreeBSD-runtime-dev rust py312-maturin libjxl \
     opencv cmake ninja \
     openblas gcc \
     distcc ccache \
@@ -91,6 +92,14 @@ RUN pip install --no-cache-dir --no-deps . && \
     pyclipper \
     pyyaml
 
+# 3.4 decodes JPEG XL through pillow-jxl-plugin, a Rust extension with no
+# FreeBSD wheel or port. Link it to pkg libjxl (jpegxl-rs 0.15 targets 0.12.0,
+# the pkg version) instead of vendoring libjxl; rustc needs the -dev packages
+# above for the libraries std links against.
+RUN MATURIN_PEP517_ARGS="--features dynamic" \
+    pip install --no-cache-dir --no-deps --no-build-isolation "pillow-jxl-plugin>=1.3.8,<2" && \
+    cd / && python -c "from pillow_jxl import JpegXLImagePlugin"
+
 # 3.3 moved model loading into immich-model, pinned in pyproject.toml to a
 # commit of immich-app/ml-models (a uv git source, which pip doesn't read).
 # Its own deps: numpy/onnx/ml-dtypes/safetensors from pkg, the two pure-Python
@@ -124,7 +133,7 @@ RUN cc -O2 -Wall -Wextra -Werror -fPIC -shared -o /tmp/fkinfo_shim.so /tmp/fkinf
 FROM ghcr.io/daemonless/base-exec:${BASE_VERSION}
 
 ARG FREEBSD_ARCH=amd64
-ARG PACKAGES="python312 py312-onnxruntime py312-numpy py312-pillow py312-orjson py312-scipy py312-scikit-learn py312-scikit-image py312-pydantic2 py312-pydantic-settings py312-fastapi py312-opentelemetry-api py312-uvicorn py312-uvloop py312-gunicorn py312-huggingface-hub py312-tokenizers py312-onnx py312-ml-dtypes py312-safetensors py312-sympy py312-typing-extensions py312-packaging py312-shapely openblas geos opencv"
+ARG PACKAGES="python312 py312-onnxruntime py312-numpy py312-pillow py312-orjson py312-scipy py312-scikit-learn py312-scikit-image py312-pydantic2 py312-pydantic-settings py312-fastapi py312-opentelemetry-api py312-uvicorn py312-uvloop py312-gunicorn py312-huggingface-hub py312-tokenizers py312-onnx py312-ml-dtypes py312-safetensors py312-sympy py312-typing-extensions py312-packaging py312-shapely openblas geos opencv libjxl"
 ARG UPSTREAM_URL="https://api.github.com/repos/immich-app/immich/releases/latest"
 ARG UPSTREAM_JQ=".tag_name"
 ARG HEALTHCHECK_ENDPOINT="http://localhost:3003/ping"
