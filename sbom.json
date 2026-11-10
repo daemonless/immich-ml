@@ -1,11 +1,11 @@
 {
-  "generated": "2026-11-05T11:13:13Z",
+  "generated": "2026-11-10T22:24:02Z",
   "image": "immich-ml",
   "tags": {
     "latest": {
-      "app_version": "v3.3.6",
+      "app_version": "v3.4.0",
       "arch": "amd64",
-      "generated": "2026-11-05T11:10:16Z",
+      "generated": "2026-11-10T22:21:37Z",
       "packages": {
         "dotnet": [],
         "freebsd": [
@@ -280,7 +280,7 @@
               "BSD2CLAUSE"
             ],
             "name": "aom",
-            "version": "3.15.2"
+            "version": "3.15.3"
           },
           {
             "licenses": [
@@ -295,7 +295,7 @@
               "LGPL3"
             ],
             "name": "binutils",
-            "version": "2.44,1"
+            "version": "2.44_1,1"
           },
           {
             "licenses": [
@@ -352,12 +352,12 @@
               "MIT"
             ],
             "name": "expat",
-            "version": "2.9.0"
+            "version": "2.10.0"
           },
           {
             "licenses": [
-              "GPLv3+",
-              "LGPL3+"
+              "LGPL3+",
+              "GPLv3+"
             ],
             "name": "ffmpeg",
             "version": "9.0.2_3,1"
@@ -371,9 +371,9 @@
           },
           {
             "licenses": [
-              "FIPL",
               "GPLv2",
-              "GPLv3"
+              "GPLv3",
+              "FIPL"
             ],
             "name": "freeimage",
             "version": "3.18.0_6"
@@ -440,8 +440,8 @@
           },
           {
             "licenses": [
-              "GPLv3+",
-              "LGPL21+"
+              "LGPL21+",
+              "GPLv3+"
             ],
             "name": "gettext-runtime",
             "version": "1.0_1"
@@ -491,8 +491,8 @@
           },
           {
             "licenses": [
-              "GPLv3+",
-              "LGPL21+"
+              "LGPL21+",
+              "GPLv3+"
             ],
             "name": "gnutls",
             "version": "3.8.13"
@@ -514,8 +514,8 @@
           {
             "licenses": [
               "MPL20",
-              "GPLv2",
-              "LGPL21"
+              "LGPL21",
+              "GPLv2"
             ],
             "name": "graphite2",
             "version": "1.3.15_1"
@@ -532,14 +532,14 @@
               "LGPL20+"
             ],
             "name": "gstreamer1",
-            "version": "1.28.8_1"
+            "version": "1.28.9"
           },
           {
             "licenses": [
               "LGPL20"
             ],
             "name": "gstreamer1-plugins",
-            "version": "1.28.8"
+            "version": "1.28.9"
           },
           {
             "licenses": [
@@ -568,7 +568,7 @@
               "GPLv2+"
             ],
             "name": "hwdata",
-            "version": "0.412,1"
+            "version": "0.413,1"
           },
           {
             "licenses": [
@@ -898,8 +898,8 @@
           },
           {
             "licenses": [
-              "GPLv2",
-              "LGPL21"
+              "LGPL21",
+              "GPLv2"
             ],
             "name": "libgpg-error",
             "version": "1.61"
@@ -1035,8 +1035,8 @@
           },
           {
             "licenses": [
-              "GPLv3",
-              "LGPL21+"
+              "LGPL21+",
+              "GPLv3"
             ],
             "name": "libtasn1",
             "version": "4.21.0"
@@ -1087,8 +1087,8 @@
           },
           {
             "licenses": [
-              "GPLv2",
-              "LGPL21"
+              "LGPL21",
+              "GPLv2"
             ],
             "name": "libv4l",
             "version": "1.23.0_5"
@@ -1246,7 +1246,7 @@
               "MPL20"
             ],
             "name": "nss",
-            "version": "3.132"
+            "version": "3.133"
           },
           {
             "licenses": [
@@ -1281,7 +1281,7 @@
               "BSD3CLAUSE"
             ],
             "name": "openexr",
-            "version": "3.4.16"
+            "version": "3.4.17"
           },
           {
             "licenses": [
@@ -1359,7 +1359,7 @@
               "BSD2CLAUSE"
             ],
             "name": "pkg",
-            "version": "2.8.4"
+            "version": "2.9.0"
           },
           {
             "licenses": [
@@ -1803,7 +1803,7 @@
               "MIT"
             ],
             "name": "py312-onnxruntime",
-            "version": "1.31.0"
+            "version": "1.31.1_1"
           },
           {
             "licenses": [
@@ -2271,7 +2271,7 @@
               "BSD3CLAUSE"
             ],
             "name": "svt-av1",
-            "version": "4.2.0"
+            "version": "4.3.0"
           },
           {
             "licenses": [
@@ -2315,7 +2315,7 @@
               "APACHE20"
             ],
             "name": "vulkan-loader",
-            "version": "1.4.365"
+            "version": "1.4.368"
           },
           {
             "licenses": [
@@ -2368,8 +2368,8 @@
           },
           {
             "licenses": [
-              "GPLv2",
-              "BSD3CLAUSE"
+              "BSD3CLAUSE",
+              "GPLv2"
             ],
             "name": "zstd",
             "version": "1.5.7_2"
@@ -2579,7 +2579,7 @@
           {
             "name": "easydict",
             "purl": "",
-            "version": "1.13"
+            "version": "1.14"
           },
           {
             "name": "example",
@@ -2709,7 +2709,7 @@
           {
             "name": "immich-ml",
             "purl": "",
-            "version": "3.3.6"
+            "version": "3.4.0"
           },
           {
             "name": "immich_model",
@@ -2769,7 +2769,7 @@
           {
             "name": "markdown-it-py",
             "purl": "",
-            "version": "4.2.0"
+            "version": "4.3.0"
           },
           {
             "name": "markupsafe",
@@ -2854,7 +2854,7 @@
           {
             "name": "onnxruntime",
             "purl": "",
-            "version": "1.31.0"
+            "version": "1.31.1"
           },
           {
             "name": "onnxscript",
@@ -2885,6 +2885,11 @@
             "name": "pillow",
             "purl": "",
             "version": "13.0.0"
+          },
+          {
+            "name": "pillow-jxl-plugin",
+            "purl": "",
+            "version": "1.3.8"
           },
           {
             "name": "pip",
@@ -3183,10 +3188,10 @@
         "java": 0,
         "node": 11,
         "php": 0,
-        "python": 147,
+        "python": 148,
         "ruby": 0,
         "rust": 0,
-        "total": 490
+        "total": 491
       }
     }
   }
