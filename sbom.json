@@ -1,11 +1,11 @@
 {
-  "generated": "2026-11-11T21:49:50Z",
+  "generated": "2026-11-18T22:54:35Z",
   "image": "immich-ml",
   "tags": {
     "latest": {
-      "app_version": "v3.4.1",
+      "app_version": "v3.4.2",
       "arch": "amd64",
-      "generated": "2026-11-11T21:47:17Z",
+      "generated": "2026-11-18T22:52:26Z",
       "packages": {
         "dotnet": [],
         "freebsd": [
@@ -525,7 +525,7 @@
               "EPL"
             ],
             "name": "graphviz",
-            "version": "16.1.0_2"
+            "version": "16.1.1_1"
           },
           {
             "licenses": [
@@ -605,7 +605,7 @@
               "ZLIB"
             ],
             "name": "jpeg-turbo",
-            "version": "3.1.4.1"
+            "version": "3.2.1"
           },
           {
             "licenses": [
@@ -640,14 +640,14 @@
               "MIT"
             ],
             "name": "lcms2",
-            "version": "2.19.1"
+            "version": "2.20"
           },
           {
             "licenses": [
               "APACHE20"
             ],
             "name": "lerc",
-            "version": "4.2.0"
+            "version": "4.3.0"
           },
           {
             "licenses": [
@@ -766,7 +766,7 @@
               "BSD2CLAUSE"
             ],
             "name": "libaec",
-            "version": "1.1.7"
+            "version": "1.1.8"
           },
           {
             "licenses": [
@@ -937,7 +937,7 @@
               "BSD3CLAUSE"
             ],
             "name": "libjxl",
-            "version": "0.12.0"
+            "version": "0.12.0_1"
           },
           {
             "licenses": [
@@ -968,14 +968,14 @@
               "GPLv2"
             ],
             "name": "liblz4",
-            "version": "1.10.0_2,1"
+            "version": "1.11.1,1"
           },
           {
             "licenses": [
               "MIT"
             ],
             "name": "libnghttp2",
-            "version": "1.70.0"
+            "version": "1.71.0"
           },
           {
             "licenses": [
@@ -1168,7 +1168,7 @@
               "MIT"
             ],
             "name": "llhttp",
-            "version": "9.4.3"
+            "version": "9.4.4"
           },
           {
             "licenses": [
@@ -1281,7 +1281,7 @@
               "BSD3CLAUSE"
             ],
             "name": "openexr",
-            "version": "3.4.17"
+            "version": "3.4.18_1"
           },
           {
             "licenses": [
@@ -1295,7 +1295,7 @@
               "BSD2CLAUSE"
             ],
             "name": "openjph",
-            "version": "0.32.0"
+            "version": "0.33.0"
           },
           {
             "licenses": [
@@ -1317,7 +1317,7 @@
               "BSD3CLAUSE"
             ],
             "name": "p11-kit",
-            "version": "0.26.5_1"
+            "version": "0.26.6"
           },
           {
             "licenses": [
@@ -1359,7 +1359,7 @@
               "BSD2CLAUSE"
             ],
             "name": "pkg",
-            "version": "2.9.0"
+            "version": "2.9.2"
           },
           {
             "licenses": [
@@ -1396,7 +1396,7 @@
               "PostgreSQL"
             ],
             "name": "postgresql18-client",
-            "version": "18.6"
+            "version": "18.7"
           },
           {
             "licenses": [
@@ -1438,7 +1438,7 @@
               "APACHE20"
             ],
             "name": "py312-aiohttp",
-            "version": "3.14.3"
+            "version": "3.14.5"
           },
           {
             "licenses": [
@@ -1452,7 +1452,7 @@
               "MIT"
             ],
             "name": "py312-annotated-doc",
-            "version": "0.0.5"
+            "version": "0.0.6"
           },
           {
             "licenses": [
@@ -1466,7 +1466,7 @@
               "MIT"
             ],
             "name": "py312-anyio",
-            "version": "4.15.1"
+            "version": "4.16.0"
           },
           {
             "licenses": [
@@ -1487,7 +1487,7 @@
               "BSD2CLAUSE"
             ],
             "name": "py312-bottleneck",
-            "version": "1.6.0_2"
+            "version": "1.6.1"
           },
           {
             "licenses": [
@@ -1501,7 +1501,7 @@
               "MPL20"
             ],
             "name": "py312-certifi",
-            "version": "2026.7.22"
+            "version": "2026.10.23"
           },
           {
             "licenses": [
@@ -1536,14 +1536,14 @@
               "MIT"
             ],
             "name": "py312-fastapi",
-            "version": "0.142.2_1"
+            "version": "0.162.7"
           },
           {
             "licenses": [
               "MIT"
             ],
             "name": "py312-filelock",
-            "version": "4.2.4"
+            "version": "4.2.10"
           },
           {
             "licenses": [
@@ -1557,7 +1557,7 @@
               "MIT"
             ],
             "name": "py312-fonttools",
-            "version": "4.65.0"
+            "version": "4.68.0"
           },
           {
             "licenses": [
@@ -1592,7 +1592,7 @@
               "MIT"
             ],
             "name": "py312-gunicorn",
-            "version": "26.2.0"
+            "version": "27.0.0"
           },
           {
             "licenses": [
@@ -1634,7 +1634,7 @@
               "BSD3CLAUSE"
             ],
             "name": "py312-httpcore2",
-            "version": "2.14.0"
+            "version": "2.16.0"
           },
           {
             "licenses": [
@@ -1648,7 +1648,7 @@
               "BSD3CLAUSE"
             ],
             "name": "py312-httpx2",
-            "version": "2.14.0"
+            "version": "2.16.0"
           },
           {
             "licenses": [
@@ -1676,14 +1676,14 @@
               "BSD2CLAUSE"
             ],
             "name": "py312-imageio",
-            "version": "2.38.0"
+            "version": "2.38.1"
           },
           {
             "licenses": [
               "BSD2CLAUSE"
             ],
             "name": "py312-imageio-ffmpeg",
-            "version": "0.6.0"
+            "version": "0.8.1"
           },
           {
             "licenses": [
@@ -1725,7 +1725,7 @@
               "BSD3CLAUSE"
             ],
             "name": "py312-markupsafe",
-            "version": "3.0.3"
+            "version": "3.0.4"
           },
           {
             "licenses": [
@@ -1760,7 +1760,7 @@
               "MIT"
             ],
             "name": "py312-narwhals",
-            "version": "2.26.0"
+            "version": "2.28.0"
           },
           {
             "licenses": [
@@ -1810,7 +1810,7 @@
               "APACHE20"
             ],
             "name": "py312-opentelemetry-api",
-            "version": "1.45.0"
+            "version": "1.45.2"
           },
           {
             "licenses": [
@@ -1868,7 +1868,7 @@
               "MIT"
             ],
             "name": "py312-pydantic-core",
-            "version": "2.46.5_1"
+            "version": "2.50.4"
           },
           {
             "licenses": [
@@ -1882,7 +1882,7 @@
               "MIT"
             ],
             "name": "py312-pydantic2",
-            "version": "2.13.5"
+            "version": "2.14.3"
           },
           {
             "licenses": [
@@ -1917,14 +1917,14 @@
               "BSD3CLAUSE"
             ],
             "name": "py312-python-dotenv",
-            "version": "1.2.3"
+            "version": "1.2.4"
           },
           {
             "licenses": [
               "APACHE20"
             ],
             "name": "py312-python-multipart",
-            "version": "0.0.32"
+            "version": "0.0.33"
           },
           {
             "licenses": [
@@ -1987,7 +1987,7 @@
               "BSD3CLAUSE"
             ],
             "name": "py312-shapely",
-            "version": "2.1.2_2"
+            "version": "2.2.0"
           },
           {
             "licenses": [
@@ -2008,14 +2008,14 @@
               "PSFL"
             ],
             "name": "py312-sqlite3",
-            "version": "3.12.15_10"
+            "version": "3.12.16_10"
           },
           {
             "licenses": [
               "BSD3CLAUSE"
             ],
             "name": "py312-starlette",
-            "version": "1.7.0"
+            "version": "1.10.0"
           },
           {
             "licenses": [
@@ -2029,21 +2029,21 @@
               "BSD3CLAUSE"
             ],
             "name": "py312-threadpoolctl",
-            "version": "3.7.0"
+            "version": "3.8.0"
           },
           {
             "licenses": [
               "BSD3CLAUSE"
             ],
             "name": "py312-tifffile",
-            "version": "2026.9.20"
+            "version": "2026.11.12"
           },
           {
             "licenses": [
               "PSFL"
             ],
             "name": "py312-tkinter",
-            "version": "3.12.15_11"
+            "version": "3.12.16_11"
           },
           {
             "licenses": [
@@ -2065,7 +2065,7 @@
               "MIT"
             ],
             "name": "py312-truststore",
-            "version": "0.10.4_1"
+            "version": "0.10.5"
           },
           {
             "licenses": [
@@ -2079,7 +2079,7 @@
               "MIT"
             ],
             "name": "py312-typing-inspection",
-            "version": "0.4.4_1"
+            "version": "0.4.5"
           },
           {
             "licenses": [
@@ -2129,7 +2129,7 @@
               "PSFL"
             ],
             "name": "python312",
-            "version": "3.12.15"
+            "version": "3.12.16"
           },
           {
             "licenses": [
@@ -2469,7 +2469,7 @@
           {
             "name": "aiohttp",
             "purl": "",
-            "version": "3.14.3"
+            "version": "3.14.5"
           },
           {
             "name": "aiosignal",
@@ -2479,7 +2479,7 @@
           {
             "name": "albucore",
             "purl": "",
-            "version": "0.3.5"
+            "version": "0.3.10"
           },
           {
             "name": "albumentations",
@@ -2489,7 +2489,7 @@
           {
             "name": "annotated-doc",
             "purl": "",
-            "version": "0.0.5"
+            "version": "0.0.6"
           },
           {
             "name": "annotated-types",
@@ -2499,7 +2499,7 @@
           {
             "name": "anyio",
             "purl": "",
-            "version": "4.15.1"
+            "version": "4.16.0"
           },
           {
             "name": "attrs",
@@ -2524,7 +2524,7 @@
           {
             "name": "bottleneck",
             "purl": "",
-            "version": "1.6.0"
+            "version": "1.6.1"
           },
           {
             "name": "brotli",
@@ -2589,12 +2589,12 @@
           {
             "name": "fastapi",
             "purl": "",
-            "version": "0.142.2"
+            "version": "0.162.7"
           },
           {
             "name": "filelock",
             "purl": "",
-            "version": "4.2.4"
+            "version": "4.2.10"
           },
           {
             "name": "flatbuffers",
@@ -2604,7 +2604,7 @@
           {
             "name": "fonttools",
             "purl": "",
-            "version": "4.65.0"
+            "version": "4.68.0"
           },
           {
             "name": "frozenlist",
@@ -2634,7 +2634,7 @@
           {
             "name": "gunicorn",
             "purl": "",
-            "version": "26.2.0"
+            "version": "27.0.0"
           },
           {
             "name": "h11",
@@ -2664,7 +2664,7 @@
           {
             "name": "httpcore2",
             "purl": "",
-            "version": "2.14.0"
+            "version": "2.16.0"
           },
           {
             "name": "httptools",
@@ -2679,7 +2679,7 @@
           {
             "name": "httpx2",
             "purl": "",
-            "version": "2.14.0"
+            "version": "2.16.0"
           },
           {
             "name": "huggingface-hub",
@@ -2699,17 +2699,17 @@
           {
             "name": "imageio",
             "purl": "",
-            "version": "2.38.0"
+            "version": "2.38.1"
           },
           {
             "name": "imageio-ffmpeg",
             "purl": "",
-            "version": "0.6.0"
+            "version": "0.8.1"
           },
           {
             "name": "immich-ml",
             "purl": "",
-            "version": "3.4.1"
+            "version": "3.4.2"
           },
           {
             "name": "immich_model",
@@ -2774,7 +2774,7 @@
           {
             "name": "markupsafe",
             "purl": "",
-            "version": "3.0.3"
+            "version": "3.0.4"
           },
           {
             "name": "matplotlib",
@@ -2814,7 +2814,7 @@
           {
             "name": "narwhals",
             "purl": "",
-            "version": "2.26.0"
+            "version": "2.28.0"
           },
           {
             "name": "networkx",
@@ -2864,7 +2864,7 @@
           {
             "name": "opentelemetry-api",
             "purl": "",
-            "version": "1.45.0"
+            "version": "1.45.2"
           },
           {
             "name": "orjson",
@@ -2904,7 +2904,7 @@
           {
             "name": "prettytable",
             "purl": "",
-            "version": "3.18.0"
+            "version": "3.19.0"
           },
           {
             "name": "propcache",
@@ -2929,7 +2929,7 @@
           {
             "name": "pydantic",
             "purl": "",
-            "version": "2.13.5"
+            "version": "2.14.3"
           },
           {
             "name": "pydantic-settings",
@@ -2939,7 +2939,7 @@
           {
             "name": "pydantic_core",
             "purl": "",
-            "version": "2.46.5"
+            "version": "2.50.4"
           },
           {
             "name": "pydot",
@@ -2974,12 +2974,12 @@
           {
             "name": "python-dotenv",
             "purl": "",
-            "version": "1.2.3"
+            "version": "1.2.4"
           },
           {
             "name": "python-multipart",
             "purl": "",
-            "version": "0.0.32"
+            "version": "0.0.33"
           },
           {
             "name": "pytz",
@@ -3049,7 +3049,7 @@
           {
             "name": "shapely",
             "purl": "",
-            "version": "2.1.2"
+            "version": "2.2.0"
           },
           {
             "name": "six",
@@ -3064,12 +3064,12 @@
           {
             "name": "sqlite3",
             "purl": "",
-            "version": "3.12.15"
+            "version": "3.12.16"
           },
           {
             "name": "starlette",
             "purl": "",
-            "version": "1.7.0"
+            "version": "1.10.0"
           },
           {
             "name": "sympy",
@@ -3079,17 +3079,17 @@
           {
             "name": "threadpoolctl",
             "purl": "",
-            "version": "3.7.0"
+            "version": "3.8.0"
           },
           {
             "name": "tifffile",
             "purl": "",
-            "version": "2026.9.20"
+            "version": "2026.11.12"
           },
           {
             "name": "tkinter",
             "purl": "",
-            "version": "3.12.15"
+            "version": "3.12.16"
           },
           {
             "name": "tokenizers",
@@ -3114,12 +3114,12 @@
           {
             "name": "truststore",
             "purl": "",
-            "version": "0.10.4"
+            "version": "0.10.5"
           },
           {
             "name": "typing-inspection",
             "purl": "",
-            "version": "0.4.4"
+            "version": "0.4.5"
           },
           {
             "name": "typing_extensions",
